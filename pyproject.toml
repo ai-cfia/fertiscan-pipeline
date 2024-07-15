@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fertiscan-pipeline"
+version = "0.1.0"
+description = "A pipeline for the FertiScan project"
+authors = [
+    { name = "Albert Bryan Ndjeutcha", email = "ndjeutcha@gmail.com" }
+]
+readme = "README.md"
+license = { file = "LICENSE" }
+dependencies = {file = ["requirements.txt"]}
+
+keywords = ["fertiscan","ailab"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["fertiscan_pipeline"]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.dynamic]
+version = {attr = "fertiscan_pipeline.__version__"}
