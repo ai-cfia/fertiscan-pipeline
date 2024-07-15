@@ -2,8 +2,8 @@ import os
 import unittest
 import json
 from dotenv import load_dotenv
-from gpt.form import FertiliserForm
-from gpt.gpt import GPT
+from model.form import FertiliserForm
+from model.gpt import GPT
 from tests import levenshtein_similarity
 
 class TestLanguageModel(unittest.TestCase):
