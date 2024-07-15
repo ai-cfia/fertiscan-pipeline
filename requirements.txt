@@ -1,8 +1,6 @@
-openai
-
+azure-ai-documentintelligence==1.0.0b3
 dspy
-
+reportlab
 setuptools
-
 # Test dependencies
 Levenshtein
