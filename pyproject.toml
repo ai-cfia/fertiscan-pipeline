@@ -24,8 +24,5 @@ keywords = ["fertiscan","ailab"]
 [tool.setuptools]
 packages = ["fertiscan_pipeline"]
 
-[tool.setuptools.packages.find]
-where = ["src"]
-
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
