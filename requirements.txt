@@ -1,0 +1,8 @@
+openai
+
+dspy
+
+setuptools
+
+# Test dependencies
+Levenshtein
