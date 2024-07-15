@@ -1,0 +1,106 @@
+# fertiscan-backend
+
+FertiScan helps inspectors analyze and process fertilizer labels by extracting text
+and generating structured forms.
+
+## Overview
+
+This repository contains the backend for FertiScan, a Flask-based server
+designed to work with the [frontend](https://github.com/ai-cfia/fertiscan-frontend/).
+It handles image uploads, document analysis using [OCR](https://en.wikipedia.org/wiki/Optical_character_recognition),
+and form generation using an [LLM](https://en.wikipedia.org/wiki/Large_language_model).
+
+![workflow](./out/workflow_dss/FertiScan%20Sequence%20Diagram.png)
+
+## Setup for Development
+
+### Prerequisites
+
+- Python 3.8+
+- [pip](https://pip.pypa.io/en/stable/installation/)
+- [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html)
+- Azure Document Intelligence and OpenAI API keys
+
+### Running Locally
+
+1. Clone the repository:
+
+    ```sh
+    git clone https://github.com/ai-cfia/fertiscan-backend.git
+    cd fertiscan-backend
+    ```
+
+2. Install dependencies:
+
+    ```sh
+    pip install -r requirements.txt
+    ```
+
+3. Start the server:
+
+    ```sh
+    python ./app.py
+    ```
+
+### Running with Docker
+
+1. Build the Docker image:
+
+    ```sh
+    docker build -t fertiscan-backend \
+    --build-arg ARG_AZURE_API_ENDPOINT=your_azure_form_recognizer_endpoint \
+    --build-arg ARG_AZURE_API_KEY=your_azure_form_recognizer_key \
+    --build-arg ARG_AZURE_OPENAI_API_ENDPOINT=your_azure_openai_endpoint \
+    --build-arg ARG_AZURE_OPENAI_API_KEY=your_azure_openai_key \
+    --build-arg ARG_PROMPT_PATH=path/to/prompt_file \
+    --build-arg ARG_UPLOAD_PATH=path/to/upload_file \
+    --build-arg ARG_FRONTEND_URL=http://url.to_frontend/ \
+    .
+    ```
+
+2. Run the Docker container:
+
+    ```sh
+    docker run -p 5000:5000 fertiscan-backend
+    ```
+
+### Environment Variables
+
+Create a `.env` file from [.env.template](./.env.template).
+
+```ini
+AZURE_API_ENDPOINT=your_azure_form_recognizer_endpoint
+AZURE_API_KEY=your_azure_form_recognizer_key
+AZURE_OPENAI_API_ENDPOINT=your_azure_openai_endpoint
+AZURE_OPENAI_API_KEY=your_azure_openai_key
+AZURE_OPENAI_DEPLOYMENT=your_azure_openai_deployment
+
+PROMPT_PATH=path/to/file
+UPLOAD_PATH=path/to/file
+FRONTEND_URL=http://url.to_frontend/
+```
+
+## API Endpoints
+
+The [Swagger UI](https://swagger.io/tools/swagger-ui/) for
+the API of FertiScan is available at `/apidocs`.
+
+- `POST /analyze`: Upload images for analysis and get the results as a JSON form.
+
+![create](./out/analyze_dss/Analyze%20DSS.png)
+
+- `POST /forms`: Create a new form attributed the user to the database.
+
+![create](./out/create_form_dss/FertiScan%20Sequence%20Diagram.png)
+
+- `PUT /forms`: Send the latest state of a form to the database.
+
+![submit](./out/submit_form_dss/FertiScan%20Sequence%20Diagram.png)
+
+- `DELETE /forms`: Remove all transient states of a form.
+
+![discard](./out/discard_form_dss/FertiScan%20Sequence%20Diagram.png)
+
+- `GET /forms`: Retreive the latest state of a form from the database
+
+![discard](./out/get_form_dss/FertiScan%20Sequence%20Diagram.png)
