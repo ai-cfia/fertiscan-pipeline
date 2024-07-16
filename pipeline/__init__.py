@@ -30,14 +30,11 @@ def save_image_to_file(image_bytes: bytes, output_path: str):
     with open(output_path, 'wb') as output_file:
         output_file.write(image_bytes)
 
-def analyze(label_storage: LabelStorage, log_dir_path: str = './logs') -> FertiliserForm:
+def analyze(label_storage: LabelStorage, ocr: OCR, gpt: GPT, log_dir_path: str = './logs') -> FertiliserForm:
     """
     Analyze a fertiliser label using an OCR and an LLM.
     It returns the data extracted from the label in a FertiliserForm.
     """
-    ocr = OCR()
-    gpt = GPT()
-
     if not os.path.exists(log_dir_path):
         os.mkdir(log_dir_path)
 
