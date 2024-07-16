@@ -4,31 +4,42 @@ from .form import FertiliserForm  # noqa: F401
 from .gpt import GPT  # noqa: F401
 
 import os
+import json
 import datetime
 import requests
-from dspy import Prediction
-
 
 def curl_file(url:str, path: str):
+    """
+    Pull a file from an URL.
+    """
     img_data = requests.get(url).content
     with open(path, 'wb') as handler:
         handler.write(img_data)  
 
 def save_text_to_file(text: str, output_path: str):
+    """
+    Save text to a file. 
+    """
     with open(output_path, 'w') as output_file:
         output_file.write(text)
 
 def save_image_to_file(image_bytes: bytes, output_path: str):
+    """
+    Save the raw byte data of an image to a file. 
+    """
     with open(output_path, 'wb') as output_file:
         output_file.write(image_bytes)
 
-def analyze(files: list[str]) -> Prediction:
+def analyze(label_storage: LabelStorage, log_dir_path: str = './logs') -> FertiliserForm:
+    """
+    Analyze a fertiliser label using an OCR and an LLM.
+    It returns the data extracted from the label in a FertiliserForm.
+    """
     ocr = OCR()
     gpt = GPT()
-    label_storage = LabelStorage()
 
-    for file_path in files:
-        label_storage.add_image(file_path)
+    if not os.path.exists(log_dir_path):
+        os.mkdir(log_dir_path)
 
     document = label_storage.get_document()
     result = ocr.extract_text(document=document)
@@ -40,4 +51,19 @@ def analyze(files: list[str]) -> Prediction:
     # Generate form from extracted text
     prediction = gpt.generate_form(result.content)
 
-    return prediction
+    # Logs the results from GPT
+    save_text_to_file(prediction.form, f"./logs/{now}.json")
+    save_text_to_file(prediction.rationale, f"./logs/{now}.txt")
+
+    # Check the conformity of the JSON
+    form = FertiliserForm(**json.loads(prediction.form))
+
+    # Clear the label cache
+    label_storage.clear()
+
+    # Delete the logs if there's no error
+    os.remove(f"./logs/{now}.md")   
+    os.remove(f"./logs/{now}.txt")     
+    os.remove(f"./logs/{now}.json")
+
+    return form
