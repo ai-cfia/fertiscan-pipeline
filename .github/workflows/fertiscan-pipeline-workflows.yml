@@ -1,4 +1,4 @@
-name: Fertiscan backend workflows
+name: Fertiscan pipeline workflows
 
 on:
   pull_request:
