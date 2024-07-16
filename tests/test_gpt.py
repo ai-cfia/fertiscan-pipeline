@@ -84,6 +84,8 @@ class TestLanguageModel(unittest.TestCase):
         file = open('./expected.json')
         expected_json = json.load(file)
 
+        file.close()
+
         # Check if all keys are present
         for key in expected_json.keys():
             assert key in extracted_info, f"Key '{key}' is missing in the extracted information"
