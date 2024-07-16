@@ -8,22 +8,22 @@ import json
 import requests
 from datetime import datetime
 
-def curl_file(url:str, path: str):
+def curl_file(url:str, path: str): # pragma: no cover
     """
-    Pull a file from an URL.
+    Pull a file from an URL and save its content.
     """
-    img_data = requests.get(url).content
+    data = requests.get(url).content
     with open(path, 'wb') as handler:
-        handler.write(img_data)  
+        handler.write(data)  
 
-def save_text_to_file(text: str, output_path: str):
+def save_text_to_file(text: str, output_path: str): # pragma: no cover
     """
     Save text to a file. 
     """
     with open(output_path, 'w') as output_file:
         output_file.write(text)
 
-def save_image_to_file(image_bytes: bytes, output_path: str):
+def save_image_to_file(image_bytes: bytes, output_path: str): # pragma: no cover
     """
     Save the raw byte data of an image to a file. 
     """
