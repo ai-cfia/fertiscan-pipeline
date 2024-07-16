@@ -6,14 +6,15 @@ from pipeline.label import LabelStorage
 class TestDocumentStorage(unittest.TestCase):
     
     def setUp(self):
-        if not os.path.exists('./samples'):
-            os.mkdir('./samples')
+        self.log_dir_path = './test_logs'
+        if not os.path.exists(self.log_dir_path):
+            os.mkdir(self.log_dir_path)
 
         self.label = LabelStorage()
-        self.sample_image_path_1 = './samples/label1.png'
-        self.sample_image_path_2 = './samples/label2.png'
-        self.composite_image_path = './samples/composite_test.png'
-        self.composite_document_path = './samples/composite_test.pdf'
+        self.sample_image_path_1 = f'{self.log_dir_path}/label1.png'
+        self.sample_image_path_2 = f'{self.log_dir_path}/label2.png'
+        self.composite_image_path = f'{self.log_dir_path}/composite_test.png'
+        self.composite_document_path = f'{self.log_dir_path}/composite_test.pdf'
 
         curl_file('https://lesgranulaines.com/wp-content/uploads/2024/01/IMG-5014-copie.webp', self.sample_image_path_1)
         curl_file('https://tlhort.com/cdn/shop/products/10-52-0MAP.jpg', self.sample_image_path_2)
@@ -58,14 +59,11 @@ class TestDocumentStorage(unittest.TestCase):
 
     def tearDown(self):
         # Clean up created files after tests
-        if os.path.exists(self.composite_image_path):
-            os.remove(self.composite_image_path)
-        if os.path.exists(self.composite_document_path):
-            os.remove(self.composite_document_path)
-        if os.path.exists(self.sample_image_path_1):
-            os.remove(self.sample_image_path_1)
-        if os.path.exists(self.sample_image_path_2):
-            os.remove(self.sample_image_path_2)  
+        if os.path.exists(self.log_dir_path):
+            for file in os.listdir(self.log_dir_path):
+                file_path = os.path.join(self.log_dir_path, file)
+                os.remove(file_path)
+            os.rmdir(self.log_dir_path)
 
 if __name__ == '__main__':
     unittest.main()

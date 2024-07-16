@@ -9,16 +9,17 @@ from tests import levenshtein_similarity
 class TestOCR(unittest.TestCase):
     def setUp(self):
         load_dotenv()
+        self.log_dir_path = './test_logs'
         api_endpoint = os.getenv("AZURE_API_ENDPOINT")
         api_key = os.getenv("AZURE_API_KEY")
 
-        if not os.path.exists('./samples'):
-            os.mkdir('./samples')
+        if not os.path.exists(self.log_dir_path):
+            os.mkdir(self.log_dir_path)
 
         self.ocr = OCR(api_endpoint, api_key)
-        self.sample_image_path_1 = './samples/label1.png'
-        self.sample_image_path_2 = './samples/label2.png'
-        self.composite_image_path = './samples/composite_test.png'
+        self.sample_image_path_1 = f'{self.log_dir_path}/label1.png'
+        self.sample_image_path_2 = f'{self.log_dir_path}/label2.png'
+        self.composite_image_path = f'{self.log_dir_path}/composite_test.png'
 
         curl_file('https://scotts.com/dw/image/v2/BGFS_PRD/on/demandware.static/-/Sites-consolidated-master-catalog/default/dw5764839e/images/hi-res/scotts_01291_1_2000x2000.jpg?', self.sample_image_path_1)
         curl_file('https://tlhort.com/cdn/shop/products/10-52-0MAP.jpg', self.sample_image_path_2)
@@ -87,11 +88,8 @@ class TestOCR(unittest.TestCase):
 
     def tearDown(self):
         # Clean up created files after tests
-        if os.path.exists(self.composite_image_path):
-            os.remove(self.composite_image_path)
-        if os.path.exists(self.sample_image_path_1):
-            os.remove(self.sample_image_path_1)
-            os.remove(self.sample_image_path_1.replace(".png",".txt"))
-        if os.path.exists(self.sample_image_path_2):
-            os.remove(self.sample_image_path_2)
-            os.remove(self.sample_image_path_2.replace(".png",".txt"))
+        if os.path.exists(self.log_dir_path):
+            for file in os.listdir(self.log_dir_path):
+                file_path = os.path.join(self.log_dir_path, file)
+                os.remove(file_path)
+            os.rmdir(self.log_dir_path)
