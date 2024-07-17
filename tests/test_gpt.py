@@ -2,8 +2,8 @@ import os
 import unittest
 import json
 from dotenv import load_dotenv
-from model.form import FertiliserForm
-from model.gpt import GPT
+from pipeline.form import FertiliserForm
+from pipeline.gpt import GPT
 from tests import levenshtein_similarity
 
 class TestLanguageModel(unittest.TestCase):
@@ -84,6 +84,8 @@ class TestLanguageModel(unittest.TestCase):
         file = open('./expected.json')
         expected_json = json.load(file)
 
+        file.close()
+
         # Check if all keys are present
         for key in expected_json.keys():
             assert key in extracted_info, f"Key '{key}' is missing in the extracted information"
@@ -97,14 +99,14 @@ class TestLanguageModel(unittest.TestCase):
 
     def test_generate_form_gpt35(self):
         prediction = self.gpt35.generate_form(self.prompt)
-        print(prediction.form)
+        # print(prediction.form)
         result_json = json.loads(prediction.form)
         self.check_json(result_json)
 
     # Not currently used and expensive.
     def test_generate_form_gpt4(self):
         prediction = self.gpt4.generate_form(self.prompt)
-        print(prediction.form)
+        # print(prediction.form)
         result_json = json.loads(prediction.form)
         self.check_json(result_json)
 

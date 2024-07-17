@@ -1,6 +1,6 @@
 import unittest
 from pydantic import ValidationError
-from model import FertiliserForm
+from pipeline import FertiliserForm
 
 class TestFertiliserForm(unittest.TestCase):
     def test_valid_fertiliser_form(self):

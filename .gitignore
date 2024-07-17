@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# tests
+test_logs/
+
 # VS Code
 .vscode
 
