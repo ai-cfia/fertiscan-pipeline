@@ -1,6 +1,8 @@
 # fertiscan-pipeline
 
-This repository contains the core analysis pipeline for FertiScan. It is designed to be used as a standalone Python package that can be integrated with other projects, such as the [fertiscan-backend](https://github.com/ai-cfia/fertiscan-backend).
+This repository contains the core analysis pipeline for FertiScan.
+It is designed to be used as a standalone Python package that can
+be integrated with other projects, such as the [fertiscan-backend](https://github.com/ai-cfia/fertiscan-backend).
 
 ## Setup for Development
 
