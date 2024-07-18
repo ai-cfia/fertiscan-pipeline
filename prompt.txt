@@ -10,10 +10,9 @@ Keys:
 "fertiliser_name"
 "registration_number"
 "lot_number"
-"weight_kg"
-"weight_lb"
-"density"
-"volume"
+"weight" (array of objects with "value", and "unit")
+"density" (an object with "value", and "unit")
+"volume" (an object with "value", and "unit")
 "npk" (format: "number-number-number")
 "guaranteed_analysis" (array of objects with "nutrient", "value", and "unit")
 "warranty"
