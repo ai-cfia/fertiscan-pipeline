@@ -104,11 +104,11 @@ class TestLanguageModel(unittest.TestCase):
         self.check_json(result_json)
 
     # Not currently used and expensive.
-    def test_generate_form_gpt4(self):
-        prediction = self.gpt4.generate_form(self.prompt)
-        # print(prediction.form)
-        result_json = json.loads(prediction.form)
-        self.check_json(result_json)
+    # def test_generate_form_gpt4(self):
+    #     prediction = self.gpt4.generate_form(self.prompt)
+    #     # print(prediction.form)
+    #     result_json = json.loads(prediction.form)
+    #     self.check_json(result_json)
 
 
 if __name__ == '__main__':

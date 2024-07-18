@@ -5,23 +5,40 @@ from pydantic import BaseModel, Field, field_validator
 class npkError(ValueError):
     pass
 
+def extract_first_number(string):
+    if string is not None:
+        match = re.search(r'\d+(\.\d+)?', string)
+        if match:
+            return match.group()
+    return None
+
 class NutrientValue(BaseModel):
     nutrient: str
     value: Optional[str]
     unit: Optional[str]
 
-    @field_validator('value', mode='before', check_fields=True)
+    @field_validator('value', mode='before', check_fields=False)
     def convert_value(cls, v):
         if isinstance(v, (int, float)):
             return str(v)
-        return v
+        return extract_first_number(v)
+    
+class Value(BaseModel):
+    value: Optional[str]
+    unit: Optional[str]
+
+    @field_validator('value', mode='before', check_fields=False)
+    def convert_value(cls, v):
+        if isinstance(v, (int, float)):
+            return str(v)
+        return extract_first_number(v)
 
 class Specification(BaseModel):
     humidity: Optional[str] = Field(..., alias='humidity')
     ph: Optional[str] = Field(..., alias='ph')
     solubility: Optional[str]
 
-    @field_validator('humidity', 'ph', 'solubility', mode='before', check_fields=True)
+    @field_validator('humidity', 'ph', 'solubility', mode='before', check_fields=False)
     def convert_specification_values(cls, v):
         if isinstance(v, (int, float)):
             return str(v)
@@ -39,10 +56,9 @@ class FertiliserForm(BaseModel):
     fertiliser_name: Optional[str] = ""
     registration_number: Optional[str] = ""
     lot_number: Optional[str] = ""
-    weight_kg: Optional[str] = None
-    weight_lb: Optional[str] = None
-    density: Optional[str] = None
-    volume: Optional[str] = None
+    weight: List[Value] = []
+    density: Optional[Value] = None
+    volume: Optional[Value] = None
     npk: Optional[str] = Field(None)
     guaranteed_analysis: List[NutrientValue] = []
     warranty: Optional[str] = ""
@@ -61,7 +77,7 @@ class FertiliserForm(BaseModel):
     specifications_fr: List[Specification] = []
     first_aid_fr: List[str] = None
 
-    @field_validator('weight_kg', 'weight_lb', 'density', 'volume', mode='before', check_fields=True)
+    @field_validator('weight_kg', 'weight_lb', 'density', 'volume', mode='before', check_fields=False)
     def convert_values(cls, v):
         if isinstance(v, (int, float)):
             return str(v)
