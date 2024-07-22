@@ -5,7 +5,8 @@ from openai.types.chat.completion_create_params import ResponseFormat
 
 # Constants
 MODELS_WITH_RESPONSE_FORMAT = [
-    "ailab-llm"
+    "ailab-llm",
+    "ailab-llm-gpt-4o"
 ]  # List of models that support the response_format option
 
 class ProduceLabelForm(dspy.Signature):
@@ -20,26 +21,30 @@ class ProduceLabelForm(dspy.Signature):
     form = dspy.OutputField(desc="Only a complete JSON.")
 
 class GPT:
-    def __init__(self, api_endpoint, api_key, deployment="ailab-gpt-35-turbo-16k"):
+    def __init__(self, api_endpoint, api_key, deployment):
         if not api_endpoint or not api_key:
             raise ValueError("API endpoint and key are required to instantiate the GPT class.")
-
-        # self.model = deployment
 
         response_format = None
         if deployment in MODELS_WITH_RESPONSE_FORMAT:
             response_format = ResponseFormat(type='json_object')
 
         max_token = 12000
-        if deployment == 'ailab-llm':
+        api_version = "2024-02-01"
+        if deployment == MODELS_WITH_RESPONSE_FORMAT[0]:
             max_token = 3500
-
+        elif deployment == MODELS_WITH_RESPONSE_FORMAT[1]:
+            max_token = 4096
+            api_version="2024-02-15-preview"
 
         self.dspy_client = dspy.AzureOpenAI(
             api_base=api_endpoint,
             api_key=api_key,
+            # api_provider='azure',
             deployment_id=deployment,
-            api_version="2024-02-01",
+            model=deployment,
+            model_type='chat',
+            api_version="2024-02-15-preview",
             max_tokens=max_token,
             response_format=response_format,
         )

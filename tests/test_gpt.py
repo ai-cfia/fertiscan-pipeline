@@ -12,9 +12,10 @@ class TestLanguageModel(unittest.TestCase):
 
         gpt_api_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
         gpt_api_key = os.getenv("AZURE_OPENAI_KEY")
+        gpt_api_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
 
-        self.gpt35 = GPT(api_endpoint=gpt_api_endpoint, api_key=gpt_api_key)
-        self.gpt4 = GPT(api_endpoint=gpt_api_endpoint, api_key=gpt_api_key, deployment="ailab-llm")
+
+        self.gpt = GPT(api_endpoint=gpt_api_endpoint, api_key=gpt_api_key, deployment=gpt_api_deployment)
 
 
         self.prompt = """
@@ -97,18 +98,11 @@ class TestLanguageModel(unittest.TestCase):
         for key, expected_value in expected_json.items():
             assert levenshtein_similarity(str(extracted_info[key]), str(expected_value)) > 0.9, f"Value for key '{key}' does not match. Expected '{expected_value}', got '{extracted_info[key]}'"
 
-    def test_generate_form_gpt35(self):
-        prediction = self.gpt35.generate_form(self.prompt)
+    def test_generate_form_gpt(self):
+        prediction = self.gpt.generate_form(self.prompt)
         # print(prediction.form)
         result_json = json.loads(prediction.form)
         self.check_json(result_json)
-
-    # Not currently used and expensive.
-    # def test_generate_form_gpt4(self):
-    #     prediction = self.gpt4.generate_form(self.prompt)
-    #     # print(prediction.form)
-    #     result_json = json.loads(prediction.form)
-    #     self.check_json(result_json)
 
 
 if __name__ == '__main__':
