@@ -44,7 +44,7 @@ class GPT:
             deployment_id=deployment,
             model=deployment,
             model_type='chat',
-            api_version="2024-02-15-preview",
+            api_version=api_version,
             max_tokens=max_token,
             response_format=response_format,
         )
