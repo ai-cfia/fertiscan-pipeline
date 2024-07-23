@@ -86,8 +86,8 @@ class TestLanguageModel(unittest.TestCase):
         file.close()
 
         # Check if all keys are present
-        for key in extracted_info.keys():
-            assert key in expected_json, f"Key '{key}' is missing in the extracted information"
+        for key in expected_json.keys():
+            assert key in extracted_info, f"Key '{key}' is missing in the extracted information"
 
         # Check if the json matches the format
         FertiliserForm(**expected_json)
