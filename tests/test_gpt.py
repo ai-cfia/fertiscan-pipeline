@@ -14,9 +14,7 @@ class TestLanguageModel(unittest.TestCase):
         gpt_api_key = os.getenv("AZURE_OPENAI_KEY")
         gpt_api_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
 
-
         self.gpt = GPT(api_endpoint=gpt_api_endpoint, api_key=gpt_api_key, deployment=gpt_api_deployment)
-
 
         self.prompt = """
         GreenGrow Fertilizers Inc.
@@ -88,8 +86,8 @@ class TestLanguageModel(unittest.TestCase):
         file.close()
 
         # Check if all keys are present
-        for key in expected_json.keys():
-            assert key in extracted_info, f"Key '{key}' is missing in the extracted information"
+        for key in extracted_info.keys():
+            assert key in expected_json, f"Key '{key}' is missing in the extracted information"
 
         # Check if the json matches the format
         FertiliserForm(**expected_json)

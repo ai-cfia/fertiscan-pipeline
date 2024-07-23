@@ -1,6 +1,6 @@
 import re
 from typing import List, Optional
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 class npkError(ValueError):
     pass
@@ -90,6 +90,21 @@ class FertiliserForm(BaseModel):
             if not pattern.match(v):
                 raise npkError('npk must be in the format "number-number-number"')
         return v
+
+
+    @model_validator(mode='before')
+    def replace_none_with_empty_list(cls, values):
+        fields_to_check = [
+            'cautions_en', 'first_aid_en', 'cautions_fr', 'first_aid_fr',
+            'instructions_en', 'micronutrients_en', 'organic_ingredients_en',
+            'inert_ingredients_en', 'specifications_en', 'instructions_fr',
+            'micronutrients_fr', 'organic_ingredients_fr', 'inert_ingredients_fr',
+            'specifications_fr', 'guaranteed_analysis'
+        ]
+        for field in fields_to_check:
+            if values.get(field) is None:
+                values[field] = []
+        return values
 
     class Config:
         populate_by_name = True

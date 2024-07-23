@@ -41,7 +41,6 @@ class GPT:
             api_base=api_endpoint,
             api_key=api_key,
             deployment_id=deployment,
-            model=deployment,
             # model_type='text',
             api_version=api_version,
             max_tokens=max_token,

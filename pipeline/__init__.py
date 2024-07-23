@@ -53,8 +53,11 @@ def analyze(label_storage: LabelStorage, ocr: OCR, gpt: GPT, log_dir_path: str =
     save_text_to_file(prediction.form, f"{log_dir_path}/{now}.json")
     save_text_to_file(prediction.rationale, f"{log_dir_path}/{now}.txt")
 
+    # Load a JSON from the text
+    raw_json = json.loads(prediction.form)
+
     # Check the conformity of the JSON
-    form = FertiliserForm(**json.loads(prediction.form))
+    form = FertiliserForm(**raw_json)
 
     # Clear the label cache
     label_storage.clear()
