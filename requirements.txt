@@ -1,6 +1,7 @@
 azure-ai-documentintelligence==1.0.0b3
-dspy
-pydantic
+dspy-ai
+openai>=1.0
+pydantic>=2.7.1
 python-dotenv
 reportlab
 setuptools
