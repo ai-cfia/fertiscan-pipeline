@@ -48,9 +48,17 @@ class GPT:
         )
 
     def generate_form(self, prompt) -> Prediction:
-        prompt_file = open(os.getenv("PROMPT_PATH"))
-        system_prompt = prompt_file.read()
-        prompt_file.close()
+        prompt_path = os.getenv("PROMPT_PATH")
+        if not prompt_path:
+            raise EnvironmentError("PROMPT_PATH environment variable is not set.")
+        
+        try:
+            with open(prompt_path, 'r') as prompt_file:
+                system_prompt = prompt_file.read()
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Prompt file not found at {prompt_path}")
+        except Exception as e:
+            raise IOError(f"An error occurred while reading the prompt file: {e}")
 
         with dspy.context(lm=self.dspy_client, experimental=True):
             signature = dspy.ChainOfThought(ProduceLabelForm)
