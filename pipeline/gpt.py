@@ -40,10 +40,9 @@ class GPT:
         self.dspy_client = dspy.AzureOpenAI(
             api_base=api_endpoint,
             api_key=api_key,
-            # api_provider='azure',
             deployment_id=deployment,
             model=deployment,
-            model_type='chat',
+            # model_type='text',
             api_version=api_version,
             max_tokens=max_token,
             response_format=response_format,
@@ -54,9 +53,8 @@ class GPT:
         system_prompt = prompt_file.read()
         prompt_file.close()
 
-        dspy.configure(lm=self.dspy_client)
-        signature = dspy.ChainOfThought(ProduceLabelForm)
-        prediction = signature(specification=system_prompt, text=prompt)
+        with dspy.context(lm=self.dspy_client, experimental=True):
+            signature = dspy.ChainOfThought(ProduceLabelForm)
+            prediction = signature(specification=system_prompt, text=prompt)
 
-        # print(prediction)
         return prediction
