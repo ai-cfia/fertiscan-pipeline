@@ -1,4 +1,5 @@
 import Levenshtein
+import requests
 
 def levenshtein_similarity(str1, str2):
     if str1 is None:
@@ -18,3 +19,12 @@ def levenshtein_similarity(str1, str2):
     similarity_percentage = (1 - (distance / max_len)) * 100
     
     return similarity_percentage
+
+
+def curl_file(url:str, path: str): # pragma: no cover
+    """
+    Pull a file from an URL and save its content.
+    """
+    data = requests.get(url).content
+    with open(path, 'wb') as handler:
+        handler.write(data)

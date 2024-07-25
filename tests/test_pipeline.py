@@ -1,39 +1,41 @@
 import os
 import unittest
+
+from tests import curl_file
 from dotenv import load_dotenv
 from datetime import datetime
 from tests import levenshtein_similarity
 from pipeline.form import FertiliserForm, Value
-from pipeline import LabelStorage, OCR, GPT, curl_file, analyze
+from pipeline import LabelStorage, OCR, GPT, analyze
 
 class TestPipeline(unittest.TestCase):
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(self):
         load_dotenv()
         # Set up the required objects
-        cls.log_dir_path = './test_logs'
-        cls.image_path = f'{cls.log_dir_path}/test_image.jpg'  # Path to your test image
+        self.log_dir_path = './test_logs'
+        self.image_path = f'{self.log_dir_path}/test_image.jpg'  # Path to your test image
         
         # Ensure the log directory exists
-        if not os.path.exists(cls.log_dir_path):
-            os.mkdir(cls.log_dir_path)
+        if not os.path.exists(self.log_dir_path):
+            os.mkdir(self.log_dir_path)
         
         # Download the test image
-        curl_file(url='https://tlhort.com/cdn/shop/products/10-52-0MAP.jpg', path=cls.image_path)
-
+        curl_file(url='https://tlhort.com/cdn/shop/products/10-52-0MAP.jpg', path=self.image_path)
+        
         # Mock environment setup for OCR and GPT
-        cls.api_endpoint_ocr = os.getenv('AZURE_API_ENDPOINT')
-        cls.api_key_ocr = os.getenv('AZURE_API_KEY')
-        cls.api_endpoint_gpt = os.getenv('AZURE_OPENAI_ENDPOINT')
-        cls.api_key_gpt = os.getenv('AZURE_OPENAI_KEY')
-        cls.api_deployment_gpt = os.getenv('AZURE_OPENAI_DEPLOYMENT')
+        self.api_endpoint_ocr = os.getenv('AZURE_API_ENDPOINT')
+        self.api_key_ocr = os.getenv('AZURE_API_KEY')
+        self.api_endpoint_gpt = os.getenv('AZURE_OPENAI_ENDPOINT')
+        self.api_key_gpt = os.getenv('AZURE_OPENAI_KEY')
+        self.api_deployment_gpt = os.getenv('AZURE_OPENAI_DEPLOYMENT')
         
         # Initialize the objects
-        cls.label_storage = LabelStorage()
-        cls.label_storage.add_image(cls.image_path)
-        cls.ocr = OCR(api_endpoint=cls.api_endpoint_ocr, api_key=cls.api_key_ocr)
-        cls.gpt = GPT(api_endpoint=cls.api_endpoint_gpt, api_key=cls.api_key_gpt, deployment=cls.api_deployment_gpt)
+        self.label_storage = LabelStorage()
+        self.label_storage.add_image(self.image_path)
+        self.ocr = OCR(api_endpoint=self.api_endpoint_ocr, api_key=self.api_key_ocr)
+        self.gpt = GPT(api_endpoint=self.api_endpoint_gpt, api_key=self.api_key_gpt, deployment=self.api_deployment_gpt)
 
     @classmethod
     def tearDownClass(cls):

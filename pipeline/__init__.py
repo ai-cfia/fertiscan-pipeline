@@ -5,16 +5,7 @@ from .gpt import GPT  # noqa: F401
 
 import os
 import json
-import requests
 from datetime import datetime
-
-def curl_file(url:str, path: str): # pragma: no cover
-    """
-    Pull a file from an URL and save its content.
-    """
-    data = requests.get(url).content
-    with open(path, 'wb') as handler:
-        handler.write(data)  
 
 def save_text_to_file(text: str, output_path: str): # pragma: no cover
     """

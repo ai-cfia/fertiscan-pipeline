@@ -1,6 +1,8 @@
 import os
 import unittest
-from pipeline import curl_file, save_text_to_file
+
+from tests import curl_file
+from pipeline import save_text_to_file
 from dotenv import load_dotenv
 from pipeline.ocr import OCR
 from pipeline.label import LabelStorage

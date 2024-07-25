@@ -1,6 +1,8 @@
 import unittest
 import os
-from pipeline import curl_file, save_image_to_file
+
+from pipeline import save_image_to_file
+from tests import curl_file
 from pipeline.label import LabelStorage
 
 class TestDocumentStorage(unittest.TestCase):

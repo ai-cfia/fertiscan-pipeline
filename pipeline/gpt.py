@@ -13,7 +13,7 @@ class ProduceLabelForm(dspy.Signature):
     """
     You are a fertilizer label inspector working for the Canadian Food Inspection Agency. 
     Your task is to classify all information present in the provided text using the specified keys.
-    Your response should be accurate, formatted in JSON, and contain all the text from the provided text.
+    Your response should be accurate, intelligible, formatted in JSON, and contain all the text from the provided text.
     """
     
     text = dspy.InputField(desc="The text of the fertilizer label extracted using OCR.")

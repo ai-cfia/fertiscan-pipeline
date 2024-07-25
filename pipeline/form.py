@@ -14,8 +14,8 @@ def extract_first_number(string):
 
 class NutrientValue(BaseModel):
     nutrient: str
-    value: Optional[str]
-    unit: Optional[str]
+    value: Optional[str] = None
+    unit: Optional[str] = None
 
     @field_validator('value', mode='before', check_fields=False)
     def convert_value(cls, v):
@@ -65,15 +65,13 @@ class FertiliserForm(BaseModel):
     cautions_en: List[str] = None
     instructions_en: List[str] = []
     micronutrients_en: List[NutrientValue] = []
-    organic_ingredients_en: List[NutrientValue] = []
-    inert_ingredients_en: List[str] = []
+    ingredients_en: List[NutrientValue] = []
     specifications_en: List[Specification] = []
     first_aid_en: List[str] = None
     cautions_fr: List[str] = None
     instructions_fr: List[str] = []
     micronutrients_fr: List[NutrientValue] = []
-    organic_ingredients_fr: List[NutrientValue] = []
-    inert_ingredients_fr: List[str] = []
+    ingredients_fr: List[NutrientValue] = []
     specifications_fr: List[Specification] = []
     first_aid_fr: List[str] = None
 
@@ -91,14 +89,13 @@ class FertiliserForm(BaseModel):
                 raise npkError('npk must be in the format "number-number-number"')
         return v
 
-
     @model_validator(mode='before')
     def replace_none_with_empty_list(cls, values):
         fields_to_check = [
             'cautions_en', 'first_aid_en', 'cautions_fr', 'first_aid_fr',
-            'instructions_en', 'micronutrients_en', 'organic_ingredients_en',
-            'inert_ingredients_en', 'specifications_en', 'instructions_fr',
-            'micronutrients_fr', 'organic_ingredients_fr', 'inert_ingredients_fr',
+            'instructions_en', 'micronutrients_en', 'ingredients_en',
+            'specifications_en', 'instructions_fr',
+            'micronutrients_fr', 'ingredients_fr',
             'specifications_fr', 'guaranteed_analysis'
         ]
         for field in fields_to_check:
