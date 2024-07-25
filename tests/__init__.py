@@ -1,6 +1,10 @@
 import Levenshtein
 
 def levenshtein_similarity(str1, str2):
+    if str1 is None:
+        str1 = ''
+    if str2 is None:
+        str2 = ''
     # Calculate the Levenshtein distance
     distance = Levenshtein.distance(str1, str2)
     

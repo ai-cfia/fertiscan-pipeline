@@ -5,7 +5,8 @@ from openai.types.chat.completion_create_params import ResponseFormat
 
 # Constants
 MODELS_WITH_RESPONSE_FORMAT = [
-    "ailab-llm"
+    "ailab-llm",
+    "ailab-llm-gpt-4o"
 ]  # List of models that support the response_format option
 
 class ProduceLabelForm(dspy.Signature):
@@ -20,38 +21,47 @@ class ProduceLabelForm(dspy.Signature):
     form = dspy.OutputField(desc="Only a complete JSON.")
 
 class GPT:
-    def __init__(self, api_endpoint, api_key, deployment="ailab-gpt-35-turbo-16k"):
+    def __init__(self, api_endpoint, api_key, deployment):
         if not api_endpoint or not api_key:
             raise ValueError("API endpoint and key are required to instantiate the GPT class.")
-
-        # self.model = deployment
 
         response_format = None
         if deployment in MODELS_WITH_RESPONSE_FORMAT:
             response_format = ResponseFormat(type='json_object')
 
         max_token = 12000
-        if deployment == 'ailab-llm':
+        api_version = "2024-02-01"
+        if deployment == MODELS_WITH_RESPONSE_FORMAT[0]:
             max_token = 3500
-
+        elif deployment == MODELS_WITH_RESPONSE_FORMAT[1]:
+            max_token = 4096
+            api_version="2024-02-15-preview"
 
         self.dspy_client = dspy.AzureOpenAI(
             api_base=api_endpoint,
             api_key=api_key,
             deployment_id=deployment,
-            api_version="2024-02-01",
+            # model_type='text',
+            api_version=api_version,
             max_tokens=max_token,
             response_format=response_format,
         )
 
     def generate_form(self, prompt) -> Prediction:
-        prompt_file = open(os.getenv("PROMPT_PATH"))
-        system_prompt = prompt_file.read()
-        prompt_file.close()
+        prompt_path = os.getenv("PROMPT_PATH")
+        if not prompt_path:
+            raise EnvironmentError("PROMPT_PATH environment variable is not set.")
+        
+        try:
+            with open(prompt_path, 'r') as prompt_file:
+                system_prompt = prompt_file.read()
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Prompt file not found at {prompt_path}")
+        except Exception as e:
+            raise IOError(f"An error occurred while reading the prompt file: {e}")
 
-        dspy.configure(lm=self.dspy_client)
-        signature = dspy.ChainOfThought(ProduceLabelForm)
-        prediction = signature(specification=system_prompt, text=prompt)
+        with dspy.context(lm=self.dspy_client, experimental=True):
+            signature = dspy.ChainOfThought(ProduceLabelForm)
+            prediction = signature(specification=system_prompt, text=prompt)
 
-        # print(prediction)
         return prediction
