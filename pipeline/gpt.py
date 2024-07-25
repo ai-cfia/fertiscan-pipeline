@@ -1,13 +1,51 @@
-import os
 import dspy
 from dspy import Prediction
 from openai.types.chat.completion_create_params import ResponseFormat
 
-# Constants
 MODELS_WITH_RESPONSE_FORMAT = [
     "ailab-llm",
     "ailab-llm-gpt-4o"
 ]  # List of models that support the response_format option
+
+SPECIFICATION = """
+Keys:
+"company_name"
+"company_address"
+"company_website"
+"company_phone_number"
+"manufacturer_name"
+"manufacturer_address"
+"manufacturer_website"
+"manufacturer_phone_number"
+"fertiliser_name"
+"registration_number" (a series of letters and numbers)
+"lot_number"
+"weight" (array of objects with "value", and "unit")
+"density" (an object with "value", and "unit")
+"volume" (an object with "value", and "unit")
+"npk" (format: "number-number-number") **important
+"guaranteed_analysis" (array of objects with "nutrient", "value", and "unit") **important
+"warranty"
+"cautions_en"  (array of strings)
+"instructions_en" (array of strings)
+"micronutrients_en" (array of objects with "nutrient", "value", and "unit")
+"ingredients_en" (array of objects with "nutrient", "value", and "unit")
+"specifications_en" (array of objects with "humidity", "ph", and "solubility")
+"first_aid_en"  (array of strings)
+"cautions_fr" (array of strings)
+"instructions_fr" (array of strings)
+"micronutrients_fr" (array of objects with "nutrient", "value", and "unit")
+"ingredients_fr" (array of objects with "nutrient", "value", and "unit")
+"specifications_fr" (array of objects with "humidity", "ph", and "solubility")
+"first_aid_fr" (array of strings)
+
+Requirements:
+The content of keys with the suffix _en must be in English.
+The content of keys with the suffix _fr must be in French.
+Translation of the text is prohibited.
+You are prohibited from generating any text that is not part of the JSON.
+The JSON must contain exclusively keys specified in "keys".
+"""
 
 class ProduceLabelForm(dspy.Signature):
     """
@@ -48,20 +86,8 @@ class GPT:
         )
 
     def generate_form(self, prompt) -> Prediction:
-        prompt_path = os.getenv("PROMPT_PATH")
-        if not prompt_path:
-            raise EnvironmentError("PROMPT_PATH environment variable is not set.")
-        
-        try:
-            with open(prompt_path, 'r') as prompt_file:
-                system_prompt = prompt_file.read()
-        except FileNotFoundError:
-            raise FileNotFoundError(f"Prompt file not found at {prompt_path}")
-        except Exception as e:
-            raise IOError(f"An error occurred while reading the prompt file: {e}")
-
         with dspy.context(lm=self.dspy_client, experimental=True):
             signature = dspy.ChainOfThought(ProduceLabelForm)
-            prediction = signature(specification=system_prompt, text=prompt)
+            prediction = signature(specification=SPECIFICATION, text=prompt)
 
         return prediction
