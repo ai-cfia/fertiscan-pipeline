@@ -27,4 +27,4 @@ def curl_file(url:str, path: str): # pragma: no cover
     """
     data = requests.get(url).content
     with open(path, 'wb') as handler:
-        handler.write(data)  
+        handler.write(data)
