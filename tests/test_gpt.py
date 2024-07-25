@@ -1,6 +1,7 @@
 import os
 import unittest
 import json
+
 from dotenv import load_dotenv
 from pipeline.form import FertiliserForm
 from pipeline.gpt import GPT
@@ -42,13 +43,19 @@ class TestLanguageModel(unittest.TestCase):
         Iron (Fe) 0.10%
         Zinc (Zn) 0.05%
         Manganese (Mn) 0.05%
-        Organic Ingredients:
+        Ingredients (en):
         Bone meal 5%
         Seaweed extract 3%
         Humic acid 2%
-        Inert Ingredients:
         Clay
         Sand
+        Perlite
+        Ingredients (fr):
+        Farine d'os 5%
+        Extrait d'algues 3%
+        Acide humique 2%
+        Argile
+        Sable
         Perlite
         Specifications:
         Humidity 10%
@@ -98,10 +105,9 @@ class TestLanguageModel(unittest.TestCase):
 
     def test_generate_form_gpt(self):
         prediction = self.gpt.generate_form(self.prompt)
-        # print(prediction.form)
         result_json = json.loads(prediction.form)
+        # print(json.dumps(result_json, indent=2))
         self.check_json(result_json)
-
 
 if __name__ == '__main__':
     unittest.main()
