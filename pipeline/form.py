@@ -45,23 +45,23 @@ class Specification(BaseModel):
         return v
 
 class FertiliserForm(BaseModel):
-    company_name: Optional[str] = ""
-    company_address: Optional[str] = ""
-    company_website: Optional[str] = ""
-    company_phone_number: Optional[str] = ""
-    manufacturer_name: Optional[str] = ""
-    manufacturer_address: Optional[str] = ""
-    manufacturer_website: Optional[str] = ""
-    manufacturer_phone_number: Optional[str] = ""
-    fertiliser_name: Optional[str] = ""
-    registration_number: Optional[str] = ""
-    lot_number: Optional[str] = ""
+    company_name: Optional[str] = None
+    company_address: Optional[str] = None
+    company_website: Optional[str] = None
+    company_phone_number: Optional[str] = None
+    manufacturer_name: Optional[str] = None
+    manufacturer_address: Optional[str] = None
+    manufacturer_website: Optional[str] = None
+    manufacturer_phone_number: Optional[str] = None
+    fertiliser_name: Optional[str] = None
+    registration_number: Optional[str] = None
+    lot_number: Optional[str] = None
     weight: List[Value] = []
     density: Optional[Value] = None
     volume: Optional[Value] = None
     npk: Optional[str] = Field(None)
     guaranteed_analysis: List[NutrientValue] = []
-    warranty: Optional[str] = ""
+    warranty: Optional[str] = None
     cautions_en: List[str] = None
     instructions_en: List[str] = []
     micronutrients_en: List[NutrientValue] = []
