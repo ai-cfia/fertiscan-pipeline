@@ -34,7 +34,7 @@ def analyze(label_storage: LabelStorage, ocr: OCR, gpt: GPT, log_dir_path: str =
     result = ocr.extract_text(document=document)
 
     # Logs the results from document intelligence
-    now = datetime.now()
+    now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     save_text_to_file(result.content, f"{log_dir_path}/{now}.md")
 
     # Generate form from extracted text
