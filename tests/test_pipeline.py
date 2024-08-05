@@ -35,7 +35,7 @@ class TestPipeline(unittest.TestCase):
         self.label_storage = LabelStorage()
         self.label_storage.add_image(self.image_path)
         self.ocr = OCR(api_endpoint=self.api_endpoint_ocr, api_key=self.api_key_ocr)
-        self.gpt = GPT(api_endpoint=self.api_endpoint_gpt, api_key=self.api_key_gpt, deployment=self.api_deployment_gpt)
+        self.gpt = GPT(api_endpoint=self.api_endpoint_gpt, api_key=self.api_key_gpt, deployment_id=self.api_deployment_gpt)
 
     @classmethod
     def tearDownClass(cls):

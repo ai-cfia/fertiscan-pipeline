@@ -15,7 +15,7 @@ class TestLanguageModel(unittest.TestCase):
         gpt_api_key = os.getenv("AZURE_OPENAI_KEY")
         gpt_api_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
 
-        self.gpt = GPT(api_endpoint=gpt_api_endpoint, api_key=gpt_api_key, deployment=gpt_api_deployment)
+        self.gpt = GPT(api_endpoint=gpt_api_endpoint, api_key=gpt_api_key, deployment_id=gpt_api_deployment)
 
         self.prompt = """
         GreenGrow Fertilizers Inc.

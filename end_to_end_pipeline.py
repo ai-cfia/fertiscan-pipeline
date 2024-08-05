@@ -125,12 +125,12 @@ if __name__ == "__main__":
         gpt35 = GPT(
             api_endpoint=OPENAI_API_ENDPOINT,
             api_key=OPENAI_API_KEY,
-            deployment="ailab-gpt-35-turbo-16k",
+            deployment_id="ailab-gpt-35-turbo-16k",
         )
         gpt4 = GPT(
             api_endpoint=OPENAI_API_ENDPOINT,
             api_key=OPENAI_API_KEY,
-            deployment="ailab-llm",
+            deployment_id="ailab-llm",
         )
 
         ocr_engines = {

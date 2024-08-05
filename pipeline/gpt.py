@@ -59,26 +59,26 @@ class ProduceLabelForm(dspy.Signature):
     form = dspy.OutputField(desc="Only a complete JSON.")
 
 class GPT:
-    def __init__(self, api_endpoint, api_key, deployment):
-        if not api_endpoint or not api_key:
-            raise ValueError("API endpoint and key are required to instantiate the GPT class.")
+    def __init__(self, api_endpoint, api_key, deployment_id):
+        if not api_endpoint or not api_key or not deployment_id:
+            raise ValueError("The API endpoint, key and deployment_id are required to instantiate the GPT class.")
 
         response_format = None
-        if deployment in MODELS_WITH_RESPONSE_FORMAT:
+        if deployment_id in MODELS_WITH_RESPONSE_FORMAT:
             response_format = ResponseFormat(type='json_object')
 
         max_token = 12000
         api_version = "2024-02-01"
-        if deployment == MODELS_WITH_RESPONSE_FORMAT[0]:
+        if deployment_id == MODELS_WITH_RESPONSE_FORMAT[0]:
             max_token = 3500
-        elif deployment == MODELS_WITH_RESPONSE_FORMAT[1]:
+        elif deployment_id == MODELS_WITH_RESPONSE_FORMAT[1]:
             max_token = 4096
             api_version="2024-02-15-preview"
 
         self.dspy_client = dspy.AzureOpenAI(
             api_base=api_endpoint,
             api_key=api_key,
-            deployment_id=deployment,
+            deployment_id=deployment_id,
             # model_type='text',
             api_version=api_version,
             max_tokens=max_token,
