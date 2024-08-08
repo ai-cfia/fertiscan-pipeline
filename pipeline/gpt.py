@@ -1,5 +1,7 @@
 import dspy
 from dspy import Prediction
+import dspy.adapters
+import dspy.utils
 from openai.types.chat.completion_create_params import ResponseFormat
 
 MODELS_WITH_RESPONSE_FORMAT = [
@@ -65,7 +67,7 @@ class GPT:
 
         response_format = None
         if deployment_id in MODELS_WITH_RESPONSE_FORMAT:
-            response_format = ResponseFormat(type='json_object')
+            response_format = { "type": "json_object" }
 
         max_token = 12000
         api_version = "2024-02-01"
