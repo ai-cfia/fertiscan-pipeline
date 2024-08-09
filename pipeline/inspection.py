@@ -44,7 +44,7 @@ class Specification(BaseModel):
             return str(v)
         return v
 
-class FertiliserForm(BaseModel):
+class FertilizerInspection(BaseModel):
     company_name: Optional[str] = None
     company_address: Optional[str] = None
     company_website: Optional[str] = None
@@ -86,7 +86,7 @@ class FertiliserForm(BaseModel):
         if v is not None:
             pattern = re.compile(r'^(\d+(\.\d+)?-\d+(\.\d+)?-\d+(\.\d+)?)?$')
             if not pattern.match(v):
-                raise npkError('npk must be in the format "number-number-number"')
+                raise npkError('npk must be in the inspectionat "number-number-number"')
         return v
 
     @model_validator(mode='before')

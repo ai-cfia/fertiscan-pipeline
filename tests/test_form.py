@@ -1,6 +1,6 @@
 import unittest
 from pydantic import ValidationError
-from pipeline import FertiliserForm
+from pipeline import FertilizerInspection
 
 class TestFertiliserForm(unittest.TestCase):
     def test_valid_fertiliser_form(self):
@@ -16,7 +16,7 @@ class TestFertiliserForm(unittest.TestCase):
         }
 
         try:
-            form = FertiliserForm(**data)
+            form = FertilizerInspection(**data)
         except ValidationError as e:
             self.fail(f"Validation error: {e}")
 
@@ -29,16 +29,16 @@ class TestFertiliserForm(unittest.TestCase):
 
     def test_invalid_npk_format(self):
         with self.assertRaises(ValidationError):
-            FertiliserForm(npk="invalid-format")
+            FertilizerInspection(npk="invalid-format")
 
     def test_valid_npk_format(self):
         try:
-            FertiliserForm(npk="10.5-20-30")
-            FertiliserForm(npk="10.5-20.5-30")
-            FertiliserForm(npk="10.5-0.5-30.1")
-            FertiliserForm(npk="0-20.5-30.1")
-            FertiliserForm(npk="0-20.5-1")
-            FertiliserForm(npk="20.5-1-30.1")
+            FertilizerInspection(npk="10.5-20-30")
+            FertilizerInspection(npk="10.5-20.5-30")
+            FertilizerInspection(npk="10.5-0.5-30.1")
+            FertilizerInspection(npk="0-20.5-30.1")
+            FertilizerInspection(npk="0-20.5-1")
+            FertilizerInspection(npk="20.5-1-30.1")
         except ValidationError as e:
             self.fail(f"Validation error: {e}")
             

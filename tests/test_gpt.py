@@ -3,7 +3,7 @@ import unittest
 import json
 
 from dotenv import load_dotenv
-from pipeline.form import FertiliserForm
+from pipeline.inspection import FertilizerInspection
 from pipeline.gpt import GPT
 from tests import levenshtein_similarity
 
@@ -97,15 +97,15 @@ class TestLanguageModel(unittest.TestCase):
             assert key in extracted_info, f"Key '{key}' is missing in the extracted information"
 
         # Check if the json matches the format
-        FertiliserForm(**expected_json)
+        FertilizerInspection(**expected_json)
 
         # Check if values match
         for key, expected_value in expected_json.items():
             assert levenshtein_similarity(str(extracted_info[key]), str(expected_value)) > 0.9, f"Value for key '{key}' does not match. Expected '{expected_value}', got '{extracted_info[key]}'"
 
     def test_generate_form_gpt(self):
-        prediction = self.gpt.generate_form(self.prompt)
-        result_json = json.loads(prediction.form)
+        prediction = self.gpt.create_inspection(self.prompt)
+        result_json = json.loads(prediction.inspection)
         # print(json.dumps(result_json, indent=2))
         self.check_json(result_json)
 

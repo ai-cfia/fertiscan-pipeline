@@ -101,7 +101,7 @@ def process_llm(ocr_engines: Dict[str, OCR], llm_models: Dict[str, GPT]) -> None
                     with open(ocr_output_path, "r") as file:
                         ocr_content = file.read()
 
-                    llm_result = llm_model.generate_form(ocr_content)
+                    llm_result = llm_model.create_inspection(ocr_content)
                     save_text_to_file(llm_result, llm_output_path)
 
                     logger.info(f"Processed LLM for {ocr_output_file} with {llm_name}")

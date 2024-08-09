@@ -5,7 +5,7 @@ from tests import curl_file
 from dotenv import load_dotenv
 from datetime import datetime
 from tests import levenshtein_similarity
-from pipeline.form import FertiliserForm, Value
+from pipeline.inspection import FertilizerInspection, Value
 from pipeline import LabelStorage, OCR, GPT, analyze
 
 class TestPipeline(unittest.TestCase):
@@ -51,7 +51,7 @@ class TestPipeline(unittest.TestCase):
         form = analyze(self.label_storage, self.ocr, self.gpt, log_dir_path=self.log_dir_path)
         
         # Perform assertions
-        self.assertIsInstance(form, FertiliserForm)
+        self.assertIsInstance(form, FertilizerInspection)
         self.assertIn(Value(value='25', unit='kg'), form.weight)
         self.assertGreater(levenshtein_similarity(form.company_name, "TerraLink"), 0.95)
         self.assertGreater(levenshtein_similarity(form.npk, "10-52-0"), 0.90)

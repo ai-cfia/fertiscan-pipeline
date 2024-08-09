@@ -2,7 +2,6 @@ import dspy
 from dspy import Prediction
 import dspy.adapters
 import dspy.utils
-from openai.types.chat.completion_create_params import ResponseFormat
 
 MODELS_WITH_RESPONSE_FORMAT = [
     "ailab-llm",
@@ -53,12 +52,12 @@ class ProduceLabelForm(dspy.Signature):
     """
     You are a fertilizer label inspector working for the Canadian Food Inspection Agency. 
     Your task is to classify all information present in the provided text using the specified keys.
-    Your response should be accurate, intelligible, formatted in JSON, and contain all the text from the provided text.
+    Your response should be accurate, intelligible, information in JSON, and contain all the text from the provided text.
     """
     
     text = dspy.InputField(desc="The text of the fertilizer label extracted using OCR.")
     specification = dspy.InputField(desc="The specification containing the fields to highlight and their requirements.")
-    form = dspy.OutputField(desc="Only a complete JSON.")
+    inspection = dspy.OutputField(desc="Only a complete JSON.")
 
 class GPT:
     def __init__(self, api_endpoint, api_key, deployment_id):
@@ -87,7 +86,7 @@ class GPT:
             response_format=response_format,
         )
 
-    def generate_form(self, prompt) -> Prediction:
+    def create_inspection(self, prompt) -> Prediction:
         with dspy.context(lm=self.dspy_client, experimental=True):
             signature = dspy.ChainOfThought(ProduceLabelForm)
             prediction = signature(specification=SPECIFICATION, text=prompt)
