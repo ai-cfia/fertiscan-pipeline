@@ -1,6 +1,6 @@
 from .label import LabelStorage  # noqa: F401
 from .ocr import OCR  # noqa: F401
-from .form import FertiliserForm  # noqa: F401
+from .inspection import FertilizerInspection  # noqa: F401
 from .gpt import GPT  # noqa: F401
 
 import os
@@ -21,7 +21,7 @@ def save_image_to_file(image_bytes: bytes, output_path: str): # pragma: no cover
     with open(output_path, 'wb') as output_file:
         output_file.write(image_bytes)
 
-def analyze(label_storage: LabelStorage, ocr: OCR, gpt: GPT, log_dir_path: str = './logs') -> FertiliserForm:
+def analyze(label_storage: LabelStorage, ocr: OCR, gpt: GPT, log_dir_path: str = './logs') -> FertilizerInspection:
     """
     Analyze a fertiliser label using an OCR and an LLM.
     It returns the data extracted from the label in a FertiliserForm.
@@ -37,18 +37,18 @@ def analyze(label_storage: LabelStorage, ocr: OCR, gpt: GPT, log_dir_path: str =
     now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
     save_text_to_file(result.content, f"{log_dir_path}/{now}.md")
 
-    # Generate form from extracted text
-    prediction = gpt.generate_form(result.content)
+    # Generate inspection from extracted text
+    prediction = gpt.create_inspection(result.content)
 
     # Logs the results from GPT
-    save_text_to_file(prediction.form, f"{log_dir_path}/{now}.json")
+    save_text_to_file(prediction.inspection, f"{log_dir_path}/{now}.json")
     save_text_to_file(prediction.rationale, f"{log_dir_path}/{now}.txt")
 
     # Load a JSON from the text
-    raw_json = json.loads(prediction.form)
+    raw_json = json.loads(prediction.inspection)
 
-    # Check the conformity of the JSON
-    form = FertiliserForm(**raw_json)
+    # Check the coninspectionity of the JSON
+    inspection = FertilizerInspection(**raw_json)
 
     # Clear the label cache
     label_storage.clear()
@@ -58,4 +58,4 @@ def analyze(label_storage: LabelStorage, ocr: OCR, gpt: GPT, log_dir_path: str =
     os.remove(f"{log_dir_path}/{now}.txt")     
     os.remove(f"{log_dir_path}/{now}.json")
 
-    return form
+    return inspection
