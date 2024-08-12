@@ -77,6 +77,7 @@ class GPT:
             api_version="2024-02-15-preview"
 
         self.dspy_client = dspy.AzureOpenAI(
+            user="fertiscan",
             api_base=api_endpoint,
             api_key=api_key,
             deployment_id=deployment_id,
