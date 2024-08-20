@@ -8,6 +8,8 @@ MODELS_WITH_RESPONSE_FORMAT = [
     "ailab-llm-gpt-4o"
 ]  # List of models that support the response_format option
 
+dspy.logger = None
+
 SPECIFICATION = """
 Keys:
 "company_name"
