@@ -75,6 +75,12 @@ class FertilizerInspection(BaseModel):
     specifications_fr: List[Specification] = []
     first_aid_fr: List[str] = None
 
+    @field_validator('company_phone_number', 'manufacturer_phone_number', mode='before', check_fields=False)
+    def handle_phone_numbers(cls, v):
+        if not isinstance(v, str):
+            return ''
+        return v
+
     @field_validator('weight_kg', 'weight_lb', 'density', 'volume', mode='before', check_fields=False)
     def convert_values(cls, v):
         if isinstance(v, (int, float)):
