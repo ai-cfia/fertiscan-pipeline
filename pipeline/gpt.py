@@ -4,8 +4,7 @@ import dspy.adapters
 import dspy.utils
 
 MODELS_WITH_RESPONSE_FORMAT = [
-    "ailab-llm",
-    "ailab-llm-gpt-4o"
+    "gpt-4o"
 ]  # List of models that support the response_format option
 
 SPECIFICATION = """
@@ -71,8 +70,6 @@ class GPT:
         max_token = 12000
         api_version = "2024-02-01"
         if deployment_id == MODELS_WITH_RESPONSE_FORMAT[0]:
-            max_token = 3500
-        elif deployment_id == MODELS_WITH_RESPONSE_FORMAT[1]:
             max_token = 4096
             api_version="2024-02-15-preview"
 
