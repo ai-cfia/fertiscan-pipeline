@@ -3,9 +3,18 @@ from dspy import Prediction
 import dspy.adapters
 import dspy.utils
 
-MODELS_WITH_RESPONSE_FORMAT = [
-    "gpt-4o"
-]  # List of models that support the response_format option
+SUPPORTED_MODELS = {
+    "gpt-3.5-turbo": {
+        "max_token": 12000,
+        "api_version": "2024-02-01",
+        "response_format": { "type": "json_object" },
+    },
+    "gpt-4o": {
+        "max_token": 4096,
+        "api_version": "2024-02-15-preview",
+        "response_format": { "type": "json_object" },
+    }
+} 
 
 SPECIFICATION = """
 Keys:
@@ -63,25 +72,19 @@ class GPT:
         if not api_endpoint or not api_key or not deployment_id:
             raise ValueError("The API endpoint, key and deployment_id are required to instantiate the GPT class.")
 
-        response_format = None
-        if deployment_id in MODELS_WITH_RESPONSE_FORMAT:
-            response_format = { "type": "json_object" }
-
-        max_token = 12000
-        api_version = "2024-02-01"
-        if deployment_id == MODELS_WITH_RESPONSE_FORMAT[0]:
-            max_token = 4096
-            api_version="2024-02-15-preview"
-
+        config = SUPPORTED_MODELS.get(deployment_id)
+        if not config:
+            raise ValueError(f"The deployment_id {deployment_id} is not supported.")
+        
         self.dspy_client = dspy.AzureOpenAI(
             user="fertiscan",
             api_base=api_endpoint,
             api_key=api_key,
             deployment_id=deployment_id,
             # model_type='text',
-            api_version=api_version,
-            max_tokens=max_token,
-            response_format=response_format,
+            api_version=config.get("api_version"),
+            max_tokens=config.get("max_token"),
+            response_format=config.get("response_format"),
         )
 
     def create_inspection(self, prompt) -> Prediction:
