@@ -135,19 +135,13 @@
       "unit":"%"
     },
     {
-      "nutrient":"Argile",
-      "value":"",
-      "unit":""
+      "nutrient":"Argile"
     },
     {
-      "nutrient":"Sable",
-      "value":"",
-      "unit":""
+      "nutrient":"Sable"
     },
     {
-      "nutrient":"Perlite",
-      "value":"",
-      "unit":""
+      "nutrient":"Perlite"
     }
   ],
   "specifications_fr":[
