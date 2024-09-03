@@ -12,7 +12,7 @@ SUPPORTED_MODELS = {
         "response_format": { "type": "json_object" },
     },
     "gpt-4o": {
-        "max_token": 4096,
+        "max_token": None,
         "api_version": "2024-02-15-preview",
         "response_format": { "type": "json_object" },
     }
