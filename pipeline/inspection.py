@@ -32,6 +32,20 @@ class Value(BaseModel):
         if isinstance(v, (int, float)):
             return str(v)
         return extract_first_number(v)
+    
+class GuaranteedAnalysis(BaseModel):
+    title: Optional[str] = None
+    nutrients: List[NutrientValue] = []
+
+    @model_validator(mode='before')
+    def replace_none_with_empty_list(cls, values):
+        fields_to_check = [
+            'nutrients'
+        ]
+        for field in fields_to_check:
+            if values.get(field) is None:
+                values[field] = []
+        return values
 
 class Specification(BaseModel):
     humidity: Optional[str] = Field(..., alias='humidity')
@@ -60,20 +74,12 @@ class FertilizerInspection(BaseModel):
     density: Optional[Value] = None
     volume: Optional[Value] = None
     npk: Optional[str] = Field(None)
-    guaranteed_analysis: List[NutrientValue] = []
-    warranty: Optional[str] = None
+    guaranteed_analysis_en: Optional[GuaranteedAnalysis] = None
+    guaranteed_analysis_fr: Optional[GuaranteedAnalysis] = None
     cautions_en: List[str] = None
-    instructions_en: List[str] = []
-    micronutrients_en: List[NutrientValue] = []
-    ingredients_en: List[NutrientValue] = []
-    specifications_en: List[Specification] = []
-    first_aid_en: List[str] = None
     cautions_fr: List[str] = None
+    instructions_en: List[str] = []
     instructions_fr: List[str] = []
-    micronutrients_fr: List[NutrientValue] = []
-    ingredients_fr: List[NutrientValue] = []
-    specifications_fr: List[Specification] = []
-    first_aid_fr: List[str] = None
 
     @field_validator('weight_kg', 'weight_lb', 'density', 'volume', mode='before', check_fields=False)
     def convert_values(cls, v):
@@ -86,17 +92,15 @@ class FertilizerInspection(BaseModel):
         if v is not None:
             pattern = re.compile(r'^(\d+(\.\d+)?-\d+(\.\d+)?-\d+(\.\d+)?)?$')
             if not pattern.match(v):
-                raise npkError('npk must be in the inspectionat "number-number-number"')
+                raise npkError('npk must be in the format "number-number-number"')
         return v
 
     @model_validator(mode='before')
     def replace_none_with_empty_list(cls, values):
         fields_to_check = [
-            'cautions_en', 'first_aid_en', 'cautions_fr', 'first_aid_fr',
-            'instructions_en', 'micronutrients_en', 'ingredients_en',
-            'specifications_en', 'instructions_fr',
-            'micronutrients_fr', 'ingredients_fr',
-            'specifications_fr', 'guaranteed_analysis'
+            'cautions_en', 'cautions_fr',
+            'instructions_en', 'instructions_fr',
+            'weight'
         ]
         for field in fields_to_check:
             if values.get(field) is None:
