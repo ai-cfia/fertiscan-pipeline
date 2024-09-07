@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 class npkError(ValueError):
     pass
 
-def extract_first_number(string):
+def extract_first_number(string: str) -> Optional[str]:
     if string is not None:
         match = re.search(r'\d+(\.\d+)?', string)
         if match:
@@ -19,9 +19,13 @@ class NutrientValue(BaseModel):
 
     @field_validator('value', mode='before', check_fields=False)
     def convert_value(cls, v):
-        if isinstance(v, (int, float)):
+        if isinstance(v, bool):
+            return None
+        elif isinstance(v, (int, float)):
             return str(v)
-        return extract_first_number(v)
+        elif isinstance(v, (str)):
+            return extract_first_number(v)
+        return None
     
 class Value(BaseModel):
     value: Optional[str]
@@ -29,9 +33,16 @@ class Value(BaseModel):
 
     @field_validator('value', mode='before', check_fields=False)
     def convert_value(cls, v):
-        if isinstance(v, (int, float)):
+        if isinstance(v, bool):
+            return None
+        elif isinstance(v, (int, float)):
             return str(v)
-        return extract_first_number(v)
+        elif isinstance(v, (str)):
+            return extract_first_number(v)
+        return None
+
+from typing import Optional
+from pydantic import BaseModel, Field, field_validator
 
 class Specification(BaseModel):
     humidity: Optional[str] = Field(..., alias='humidity')
@@ -40,9 +51,13 @@ class Specification(BaseModel):
 
     @field_validator('humidity', 'ph', 'solubility', mode='before', check_fields=False)
     def convert_specification_values(cls, v):
-        if isinstance(v, (int, float)):
+        if isinstance(v, bool):
+            return None
+        elif isinstance(v, (int, float)):
             return str(v)
-        return v
+        elif isinstance(v, (str)):
+            return extract_first_number(v)
+        return None
 
 class FertilizerInspection(BaseModel):
     company_name: Optional[str] = None
@@ -74,19 +89,13 @@ class FertilizerInspection(BaseModel):
     ingredients_fr: List[NutrientValue] = []
     specifications_fr: List[Specification] = []
     first_aid_fr: List[str] = None
-
-    @field_validator('weight_kg', 'weight_lb', 'density', 'volume', mode='before', check_fields=False)
-    def convert_values(cls, v):
-        if isinstance(v, (int, float)):
-            return str(v)
-        return v
     
     @field_validator('npk', mode='before')
     def validate_npk(cls, v):
         if v is not None:
-            pattern = re.compile(r'^(\d+(\.\d+)?-\d+(\.\d+)?-\d+(\.\d+)?)?$')
+            pattern = re.compile(r'^\d+(\.\d+)?-\d+(\.\d+)?-\d+(\.\d+)?$')
             if not pattern.match(v):
-                raise npkError('npk must be in the inspectionat "number-number-number"')
+                return None
         return v
 
     @model_validator(mode='before')
