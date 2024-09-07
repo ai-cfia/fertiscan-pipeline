@@ -41,9 +41,6 @@ class Value(BaseModel):
             return extract_first_number(v)
         return None
 
-from typing import Optional
-from pydantic import BaseModel, Field, field_validator
-
 class Specification(BaseModel):
     humidity: Optional[str] = Field(..., alias='humidity')
     ph: Optional[str] = Field(..., alias='ph')

@@ -1,6 +1,5 @@
 import unittest
-from pipeline.inspection import FertilizerInspection, NutrientValue, Value, Specification, npkError
-from pydantic import ValidationError
+from pipeline.inspection import FertilizerInspection, NutrientValue, Value, Specification
 
 
 class TestNutrientValue(unittest.TestCase):
