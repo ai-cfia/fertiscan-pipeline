@@ -11,7 +11,7 @@ class TestFertiliserForm(unittest.TestCase):
             "npk": "10-5-5",
             "instructions_en": ["Use as directed"],
             "micronutrients_en": [{"nutrient": "Iron", "value": "2", "unit": "%"}],
-            "specifications_en": [{"humidity": "Low", "ph": "7", "solubility": "High"}],
+            "specifications_en": [{"humidity": "23", "ph": "7", "solubility": "4"}],
             "guaranteed_analysis": [{"nutrient": "Nitrogen", "value": "10", "unit": "%"}]
         }
 
