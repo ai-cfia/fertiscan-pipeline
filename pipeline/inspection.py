@@ -14,7 +14,7 @@ def extract_first_number(string: str) -> Optional[str]:
 
 class NutrientValue(BaseModel):
     nutrient: str
-    value: Optional[str] = None
+    value: Optional[float] = None
     unit: Optional[str] = None
 
     @field_validator('value', mode='before', check_fields=False)
@@ -28,7 +28,7 @@ class NutrientValue(BaseModel):
         return None
     
 class Value(BaseModel):
-    value: Optional[str]
+    value: Optional[float]
     unit: Optional[str]
 
     @field_validator('value', mode='before', check_fields=False)
@@ -42,9 +42,9 @@ class Value(BaseModel):
         return None
 
 class Specification(BaseModel):
-    humidity: Optional[str] = Field(..., alias='humidity')
-    ph: Optional[str] = Field(..., alias='ph')
-    solubility: Optional[str]
+    humidity: Optional[float] = Field(..., alias='humidity')
+    ph: Optional[float] = Field(..., alias='ph')
+    solubility: Optional[float]
 
     @field_validator('humidity', 'ph', 'solubility', mode='before', check_fields=False)
     def convert_specification_values(cls, v):

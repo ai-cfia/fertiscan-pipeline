@@ -29,7 +29,7 @@ class TestNutrientValue(unittest.TestCase):
             with self.subTest(data=data):
                 nutrient_value = NutrientValue(**data)
                 self.assertEqual(nutrient_value.nutrient, "Nitrogen")
-                self.assertEqual(nutrient_value.value, "2")  # Expect a clean numeric string
+                self.assertEqual(nutrient_value.value, 2.0)
                 self.assertEqual(nutrient_value.unit, "mg/L")
                 
                 # Ensure that we can safely convert the value to int and float
@@ -72,7 +72,7 @@ class TestValue(unittest.TestCase):
         for data in self.valid_value_data:
             with self.subTest(data=data):
                 value = Value(**data)
-                self.assertEqual(value.value, "12.5")  # Expect a clean numeric string
+                self.assertEqual(value.value, 12.5)
                 self.assertEqual(value.unit, "kg")
 
     def test_invalid_value(self):
@@ -111,9 +111,9 @@ class TestSpecification(unittest.TestCase):
         for data in self.valid_specification_data:
             with self.subTest(data=data):
                 specification = Specification(**data)
-                self.assertEqual(specification.humidity, "30")
-                self.assertEqual(specification.ph, "6.5")
-                self.assertEqual(specification.solubility, "10")
+                self.assertEqual(specification.humidity, 30.0)
+                self.assertEqual(specification.ph, 6.5)
+                self.assertEqual(specification.solubility, 10.0)
                 
                 # Ensure valid data can be cast to int or float without issues
                 self.assertIsInstance(int(specification.humidity), int)
