@@ -10,9 +10,9 @@ class TestFertiliserForm(unittest.TestCase):
             "fertiliser_name": "Super Fertiliser",
             "npk": "10-5-5",
             "instructions_en": ["Use as directed"],
-            "micronutrients_en": [{"nutrient": "Iron", "value": "2", "unit": "%"}],
-            "specifications_en": [{"humidity": "23", "ph": "7", "solubility": "4"}],
-            "guaranteed_analysis": [{"nutrient": "Nitrogen", "value": "10", "unit": "%"}]
+            "micronutrients_en": [{"nutrient": "Iron", "value": 2.0, "unit": "%"}],
+            "specifications_en": [{"humidity": 23.0, "ph": 7.0, "solubility": 4.0}],
+            "guaranteed_analysis": [{"nutrient": "Nitrogen", "value": 10.0, "unit": "%"}]
         }
 
         try:
