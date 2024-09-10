@@ -92,10 +92,8 @@ class FertilizerInspection(BaseModel):
     cautions_fr: List[str] = None
     instructions_en: List[str] = []
     instructions_fr: List[str] = []
-    micronutrients_fr: List[NutrientValue] = []
+    ingredients_en: List[NutrientValue] = []
     ingredients_fr: List[NutrientValue] = []
-    specifications_fr: List[Specification] = []
-    first_aid_fr: List[str] = None
     
     @field_validator('npk', mode='before')
     def validate_npk(cls, v):
