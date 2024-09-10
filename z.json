@@ -1,0 +1,354 @@
+{
+  "$defs": {
+    "NutrientValue": {
+      "properties": {
+        "nutrient": {
+          "description": "The name of the nutrient or ingredient",
+          "examples": ["Iron (Fe)", "Zinc (Zn)", "Bone meal"],
+          "title": "Nutrient",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [{ "type": "string" }, { "type": "null" }],
+          "default": null,
+          "description": "The amount or concentration of the nutrient",
+          "examples": ["0.10", "5"],
+          "title": "Value"
+        },
+        "unit": {
+          "anyOf": [{ "type": "string" }, { "type": "null" }],
+          "default": null,
+          "description": "The unit of measurement for the value",
+          "examples": ["%", "mg/kg"],
+          "title": "Unit"
+        }
+      },
+      "required": ["nutrient"],
+      "title": "NutrientValue",
+      "type": "object"
+    },
+    "Specification": {
+      "properties": {
+        "humidity": {
+          "anyOf": [{ "type": "string" }, { "type": "null" }],
+          "description": "The humidity level, typically as a percentage",
+          "examples": ["10"],
+          "title": "Humidity"
+        },
+        "ph": {
+          "anyOf": [{ "type": "string" }, { "type": "null" }],
+          "description": "The pH level, indicating acidity or alkalinity",
+          "examples": ["6.5"],
+          "title": "Ph"
+        },
+        "solubility": {
+          "anyOf": [{ "type": "string" }, { "type": "null" }],
+          "default": null,
+          "description": "The solubility value, often measured in grams per liter",
+          "examples": ["100"],
+          "title": "Solubility"
+        }
+      },
+      "required": ["humidity", "ph"],
+      "title": "Specification",
+      "type": "object"
+    },
+    "Value": {
+      "properties": {
+        "value": {
+          "anyOf": [{ "type": "string" }, { "type": "null" }],
+          "default": null,
+          "description": "The numerical value of the measurement",
+          "examples": ["25", "55", "1.2", "20.8"],
+          "title": "Value"
+        },
+        "unit": {
+          "anyOf": [{ "type": "string" }, { "type": "null" }],
+          "default": null,
+          "description": "The unit of measurement",
+          "examples": ["kg", "lb", "g/cm", "L"],
+          "title": "Unit"
+        }
+      },
+      "title": "Value",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "company_name": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "default": null,
+      "description": "Name of the company",
+      "examples": ["GreenGrow Fertilizers Inc."],
+      "title": "Company Name"
+    },
+    "company_address": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "default": null,
+      "description": "Address of the company",
+      "examples": ["123 Greenway Blvd, Springfield IL 62701 USA"],
+      "title": "Company Address"
+    },
+    "company_website": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "default": null,
+      "description": "Website of the company",
+      "examples": ["www.greengrowfertilizers.com"],
+      "title": "Company Website"
+    },
+    "company_phone_number": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "default": null,
+      "description": "Phone number of the company",
+      "examples": ["+1 800 555 0199"],
+      "title": "Company Phone Number"
+    },
+    "manufacturer_name": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "default": null,
+      "description": "Name of the manufacturer",
+      "examples": ["AgroTech Industries Ltd."],
+      "title": "Manufacturer Name"
+    },
+    "manufacturer_address": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "default": null,
+      "description": "Address of the manufacturer",
+      "examples": ["456 Industrial Park Rd, Oakville ON L6H 5V4 Canada"],
+      "title": "Manufacturer Address"
+    },
+    "manufacturer_website": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "default": null,
+      "description": "Website of the manufacturer",
+      "examples": ["www.agrotechindustries.com"],
+      "title": "Manufacturer Website"
+    },
+    "manufacturer_phone_number": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "default": null,
+      "description": "Phone number of the manufacturer",
+      "examples": ["+1 416 555 0123"],
+      "title": "Manufacturer Phone Number"
+    },
+    "fertiliser_name": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "default": null,
+      "description": "Name of the fertiliser",
+      "examples": ["SuperGrow 20-20-20"],
+      "title": "Fertiliser Name"
+    },
+    "registration_number": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "default": null,
+      "description": "Registration number of the fertiliser",
+      "examples": ["F12345678"],
+      "title": "Registration Number"
+    },
+    "lot_number": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "default": null,
+      "description": "Lot number of the fertiliser",
+      "examples": ["L987654321"],
+      "title": "Lot Number"
+    },
+    "weight": {
+      "description": "List of weights with units",
+      "examples": [
+        [
+          { "unit": "kg", "value": "25" },
+          { "unit": "lb", "value": "55" }
+        ]
+      ],
+      "items": { "$ref": "#/$defs/Value" },
+      "title": "Weight",
+      "type": "array"
+    },
+    "density": {
+      "anyOf": [{ "$ref": "#/$defs/Value" }, { "type": "null" }],
+      "default": null,
+      "description": "Density of the fertiliser",
+      "examples": [{ "unit": "g/cm", "value": "1.2" }]
+    },
+    "volume": {
+      "anyOf": [{ "$ref": "#/$defs/Value" }, { "type": "null" }],
+      "default": null,
+      "description": "Volume of the fertiliser",
+      "examples": [{ "unit": "L", "value": "20.8" }]
+    },
+    "npk": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "default": null,
+      "description": "N-P-K ratio of the fertiliser",
+      "examples": ["20-20-20"],
+      "title": "Npk"
+    },
+    "guaranteed_analysis": {
+      "description": "Guaranteed analysis of primary nutrients",
+      "examples": [
+        [
+          { "nutrient": "Total Nitrogen (N)", "unit": "%", "value": "20" },
+          {
+            "nutrient": "Available Phosphate (P2O5)",
+            "unit": "%",
+            "value": "20"
+          },
+          { "nutrient": "Soluble Potash (K2O)", "unit": "%", "value": "20" }
+        ]
+      ],
+      "items": { "$ref": "#/$defs/NutrientValue" },
+      "title": "Guaranteed Analysis",
+      "type": "array"
+    },
+    "warranty": {
+      "anyOf": [{ "type": "string" }, { "type": "null" }],
+      "default": null,
+      "description": "Warranty information",
+      "examples": ["Guaranteed analysis of nutrients."],
+      "title": "Warranty"
+    },
+    "cautions_en": {
+      "description": "List of caution statements in English",
+      "examples": [
+        ["Keep out of reach of children.", "Avoid contact with skin and eyes."]
+      ],
+      "items": { "type": "string" },
+      "title": "Cautions En",
+      "type": "array"
+    },
+    "instructions_en": {
+      "description": "Usage instructions in English",
+      "examples": [
+        [
+          "1. Dissolve 50g in 10L of water.",
+          "2. Apply every 2 weeks.",
+          "3. Store in a cool, dry place."
+        ]
+      ],
+      "items": { "type": "string" },
+      "title": "Instructions En",
+      "type": "array"
+    },
+    "micronutrients_en": {
+      "description": "List of micronutrients in English",
+      "examples": [
+        [
+          { "nutrient": "Iron (Fe)", "unit": "%", "value": "0.10" },
+          { "nutrient": "Zinc (Zn)", "unit": "%", "value": "0.05" },
+          { "nutrient": "Manganese (Mn)", "unit": "%", "value": "0.05" }
+        ]
+      ],
+      "items": { "$ref": "#/$defs/NutrientValue" },
+      "title": "Micronutrients En",
+      "type": "array"
+    },
+    "ingredients_en": {
+      "description": "List of ingredients in English",
+      "examples": [
+        [
+          { "nutrient": "Bone meal", "unit": "%", "value": "5" },
+          { "nutrient": "Seaweed extract", "unit": "%", "value": "3" },
+          { "nutrient": "Humic acid", "unit": "%", "value": "2" },
+          { "nutrient": "Clay", "unit": "", "value": "" },
+          { "nutrient": "Sand", "unit": "", "value": "" },
+          { "nutrient": "Perlite", "unit": "", "value": "" }
+        ]
+      ],
+      "items": { "$ref": "#/$defs/NutrientValue" },
+      "title": "Ingredients En",
+      "type": "array"
+    },
+    "specifications_en": {
+      "description": "Specifications of the product in English",
+      "examples": [[{ "humidity": "10", "ph": "6.5", "solubility": "100" }]],
+      "items": { "$ref": "#/$defs/Specification" },
+      "title": "Specifications En",
+      "type": "array"
+    },
+    "first_aid_en": {
+      "description": "First aid instructions in English",
+      "examples": [
+        [
+          "In case of contact with eyes, rinse immediately with plenty of water and seek medical advice."
+        ]
+      ],
+      "items": { "type": "string" },
+      "title": "First Aid En",
+      "type": "array"
+    },
+    "cautions_fr": {
+      "description": "List of caution statements in French",
+      "examples": [
+        [
+          "Tenir hors de port\u00e9e des enfants.",
+          "\u00c9viter le contact avec la peau et les yeux."
+        ]
+      ],
+      "items": { "type": "string" },
+      "title": "Cautions Fr",
+      "type": "array"
+    },
+    "instructions_fr": {
+      "description": "Usage instructions in French",
+      "examples": [
+        [
+          "1. Dissoudre 50g dans 10L d'eau.",
+          "2. Appliquer toutes les 2 semaines.",
+          "3. Conserver dans un endroit frais et sec."
+        ]
+      ],
+      "items": { "type": "string" },
+      "title": "Instructions Fr",
+      "type": "array"
+    },
+    "micronutrients_fr": {
+      "description": "List of micronutrients in French",
+      "examples": [
+        [
+          { "nutrient": "Fer (Fe)", "unit": "%", "value": "0.10" },
+          { "nutrient": "Zinc (Zn)", "unit": "%", "value": "0.05" },
+          { "nutrient": "Mangan\u00e8se (Mn)", "unit": "%", "value": "0.05" }
+        ]
+      ],
+      "items": { "$ref": "#/$defs/NutrientValue" },
+      "title": "Micronutrients Fr",
+      "type": "array"
+    },
+    "ingredients_fr": {
+      "description": "List of ingredients in French",
+      "examples": [
+        [
+          { "nutrient": "Farine d'os", "unit": "%", "value": "5" },
+          { "nutrient": "Extrait d'algues", "unit": "%", "value": "3" },
+          { "nutrient": "Acide humique", "unit": "%", "value": "2" },
+          { "nutrient": "Argile", "unit": "", "value": "" },
+          { "nutrient": "Sable", "unit": "", "value": "" },
+          { "nutrient": "Perlite", "unit": "", "value": "" }
+        ]
+      ],
+      "items": { "$ref": "#/$defs/NutrientValue" },
+      "title": "Ingredients Fr",
+      "type": "array"
+    },
+    "specifications_fr": {
+      "description": "Specifications of the product in French",
+      "examples": [[{ "humidity": "10", "ph": "6.5", "solubility": "100" }]],
+      "items": { "$ref": "#/$defs/Specification" },
+      "title": "Specifications Fr",
+      "type": "array"
+    },
+    "first_aid_fr": {
+      "description": "First aid instructions in French",
+      "examples": [
+        [
+          "En cas de contact avec les yeux, rincer imm\u00e9diatement \u00e0 grande eau et consulter un m\u00e9decin."
+        ]
+      ],
+      "items": { "type": "string" },
+      "title": "First Aid Fr",
+      "type": "array"
+    }
+  },
+  "title": "FertilizerInspection",
+  "type": "object"
+}
