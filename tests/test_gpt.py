@@ -39,6 +39,10 @@ class TestLanguageModel(unittest.TestCase):
         Total Nitrogen (N) 20%
         Available Phosphate (P2O5) 20%
         Soluble Potash (K2O) 20%
+        Warranty: Analyse Garantie.
+        Azote total (N) 20%
+        Phosphate assimilable (P2O5) 20%
+        Potasse soluble (K2O) 20%
         Micronutrients:
         Iron (Fe) 0.10%
         Zinc (Zn) 0.05%
@@ -106,7 +110,7 @@ class TestLanguageModel(unittest.TestCase):
     def test_generate_form_gpt(self):
         prediction = self.gpt.create_inspection(self.prompt)
         result_json = json.loads(prediction.inspection)
-        # print(json.dumps(result_json, indent=2))
+        print(json.dumps(result_json, indent=2))
         self.check_json(result_json)
 
 if __name__ == '__main__':
