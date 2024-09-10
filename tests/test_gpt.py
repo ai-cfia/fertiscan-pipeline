@@ -39,7 +39,7 @@ class TestLanguageModel(unittest.TestCase):
         Total Nitrogen (N) 20%
         Available Phosphate (P2O5) 20%
         Soluble Potash (K2O) 20%
-        Warranty: Analyse Garantie.
+        Analyse Garantie.
         Azote total (N) 20%
         Phosphate assimilable (P2O5) 20%
         Potasse soluble (K2O) 20%
