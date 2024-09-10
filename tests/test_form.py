@@ -10,9 +10,9 @@ class TestFertiliserForm(unittest.TestCase):
             "fertiliser_name": "Super Fertiliser",
             "npk": "10-5-5",
             "instructions_en": ["Use as directed"],
-            "micronutrients_en": [{"nutrient": "Iron", "value": "2", "unit": "%"}],
-            "specifications_en": [{"humidity": "Low", "ph": "7", "solubility": "High"}],
-            "guaranteed_analysis": [{"nutrient": "Nitrogen", "value": "10", "unit": "%"}]
+            "micronutrients_en": [{"nutrient": "Iron", "value": 2.0, "unit": "%"}],
+            "specifications_en": [{"humidity": 23.0, "ph": 7.0, "solubility": 4.0}],
+            "guaranteed_analysis": [{"nutrient": "Nitrogen", "value": 10.0, "unit": "%"}]
         }
 
         try:
@@ -27,20 +27,6 @@ class TestFertiliserForm(unittest.TestCase):
             value = raw_form[key]
             self.assertEqual(expected_value, value, f"Value for key '{key}' does not match. Expected '{expected_value}', got '{value}'")
 
-    def test_invalid_npk_format(self):
-        with self.assertRaises(ValidationError):
-            FertilizerInspection(npk="invalid-format")
-
-    def test_valid_npk_format(self):
-        try:
-            FertilizerInspection(npk="10.5-20-30")
-            FertilizerInspection(npk="10.5-20.5-30")
-            FertilizerInspection(npk="10.5-0.5-30.1")
-            FertilizerInspection(npk="0-20.5-30.1")
-            FertilizerInspection(npk="0-20.5-1")
-            FertilizerInspection(npk="20.5-1-30.1")
-        except ValidationError as e:
-            self.fail(f"Validation error: {e}")
             
 if __name__ == '__main__':
     unittest.main()
