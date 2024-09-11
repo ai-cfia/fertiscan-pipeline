@@ -11,11 +11,10 @@ def extract_first_number(string: str) -> Optional[str]:
         if match:
             return match.group()
     return None
-
-class NutrientValue(BaseModel):
-    nutrient: str
-    value: Optional[float] = None
-    unit: Optional[str] = None
+    
+class Value(BaseModel):
+    value: Optional[float]
+    unit: Optional[str]
 
     @field_validator('value', mode='before', check_fields=False)
     def convert_value(cls, v):
@@ -27,9 +26,11 @@ class NutrientValue(BaseModel):
             return extract_first_number(v)
         return None
     
-class Value(BaseModel):
-    value: Optional[float]
-    unit: Optional[str]
+
+class NutrientValue(BaseModel):
+    nutrient: str
+    quantity: Optional[Value] = None
+    registration_number: Optional[str] = None
 
     @field_validator('value', mode='before', check_fields=False)
     def convert_value(cls, v):

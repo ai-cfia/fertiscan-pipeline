@@ -12,16 +12,16 @@
   "lot_number": "LOT20240901",
   "weight": [
     {
-      "value": "50",
+      "value": 50,
       "unit": "kg"
     }
   ],
   "density": {
-    "value": "1.5",
+    "value": 1.5,
     "unit": "g/cm³"
   },
   "volume": {
-    "value": "33.3",
+    "value": 33.3,
     "unit": "L"
   },
   "npk": "20-20-20",
@@ -30,18 +30,27 @@
     "nutrients": [
       {
         "nutrient": "Total Nitrogen (N)",
-        "value": "20",
-        "unit": "%"
+        "quantity": {
+          "value": 20,
+          "unit": "w/w"
+        },
+        "registration_number": "RN123"
       },
       {
         "nutrient": "Available Phosphate (P2O5)",
-        "value": "20",
-        "unit": "%"
+        "quantity": {
+          "value": 20,
+          "unit": "w/w"
+        },
+        "registration_number": "RN124"
       },
       {
         "nutrient": "Soluble Potash (K2O)",
-        "value": "20",
-        "unit": "%"
+        "quantity": {
+          "value": 20,
+          "unit": "w/w"
+        },
+        "registration_number": "RN125"
       }
     ]
   },
@@ -50,73 +59,30 @@
     "nutrients": [
       {
         "nutrient": "Azote total (N)",
-        "value": "20",
-        "unit": "%"
+        "quantity": {
+          "value": 20,
+          "unit": "p/p"
+        },
+        "registration_number": "RN126"
       },
       {
         "nutrient": "Phosphate assimilable (P2O5)",
-        "value": "20",
-        "unit": "%"
+        "quantity": {
+          "value": 20,
+          "unit": "p/p"
+        },
+        "registration_number": "RN127"
       },
       {
         "nutrient": "Potasse soluble (K2O)",
-        "value": "20",
-        "unit": "%"
+        "quantity": {
+          "value": 20,
+          "unit": "p/p"
+        },
+        "registration_number": "RN128"
       }
     ]
   },
-  "ingredients_en":[
-    {
-      "nutrient":"Bone meal",
-      "value":"5",
-      "unit":"%"
-    },
-    {
-      "nutrient":"Seaweed extract",
-      "value":"3",
-      "unit":"%"
-    },
-    {
-      "nutrient":"Humic acid",
-      "value":"2",
-      "unit":"%"
-    },
-    {
-      "nutrient":"Clay"
-    },
-    {
-      "nutrient":"Sand"
-    },
-    {
-      "nutrient":"Perlite"
-    }
-  ],
-  "ingredients_fr":[
-    {
-      "nutrient":"Farine d'os",
-      "value":"5",
-      "unit":"%"
-    },
-    {
-      "nutrient":"Extrait d'algues",
-      "value":"3",
-      "unit":"%"
-    },
-    {
-      "nutrient":"Acide humique",
-      "value":"2",
-      "unit":"%"
-    },
-    {
-      "nutrient":"Argile"
-    },
-    {
-      "nutrient":"Sable"
-    },
-    {
-      "nutrient":"Perlite"
-    }
-  ],
   "cautions_en": [
     "Keep out of reach of children.",
     "Store in a cool, dry place."
@@ -132,5 +98,25 @@
   "instructions_fr": [
     "Appliquer uniformément sur le champ à raison de 5 kg par hectare.",
     "Arroser abondamment après l'application."
+  ],
+  "ingredients_en": [
+    {
+      "nutrient": "Organic matter",
+      "quantity": {
+        "value": 15,
+        "unit": "%"
+      },
+      "registration_number": "RN129"
+    }
+  ],
+  "ingredients_fr": [
+    {
+      "nutrient": "Matière organique",
+      "quantity": {
+        "value": 15,
+        "unit": "%"
+      },
+      "registration_number": "RN130"
+    }
   ]
 }

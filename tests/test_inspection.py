@@ -6,22 +6,22 @@ class TestNutrientValue(unittest.TestCase):
 
     def setUp(self):
         self.valid_nutrient_value_data = [
-            {"nutrient": "Nitrogen", "value": "2", "unit": "mg/L"},
-            {"nutrient": "Nitrogen", "value": "2 mg/L", "unit": "mg/L"},
-            {"nutrient": "Nitrogen", "value": "2mgl", "unit": "mg/L"},
-            {"nutrient": "Nitrogen", "value": "~2", "unit": "mg/L"},
-            {"nutrient": "Nitrogen", "value": "approximately 2", "unit": "mg/L"},
-            {"nutrient": "Nitrogen", "value": "2 or 3", "unit": "mg/L"}  # assuming that in case of multiple values, we are ok with keeping the first one
+            {"nutrient": "Nitrogen", "quantity": {"value": "2", "unit": "mg/L"}},
+            {"nutrient": "Nitrogen", "quantity": {"value": "2 mg/L", "unit": "mg/L"}},
+            {"nutrient": "Nitrogen", "quantity": {"value": "2mg/L", "unit": "mg/L"}},
+            {"nutrient": "Nitrogen", "quantity": {"value": "~2", "unit": "mg/L"}},
+            {"nutrient": "Nitrogen", "quantity": {"value": "approximately 2", "unit": "mg/L"}},
+            {"nutrient": "Nitrogen", "quantity": {"value": "2 or 3", "unit": "mg/L"}}  # assuming that in case of multiple values, we are ok with keeping the first one
         ]
 
         self.invalid_nutrient_value_data = [
-            {"nutrient": "Nitrogen", "value": "mg/L", "unit": "mg/L"},
-            {"nutrient": "Nitrogen", "value": "", "unit": "mg/L"},
-            {"nutrient": "Nitrogen", "value": " ", "unit": "mg/L"},
-            {"nutrient": "Nitrogen", "value": None, "unit": "mg/L"},
-            {"nutrient": "Nitrogen", "value": True, "unit": "mg/L"},
-            {"nutrient": "Nitrogen", "value": ["2"], "unit": "mg/L"},
-            {"nutrient": "Nitrogen", "value": {"value": "2"}, "unit": "mg/L"},
+            {"nutrient": "Nitrogen", "quantity": {"value": "abc", "unit": "mg/L"}},
+            {"nutrient": "Nitrogen", "quantity": {"value": "", "unit": "mg/L"}},
+            {"nutrient": "Nitrogen", "quantity": {"value": " ", "unit": "mg/L"}},
+            {"nutrient": "Nitrogen", "quantity": {"value": None, "unit": "mg/L"}},
+            {"nutrient": "Nitrogen", "quantity": {"value": True, "unit": "mg/L"}},
+            {"nutrient": "Nitrogen", "quantity": {"value": ["2"], "unit": "mg/L"}},
+            {"nutrient": "Nitrogen", "quantity": {"value": {"value": "2"}, "unit": "mg/L"}},
         ]
 
     def test_valid_nutrient_value(self):
@@ -29,12 +29,12 @@ class TestNutrientValue(unittest.TestCase):
             with self.subTest(data=data):
                 nutrient_value = NutrientValue(**data)
                 self.assertEqual(nutrient_value.nutrient, "Nitrogen")
-                self.assertEqual(nutrient_value.value, 2.0)
-                self.assertEqual(nutrient_value.unit, "mg/L")
+                self.assertEqual(nutrient_value.quantity.value, 2.0)
+                self.assertEqual(nutrient_value.quantity.unit, "mg/L")
                 
                 # Ensure that we can safely convert the value to int and float
-                self.assertIsInstance(int(nutrient_value.value), int)
-                self.assertIsInstance(float(nutrient_value.value), float)
+                self.assertIsInstance(int(nutrient_value.quantity.value), int)
+                self.assertIsInstance(float(nutrient_value.quantity.value), float)
 
     def test_invalid_nutrient_value(self):
         for data in self.invalid_nutrient_value_data:
@@ -42,8 +42,8 @@ class TestNutrientValue(unittest.TestCase):
                 nutrient_value = NutrientValue(**data)
                 self.assertEqual(nutrient_value.nutrient, "Nitrogen")
                 # Invalid cases should result in value being None
-                self.assertIsNone(nutrient_value.value, f"Expected None for value with input {data['value']}")
-                self.assertEqual(nutrient_value.unit, "mg/L")
+                self.assertIsNone(nutrient_value.quantity.value, f"Expected None for value with input {data['quantity']['value']}")
+                self.assertEqual(nutrient_value.quantity.unit, "mg/L")
 
 
 class TestValue(unittest.TestCase):

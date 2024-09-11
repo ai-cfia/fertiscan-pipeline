@@ -18,76 +18,56 @@ class TestLanguageModel(unittest.TestCase):
         self.gpt = GPT(api_endpoint=gpt_api_endpoint, api_key=gpt_api_key, deployment_id=gpt_api_deployment)
 
         self.prompt = """
-        GreenGrow Fertilizers Inc.
-        123 Greenway Blvd
-        Springfield IL 62701 USA
-        www.greengrowfertilizers.com
-        +1 800 555 0199
-        AgroTech Industries Ltd.
-        456 Industrial Park Rd
-        Oakville ON L6H 5V4 Canada
-        www.agrotechindustries.com
-        +1 416 555 0123
-        SuperGrow 20-20-20 
-        Registration Number F12345678
-        Lot L987654321
-        25 kg
-        55 lb
-        1.2 g/cm³
-        20.8 L
-        Warranty: Guaranteed analysis of nutrients.
-        Total Nitrogen (N) 20%
-        Available Phosphate (P2O5) 20%
-        Soluble Potash (K2O) 20%
-        Analyse Garantie.
-        Azote total (N) 20%
-        Phosphate assimilable (P2O5) 20%
-        Potasse soluble (K2O) 20%
-        Micronutrients:
-        Iron (Fe) 0.10%
-        Zinc (Zn) 0.05%
-        Manganese (Mn) 0.05%
-        Ingredients (en):
-        Bone meal 5%
-        Seaweed extract 3%
-        Humic acid 2%
-        Clay
-        Sand
-        Perlite
-        Ingredients (fr):
-        Farine d'os 5%
-        Extrait d'algues 3%
-        Acide humique 2%
-        Argile
-        Sable
-        Perlite
-        Specifications:
-        Humidity 10%
-        pH 6.5
-        Solubility 100%
-        Precautions:
-        Keep out of reach of children.
-        Avoid contact with skin and eyes.
-        Instructions:
-        1. Dissolve 50g in 10L of water.
-        2. Apply every 2 weeks.
-        3. Store in a cool, dry place.
-        Cautions:
-        Wear protective gloves when handling.
-        First Aid:
-        In case of contact with eyes, rinse immediately with plenty of water and seek medical advice.
-        En cas de contact avec les yeux, rincer immédiatement à grande eau et consulter un médecin.
-        Précautions:
-        Tenir hors de portée des enfants.
-        Éviter le contact avec la peau et les yeux.
-        Instructions:
-        1. Dissoudre 50g dans 10L d'eau.
-        2. Appliquer toutes les 2 semaines.
-        3. Conserver dans un endroit frais et sec.
-        Cautions:
-        Porter des gants de protection lors de la manipulation.
-        First Aid:
-        En cas de contact avec les yeux, rincer immédiatement à grande eau et consulter un médecin.
+        GreenGrow Inc.  
+        123 Green Road, Farmville, State, 12345  
+        Website: www.greengrow.com  
+        Phone: 123-456-7890
+
+        Manufactured by:  
+        AgriSupply Co.  
+        456 Supply Lane, AgriTown, State, 67890  
+        Website: www.agrisupply.com  
+        Phone: 987-654-3210
+
+        Product Name: GreenGrow Fertilizer 20-20-20  
+        Registration Number: FG123456  
+        Lot Number: LOT20240901  
+        Weight: 50 kg  
+        Density: 1.5 g/cm³  
+        Volume: 33.3 L  
+        NPK Ratio: 20-20-20
+
+        Guaranteed Analysis (English)  
+        - Total Nitrogen (N) 20% w/w Registration No: RN123  
+        - Available Phosphate (P₂O₅) 20% w/w Registration No: RN124  
+        - Soluble Potash (K₂O) 20% w/w Registration No: RN125
+
+        Analyse Garantie (Français)  
+        - Azote total (N) 20% p/p Numéro d'enregistrement: RN126  
+        - Phosphate assimilable (P₂O₅) 20% p/p Numéro d'enregistrement: RN127  
+        - Potasse soluble (K₂O) 20% p/p Numéro d'enregistrement: RN128
+
+        Ingredients (English):  
+        - Organic matter 15% Registration No: RN129
+
+        Ingrédients (Français):  
+        - Matière organique 15% Numéro d'enregistrement: RN130
+
+        Cautions:  
+        - Keep out of reach of children.  
+        - Store in a cool, dry place.
+
+        Précautions:  
+        - Garder hors de la portée des enfants.  
+        - Conserver dans un endroit frais et sec.
+
+        Instructions (English):  
+        - Apply evenly across the field at a rate of 5 kg per hectare.  
+        - Water thoroughly after application.
+
+        Instructions (Français):  
+        - Appliquer uniformément sur le champ à raison de 5 kg par hectare.  
+        - Arroser abondamment après l'application.
         """
     
     def check_json(self, extracted_info):
