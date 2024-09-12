@@ -3,44 +3,13 @@ from dspy import Prediction
 import dspy.adapters
 import dspy.utils
 
+from pipeline.inspection import FertilizerInspection
+
 MODELS_WITH_RESPONSE_FORMAT = [
-    "ailab-llm",
-    "ailab-llm-gpt-4o"
+    "gpt-4o"
 ]  # List of models that support the response_format option
 
-SPECIFICATION = """
-Keys:
-"company_name"
-"company_address"
-"company_website"
-"company_phone_number"
-"manufacturer_name"
-"manufacturer_address"
-"manufacturer_website"
-"manufacturer_phone_number"
-"fertiliser_name"
-"registration_number" (a series of letters and numbers)
-"lot_number"
-"weight" (array of objects with "value", and "unit")
-"density" (an object with "value", and "unit")
-"volume" (an object with "value", and "unit")
-"npk" (format: "number-number-number") **important
-"guaranteed_analysis" (array of objects with "nutrient", "value", and "unit") **important
-"warranty"
-"cautions_en"  (array of strings)
-"instructions_en" (array of strings)
-"micronutrients_en" (array of objects with "nutrient", "value", and "unit")
-"ingredients_en" (array of objects with "nutrient", "value", and "unit")
-"specifications_en" (array of objects with "humidity", "ph", and "solubility")
-"first_aid_en"  (array of strings)
-"cautions_fr" (array of strings)
-"instructions_fr" (array of strings)
-"micronutrients_fr" (array of objects with "nutrient", "value", and "unit")
-"ingredients_fr" (array of objects with "nutrient", "value", and "unit")
-"specifications_fr" (array of objects with "humidity", "ph", and "solubility")
-"first_aid_fr" (array of strings)
-
-Requirements:
+REQUIREMENTS = """
 The content of keys with the suffix _en must be in English.
 The content of keys with the suffix _fr must be in French.
 Translation of the text is prohibited.
@@ -56,7 +25,8 @@ class ProduceLabelForm(dspy.Signature):
     """
     
     text = dspy.InputField(desc="The text of the fertilizer label extracted using OCR.")
-    specification = dspy.InputField(desc="The specification containing the fields to highlight and their requirements.")
+    json_schema = dspy.InputField(desc="The JSON schema of the object to be returned.")
+    requirements = dspy.InputField(desc="The instructions and guidelines to follow.")
     inspection = dspy.OutputField(desc="Only a complete JSON.")
 
 class GPT:
@@ -71,8 +41,6 @@ class GPT:
         max_token = 12000
         api_version = "2024-02-01"
         if deployment_id == MODELS_WITH_RESPONSE_FORMAT[0]:
-            max_token = 3500
-        elif deployment_id == MODELS_WITH_RESPONSE_FORMAT[1]:
             max_token = 4096
             api_version="2024-02-15-preview"
 
@@ -87,9 +55,10 @@ class GPT:
             response_format=response_format,
         )
 
-    def create_inspection(self, prompt) -> Prediction:
+    def create_inspection(self, text) -> Prediction:
         with dspy.context(lm=self.dspy_client, experimental=True):
+            json_schema = FertilizerInspection.model_json_schema()
             signature = dspy.ChainOfThought(ProduceLabelForm)
-            prediction = signature(specification=SPECIFICATION, text=prompt)
+            prediction = signature(text=text, json_schema=json_schema, requirements=REQUIREMENTS)
 
         return prediction
