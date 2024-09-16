@@ -30,26 +30,20 @@
     "nutrients": [
       {
         "nutrient": "Total Nitrogen (N)",
-        "quantity": {
-          "value": 20,
-          "unit": "%"
-        },
+        "value": 20,
+        "unit": "%",
         "registration_number": "RN123"
       },
       {
         "nutrient": "Available Phosphate (P2O5)",
-        "quantity": {
-          "value": 20,
-          "unit": "%"
-        },
+        "value": 20,
+        "unit": "%",
         "registration_number": "RN124"
       },
       {
         "nutrient": "Soluble Potash (K2O)",
-        "quantity": {
-          "value": 20,
-          "unit": "%"
-        },
+        "value": 20,
+        "unit": "%",
         "registration_number": "RN125"
       }
     ]
@@ -59,26 +53,20 @@
     "nutrients": [
       {
         "nutrient": "Azote total (N)",
-        "quantity": {
-          "value": 20,
-          "unit": "%"
-        },
+        "value": 20,
+        "unit": "%",
         "registration_number": "RN126"
       },
       {
         "nutrient": "Phosphate assimilable (P2O5)",
-        "quantity": {
-          "value": 20,
-          "unit": "%"
-        },
+        "value": 20,
+        "unit": "%",
         "registration_number": "RN127"
       },
       {
         "nutrient": "Potasse soluble (K2O)",
-        "quantity": {
-          "value": 20,
-          "unit": "%"
-        },
+        "value": 20,
+        "unit": "%",
         "registration_number": "RN128"
       }
     ]
@@ -102,20 +90,16 @@
   "ingredients_en": [
     {
       "nutrient": "Organic matter",
-      "quantity": {
-        "value": 15,
-        "unit": "%"
-      },
+      "value": 15,
+      "unit": "%",
       "registration_number": "RN129"
     }
   ],
   "ingredients_fr": [
     {
       "nutrient": "Matière organique",
-      "quantity": {
-        "value": 15,
-        "unit": "%"
-      },
+      "value": 15,
+      "unit": "%",
       "registration_number": "RN130"
     }
   ]

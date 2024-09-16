@@ -29,7 +29,8 @@ class Value(BaseModel):
 
 class NutrientValue(BaseModel):
     nutrient: str
-    quantity: Optional[Value] = None
+    value: Optional[float] = Field(..., description='The measured amount of the nutrient, represented as a numerical value')
+    unit: Optional[str] = Field(..., description='The unit of measurement for the nutrient quantity, such as %, mg/kg, etc.')
     registration_number: Optional[str] = None
 
     @field_validator('value', mode='before', check_fields=False)
@@ -41,7 +42,7 @@ class NutrientValue(BaseModel):
         elif isinstance(v, (str)):
             return extract_first_number(v)
         return None
-    
+
 class GuaranteedAnalysis(BaseModel):
     title: Optional[str] = None
     nutrients: List[NutrientValue] = []
