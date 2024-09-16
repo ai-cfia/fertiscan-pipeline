@@ -48,13 +48,13 @@ class TestPipeline(unittest.TestCase):
 
     def test_analyze(self):
         # Run the analyze function
-        form = analyze(self.label_storage, self.ocr, self.gpt, log_dir_path=self.log_dir_path)
+        inspection = analyze(self.label_storage, self.ocr, self.gpt, log_dir_path=self.log_dir_path)
         
         # Perform assertions
-        self.assertIsInstance(form, FertilizerInspection)
-        self.assertIn(Value(value='25', unit='kg'), form.weight)
-        self.assertGreater(levenshtein_similarity(form.company_name, "TerraLink"), 0.95)
-        self.assertGreater(levenshtein_similarity(form.npk, "10-52-0"), 0.90)
+        self.assertIsInstance(inspection, FertilizerInspection, inspection)
+        self.assertIn(Value(value='25', unit='kg'), inspection.weight, inspection)
+        self.assertGreater(levenshtein_similarity(inspection.manufacturer_name, "TerraLink"), 0.95, inspection)
+        self.assertGreater(levenshtein_similarity(inspection.npk, "10-52-0"), 0.90, inspection)
 
         # Ensure logs are created and then deleted
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

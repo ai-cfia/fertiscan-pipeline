@@ -39,6 +39,10 @@ class TestLanguageModel(unittest.TestCase):
         Total Nitrogen (N) 20%
         Available Phosphate (P2O5) 20%
         Soluble Potash (K2O) 20%
+        Analyse Garantie.
+        Azote total (N) 20%
+        Phosphate assimilable (P2O5) 20%
+        Potasse soluble (K2O) 20%
         Micronutrients:
         Iron (Fe) 0.10%
         Zinc (Zn) 0.05%
