@@ -1,6 +1,6 @@
 import re
 from typing import List, Optional
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, Field, field_validator
 
 class npkError(ValueError):
     pass
@@ -46,15 +46,14 @@ class GuaranteedAnalysis(BaseModel):
     title: Optional[str] = None
     nutrients: List[NutrientValue] = []
 
-    @model_validator(mode='before')
-    def replace_none_with_empty_list(cls, values):
-        fields_to_check = [
-            'nutrients'
-        ]
-        for field in fields_to_check:
-            if values.get(field) is None:
-                values[field] = []
-        return values
+    @field_validator(
+        "nutrients",
+        mode="before",
+    )
+    def replace_none_with_empty_list(cls, v):
+        if v is None:
+            v = []
+        return v
 
 class Specification(BaseModel):
     humidity: Optional[float] = Field(..., alias='humidity')
@@ -104,17 +103,19 @@ class FertilizerInspection(BaseModel):
                 return None
         return v
 
-    @model_validator(mode='before')
-    def replace_none_with_empty_list(cls, values):
-        fields_to_check = [
-            'cautions_en', 'cautions_fr',
-            'instructions_en', 'instructions_fr',
-            'weight'
-        ]
-        for field in fields_to_check:
-            if values.get(field) is None:
-                values[field] = []
-        return values
+    @field_validator(
+        "cautions_en",
+        "cautions_fr",
+        "instructions_en",
+        "instructions_fr",
+        "weight",
+        mode="before",
+    )
+    def replace_none_with_empty_list(cls, v):
+        if v is None:
+            v = []
+        return v
+
 
     class Config:
         populate_by_name = True
