@@ -1,6 +1,6 @@
 import re
 from typing import List, Optional
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, Field, field_validator
 
 class npkError(ValueError):
     pass
@@ -40,6 +40,19 @@ class Value(BaseModel):
         elif isinstance(v, (str)):
             return extract_first_number(v)
         return None
+    
+class GuaranteedAnalysis(BaseModel):
+    title: Optional[str] = None
+    nutrients: List[NutrientValue] = []
+
+    @field_validator(
+        "nutrients",
+        mode="before",
+    )
+    def replace_none_with_empty_list(cls, v):
+        if v is None:
+            v = []
+        return v
 
 class Specification(BaseModel):
     humidity: Optional[float] = Field(..., alias='humidity')
@@ -72,20 +85,14 @@ class FertilizerInspection(BaseModel):
     density: Optional[Value] = None
     volume: Optional[Value] = None
     npk: Optional[str] = Field(None)
-    guaranteed_analysis: List[NutrientValue] = []
-    warranty: Optional[str] = None
+    guaranteed_analysis_en: Optional[GuaranteedAnalysis] = None
+    guaranteed_analysis_fr: Optional[GuaranteedAnalysis] = None
     cautions_en: List[str] = None
-    instructions_en: List[str] = []
-    micronutrients_en: List[NutrientValue] = []
-    ingredients_en: List[NutrientValue] = []
-    specifications_en: List[Specification] = []
-    first_aid_en: List[str] = None
     cautions_fr: List[str] = None
+    instructions_en: List[str] = []
     instructions_fr: List[str] = []
-    micronutrients_fr: List[NutrientValue] = []
+    ingredients_en: List[NutrientValue] = []
     ingredients_fr: List[NutrientValue] = []
-    specifications_fr: List[Specification] = []
-    first_aid_fr: List[str] = None
     
     @field_validator('npk', mode='before')
     def validate_npk(cls, v):
@@ -95,19 +102,19 @@ class FertilizerInspection(BaseModel):
                 return None
         return v
 
-    @model_validator(mode='before')
-    def replace_none_with_empty_list(cls, values):
-        fields_to_check = [
-            'cautions_en', 'first_aid_en', 'cautions_fr', 'first_aid_fr',
-            'instructions_en', 'micronutrients_en', 'ingredients_en',
-            'specifications_en', 'instructions_fr',
-            'micronutrients_fr', 'ingredients_fr',
-            'specifications_fr', 'guaranteed_analysis'
-        ]
-        for field in fields_to_check:
-            if values.get(field) is None:
-                values[field] = []
-        return values
+    @field_validator(
+        "cautions_en",
+        "cautions_fr",
+        "instructions_en",
+        "instructions_fr",
+        "weight",
+        mode="before",
+    )
+    def replace_none_with_empty_list(cls, v):
+        if v is None:
+            v = []
+        return v
+
 
     class Config:
         populate_by_name = True
