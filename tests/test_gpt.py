@@ -38,14 +38,14 @@ class TestLanguageModel(unittest.TestCase):
         NPK Ratio: 20-20-20
 
         Guaranteed Analysis (English)  
-        - Total Nitrogen (N) 20% w/w Registration No: RN123  
-        - Available Phosphate (P₂O₅) 20% w/w Registration No: RN124  
-        - Soluble Potash (K₂O) 20% w/w Registration No: RN125
+        - Total Nitrogen (N) 20% Registration No: RN123  
+        - Available Phosphate (P₂O₅) 20% Registration No: RN124  
+        - Soluble Potash (K₂O) 20% Registration No: RN125
 
         Analyse Garantie (Français)  
-        - Azote total (N) 20% p/p Numéro d'enregistrement: RN126  
-        - Phosphate assimilable (P₂O₅) 20% p/p Numéro d'enregistrement: RN127  
-        - Potasse soluble (K₂O) 20% p/p Numéro d'enregistrement: RN128
+        - Azote total (N) 20% Numéro d'enregistrement: RN126  
+        - Phosphate assimilable (P₂O₅) 20% Numéro d'enregistrement: RN127  
+        - Potasse soluble (K₂O) 20% Numéro d'enregistrement: RN128
 
         Ingredients (English):  
         - Organic matter 15% Registration No: RN129
