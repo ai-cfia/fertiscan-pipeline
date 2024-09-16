@@ -12,16 +12,16 @@
   "lot_number": "LOT20240901",
   "weight": [
     {
-      "value": "50",
+      "value": 50,
       "unit": "kg"
     }
   ],
   "density": {
-    "value": "1.5",
+    "value": 1.5,
     "unit": "g/cm³"
   },
   "volume": {
-    "value": "33.3",
+    "value": 33.3,
     "unit": "L"
   },
   "npk": "20-20-20",
@@ -30,17 +30,17 @@
     "nutrients": [
       {
         "nutrient": "Total Nitrogen (N)",
-        "value": "20",
+        "value": 20,
         "unit": "%"
       },
       {
         "nutrient": "Available Phosphate (P2O5)",
-        "value": "20",
+        "value": 20,
         "unit": "%"
       },
       {
         "nutrient": "Soluble Potash (K2O)",
-        "value": "20",
+        "value": 20,
         "unit": "%"
       }
     ]
@@ -50,17 +50,17 @@
     "nutrients": [
       {
         "nutrient": "Azote total (N)",
-        "value": "20",
+        "value": 20,
         "unit": "%"
       },
       {
         "nutrient": "Phosphate assimilable (P2O5)",
-        "value": "20",
+        "value": 20,
         "unit": "%"
       },
       {
         "nutrient": "Potasse soluble (K2O)",
-        "value": "20",
+        "value": 20,
         "unit": "%"
       }
     ]
@@ -68,17 +68,17 @@
   "ingredients_en":[
     {
       "nutrient":"Bone meal",
-      "value":"5",
+      "value":5,
       "unit":"%"
     },
     {
       "nutrient":"Seaweed extract",
-      "value":"3",
+      "value":3,
       "unit":"%"
     },
     {
       "nutrient":"Humic acid",
-      "value":"2",
+      "value":2,
       "unit":"%"
     },
     {
@@ -94,17 +94,17 @@
   "ingredients_fr":[
     {
       "nutrient":"Farine d'os",
-      "value":"5",
+      "value":5,
       "unit":"%"
     },
     {
       "nutrient":"Extrait d'algues",
-      "value":"3",
+      "value":3,
       "unit":"%"
     },
     {
       "nutrient":"Acide humique",
-      "value":"2",
+      "value":2,
       "unit":"%"
     },
     {
