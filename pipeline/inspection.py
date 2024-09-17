@@ -11,21 +11,6 @@ def extract_first_number(string: str) -> Optional[str]:
         if match:
             return match.group()
     return None
-
-class NutrientValue(BaseModel):
-    nutrient: str
-    value: Optional[float] = None
-    unit: Optional[str] = None
-
-    @field_validator('value', mode='before', check_fields=False)
-    def convert_value(cls, v):
-        if isinstance(v, bool):
-            return None
-        elif isinstance(v, (int, float)):
-            return str(v)
-        elif isinstance(v, (str)):
-            return extract_first_number(v)
-        return None
     
 class Value(BaseModel):
     value: Optional[float]
@@ -41,6 +26,23 @@ class Value(BaseModel):
             return extract_first_number(v)
         return None
     
+
+class NutrientValue(BaseModel):
+    nutrient: str
+    value: Optional[float] = Field(..., description='The measured amount of the nutrient, represented as a numerical value')
+    unit: Optional[str] = Field(..., description='The unit of measurement for the nutrient quantity, such as %, mg/kg, etc.')
+    registration_number: Optional[str] = None
+
+    @field_validator('value', mode='before', check_fields=False)
+    def convert_value(cls, v):
+        if isinstance(v, bool):
+            return None
+        elif isinstance(v, (int, float)):
+            return str(v)
+        elif isinstance(v, (str)):
+            return extract_first_number(v)
+        return None
+
 class GuaranteedAnalysis(BaseModel):
     title: Optional[str] = None
     nutrients: List[NutrientValue] = []

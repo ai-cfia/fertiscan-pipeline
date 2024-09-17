@@ -8,14 +8,14 @@ class TestNutrientValue(unittest.TestCase):
         self.valid_nutrient_value_data = [
             {"nutrient": "Nitrogen", "value": "2", "unit": "mg/L"},
             {"nutrient": "Nitrogen", "value": "2 mg/L", "unit": "mg/L"},
-            {"nutrient": "Nitrogen", "value": "2mgl", "unit": "mg/L"},
+            {"nutrient": "Nitrogen", "value": "2mg/L", "unit": "mg/L"},
             {"nutrient": "Nitrogen", "value": "~2", "unit": "mg/L"},
             {"nutrient": "Nitrogen", "value": "approximately 2", "unit": "mg/L"},
             {"nutrient": "Nitrogen", "value": "2 or 3", "unit": "mg/L"}  # assuming that in case of multiple values, we are ok with keeping the first one
         ]
 
         self.invalid_nutrient_value_data = [
-            {"nutrient": "Nitrogen", "value": "mg/L", "unit": "mg/L"},
+            {"nutrient": "Nitrogen", "value": "abc", "unit": "mg/L"},
             {"nutrient": "Nitrogen", "value": "", "unit": "mg/L"},
             {"nutrient": "Nitrogen", "value": " ", "unit": "mg/L"},
             {"nutrient": "Nitrogen", "value": None, "unit": "mg/L"},

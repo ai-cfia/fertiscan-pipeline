@@ -50,6 +50,7 @@ def analyze(label_storage: LabelStorage, ocr: OCR, gpt: GPT, log_dir_path: str =
     # Check the coninspectionity of the JSON
     inspection = FertilizerInspection(**raw_json)
 
+    inspection.model_dump_json
     # Clear the label cache
     label_storage.clear()
 
