@@ -53,7 +53,7 @@ class TestPipeline(unittest.TestCase):
         # Perform assertions
         self.assertIsInstance(inspection, FertilizerInspection, inspection)
         self.assertIn(Value(value='25', unit='kg'), inspection.weight, inspection)
-        self.assertGreater(levenshtein_similarity(inspection.manufacturer_name, "TerraLink"), 0.95, inspection)
+        self.assertGreater(levenshtein_similarity(inspection.company_name, "TerraLink"), 0.95, inspection)
         self.assertGreater(levenshtein_similarity(inspection.npk, "10-52-0"), 0.90, inspection)
 
         # Ensure logs are created and then deleted
