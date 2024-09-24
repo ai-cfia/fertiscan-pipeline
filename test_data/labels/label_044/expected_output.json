@@ -1,0 +1,100 @@
+{
+    "company_name": "Advanced Nutrients",
+    "company_address": "#109 - 31063 Wheel Avenue, Abbotsford, BC, Canada V2T 6H1",
+    "company_website": "http://www.AdvancedNutrients.com",
+    "company_phone_number": "1-800-640-9605",
+    "manufacturer_name": "Advanced Nutrients",
+    "manufacturer_address": "#104 - 1625 Heritage Street, Woodland WA, 98674, USA",
+    "manufacturer_website": null,
+    "manufacturer_phone_number": null,
+    "fertiliser_name": "Overdrive",
+    "registration_number": null,
+    "lot_number": null,
+    "weight": [
+      {
+        "value": 1.1,
+        "unit": "kg"
+      },
+      {
+        "value": 2.4,
+        "unit": "lbs"
+      }
+    ],
+    "density": {
+      "value": null,
+      "unit": null
+    },
+    "volume": {
+      "value": 1,
+      "unit": "L"
+    },
+    "npk": "1-5-4",
+    "guaranteed_analysis_en": {
+      "title": "GUARANTEED ANALYSIS",
+      "nutrients": [
+        {
+          "nutrient": "Total Nitrogen (N)",
+          "value": 1,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Nitrate Nitrogen",
+          "value": 1,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Available Phosphate (P2O5)",
+          "value": 5,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Soluble Potash (K2O)",
+          "value": 4,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Magnesium (Mg)",
+          "value": 1,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Water Soluble Magnesium (Mg)",
+          "value": 0.92,
+          "unit": "%"
+        }
+      ]
+    },
+    "guaranteed_analysis_fr": {
+      "title": null,
+      "nutrients": null
+    },
+    "ingredients_en": [
+      {
+        "ingredient": "Magnesium nitrate",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "magnesium phosphate",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "monopotassium phosphate",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "potassium nitrate",
+        "value": null,
+        "unit": null
+      }
+    ],
+    "ingredients_fr": null,
+    "cautions_en": null,
+    "cautions_fr": null,
+    "instructions_en": [
+      "Overdrive is specially designed for use with all hydroponic growing media, including coco coir, as well as continuous liquid-feed growing systems such as aeroponics, drip irrigation and emitters, NFT, flood and drain, and deep water culture."
+    ],
+    "instructions_fr": null
+  }
