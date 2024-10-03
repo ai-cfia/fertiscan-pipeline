@@ -4,10 +4,10 @@ import json
 import shutil
 import datetime
 import csv
-from typing import Dict, List, Union
+import pydantic
 
 from dotenv import load_dotenv
-from pipeline import analyze, LabelStorage, OCR, GPT
+from pipeline import analyze, LabelStorage, OCR, GPT, FertilizerInspection
 from tests import levenshtein_similarity
 
 ACCURACY_THRESHOLD = 80.0
@@ -28,13 +28,19 @@ def validate_environment_variables() -> None:
 def classify_test_result(score: float) -> str:
     """Classify test results as Pass or Fail based on accuracy score."""
     return "Pass" if score >= ACCURACY_THRESHOLD else "Fail"
-
-def load_json_file(file_path: str) -> Dict:
-    """Load and return JSON content from a file."""
+    
+def load_and_validate_json_inspection_file(file_path: str) -> dict:
+    """Load JSON content from a file and validate it against the schema."""
     with open(file_path, 'r') as file:
-        return json.load(file)
+        data = json.load(file)
+    try:
+        # Validate against the current schema
+        FertilizerInspection.model_validate(data, strict=True)
+    except pydantic.ValidationError as e:
+        print(f"Warning: Validation error in {file_path}.: This inspection JSON does not conform to the current inspection schema.\n")
+    return data
 
-def extract_leaf_fields(data: Union[dict, list], parent_key: str = '') -> Dict[str, Union[str, int, float, bool, None]]:
+def extract_leaf_fields(data: dict| list, parent_key: str = '') -> dict[str, str | int | float | bool | None]:
     """Extract all leaf fields from nested dictionaries and lists."""
     leaves = {}
 
@@ -47,24 +53,29 @@ def extract_leaf_fields(data: Union[dict, list], parent_key: str = '') -> Dict[s
                 leaves[new_key] = value
     elif isinstance(data, list):
         for index, item in enumerate(data):
-            list_key = f"{parent_key}[{index}]"
-            leaves.update(extract_leaf_fields(item, list_key))
+            list_key = f"{parent_key}[{index}]" if parent_key else f"[{index}]"
+            if isinstance(item, (dict, list)):
+                leaves.update(extract_leaf_fields(item, list_key))
+            else:
+                leaves[list_key] = item
 
     return leaves
 
 class TestCase:
-    def __init__(self, image_paths: List[str], expected_json_path: str):
+    def __init__(self, image_paths: list[str], expected_json_path: str):
         """Initialize a test case with image paths and the expected JSON output path."""
-        self.original_image_paths = image_paths
-        self.image_paths = self._create_image_copies(image_paths)
-        self.expected_json_path = expected_json_path
-        self.actual_json_path = self._generate_output_path()
-        self.results: Dict[str, float] = {}
-        self.label_storage = self._initialize_label_storage()
-        self.ocr = self._initialize_ocr()
-        self.gpt = self._initialize_gpt()
+        self.original_image_paths : list[str] = image_paths
+        self.image_paths: list[str] = self._create_image_copies(image_paths) # because the pipeline automatically deletes images when processing them
+        self.expected_json_path: str = expected_json_path
+        self.expected_fields: dict[str, str | int | float | bool | None] = {}
+        self.actual_json_path : str = self._generate_output_path()
+        self.actual_fields: dict[str, str | int | float | bool | None] = {}
+        self.results: dict[str, float] = {}
+        self.label_storage: LabelStorage = self._initialize_label_storage()
+        self.ocr: OCR = self._initialize_ocr()
+        self.gpt: GPT = self._initialize_gpt()
 
-    def _create_image_copies(self, image_paths: List[str]) -> List[str]:
+    def _create_image_copies(self, image_paths: list[str]) -> list[str]:
         """Create copies of the input images to prevent deletion of original files."""
         return [self._copy_image(path) for path in image_paths]
 
@@ -77,9 +88,7 @@ class TestCase:
 
     def _generate_output_path(self) -> str:
         """Generate a timestamped path for the actual output JSON."""
-        timestamp = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-        os.makedirs("test_outputs", exist_ok=True)
-        return os.path.join("test_outputs", f'actual_output_{timestamp}.json')
+        return self.expected_json_path.replace("expected", "actual")
 
     def _initialize_label_storage(self) -> LabelStorage:
         """Initialize and populate LabelStorage with image paths."""
@@ -105,6 +114,10 @@ class TestCase:
         """Run performance and accuracy tests for the pipeline."""
         self._run_performance_test()
         self._run_accuracy_test()
+        
+        # clean up the actual output .json files
+        if os.path.exists(self.actual_json_path):
+            os.remove(self.actual_json_path)
 
     def _run_performance_test(self) -> None:
         """Measure the time taken to run the pipeline analysis."""
@@ -118,18 +131,18 @@ class TestCase:
         """Calculate and store the accuracy of the pipeline's output."""
         self.results['accuracy'] = self._calculate_levenshtein_accuracy()
 
-    def _calculate_levenshtein_accuracy(self) -> Dict[str, float]:
+    def _calculate_levenshtein_accuracy(self) -> dict[str, float]:
         """Calculate Levenshtein accuracy per field between expected and actual output."""
-        expected_fields = extract_leaf_fields(load_json_file(self.expected_json_path))
-        actual_fields = extract_leaf_fields(load_json_file(self.actual_json_path))
+        self.expected_fields = extract_leaf_fields(load_and_validate_json_inspection_file(self.expected_json_path))
+        self.actual_fields = extract_leaf_fields(load_and_validate_json_inspection_file(self.actual_json_path))
 
         return {
-            field_name: levenshtein_similarity(str(field_value), str(actual_fields.get(field_name)))
-            for field_name, field_value in expected_fields.items()
+            field_name: levenshtein_similarity(str(field_value), str(self.actual_fields.get(field_name)))
+            for field_name, field_value in self.expected_fields.items()
         }
 
 class TestRunner:
-    def __init__(self, test_cases: List[TestCase]):
+    def __init__(self, test_cases: list[TestCase]):
         """Initialize the test runner with a list of test cases."""
         self.test_cases = test_cases
 
@@ -153,15 +166,13 @@ class TestRunner:
         os.makedirs("reports", exist_ok=True)
         return os.path.join("reports", f"test_results_{timestamp}.csv")
 
-    def _get_csv_header(self) -> List[str]:
+    def _get_csv_header(self) -> list[str]:
         """Return the CSV header row."""
         return ["Test Case", "Field Name", "Accuracy Score", "Expected Value", "Actual Value", "Pass/Fail", "Pipeline Speed (seconds)"]
 
     def _write_test_results(self, writer: csv.writer) -> None:
         """Write the test results for each test case to the CSV file."""
         for i, test_case in enumerate(self.test_cases, 1):
-            expected_fields = extract_leaf_fields(load_json_file(test_case.expected_json_path))
-            actual_fields = extract_leaf_fields(load_json_file(test_case.actual_json_path))
             performance = test_case.results['performance']
 
             for field_name, score in test_case.results['accuracy'].items():
@@ -169,21 +180,38 @@ class TestRunner:
                     f"{i}",
                     field_name,
                     f"{score:.2f}",
-                    expected_fields.get(field_name, ""),
-                    actual_fields.get(field_name, ""),
+                    test_case.expected_fields.get(field_name, ""),
+                    test_case.actual_fields.get(field_name, ""),
                     classify_test_result(score),
                     f"{performance:.4f}"
                 ])
 
-def find_test_cases(labels_folder: str) -> List[TestCase]:
-    """Find and create test cases from the labels folder."""
+def find_test_cases(labels_folder: str) -> list[TestCase]:
+    """Find and create test cases from the labels folder in an ordered manner."""
     test_cases = []
-    for root, _, files in os.walk(labels_folder):
-        image_paths = [os.path.join(root, f) for f in files if f.lower().endswith((".png", ".jpg"))]
-        expected_json_path = os.path.join(root, "expected_output.json")
+    # List all entries in the labels_folder
+    label_entries = os.listdir(labels_folder)
+    # Filter out directories that start with 'label_'
+    label_dirs = [
+        os.path.join(labels_folder, d)
+        for d in label_entries
+        if os.path.isdir(os.path.join(labels_folder, d)) and d.startswith("label_")
+    ]
+    # Sort the label directories
+    label_dirs.sort()
+    # Process each label directory
+    for label_dir in label_dirs:
+        files = os.listdir(label_dir)
+        image_paths = [
+            os.path.join(label_dir, f)
+            for f in files
+            if f.lower().endswith((".png", ".jpg"))
+        ]
+        expected_json_path = os.path.join(label_dir, "expected_output.json")
         if image_paths and os.path.exists(expected_json_path):
             test_cases.append(TestCase(image_paths, expected_json_path))
     return test_cases
+
 
 def main():
     """Main function to run the performance tests."""
