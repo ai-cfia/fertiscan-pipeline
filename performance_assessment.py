@@ -1,5 +1,3 @@
-# Requires Python 3.10 or newer
-
 import os
 import time
 import json
@@ -72,7 +70,10 @@ def calculate_accuracy(
     accuracy_results = {}
     for field_name, expected_value in expected_fields.items():
         actual_value = actual_fields.get(field_name, "FIELD_NOT_FOUND")
-        score = levenshtein_similarity(str(expected_value), str(actual_value))
+        if actual_value == "FIELD_NOT_FOUND":
+            score = 0.0
+        else:
+            score = levenshtein_similarity(str(expected_value), str(actual_value))
         pass_fail = "Pass" if score >= ACCURACY_THRESHOLD else "Fail"
         accuracy_results[field_name] = {
             'score': score,

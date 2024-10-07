@@ -1,196 +1,18 @@
-# test_script.py
-
+import json
 import unittest
 import os
-import json
-from unittest.mock import patch, mock_open
-import pydantic
-from typing import Optional
-from pydantic import BaseModel, field_validator
-
+import shutil
+import csv
+import tempfile
+from unittest.mock import patch, MagicMock
 from performance_assessment import (
-    validate_environment_variables,
-    classify_test_result,
-    load_and_validate_json_inspection_file,
     extract_leaf_fields,
-    TestCase,
-    TestRunner,
-    find_test_cases
+    find_test_cases,
+    calculate_accuracy,
+    run_test_case,
+    generate_csv_report,
+    main
 )
-
-from pipeline.inspection import FertilizerInspection, extract_first_number
-
-class TestValidateEnvironmentVariables(unittest.TestCase):
-    @patch.dict(os.environ, {
-        "AZURE_API_ENDPOINT": "endpoint",
-        "AZURE_API_KEY": "key",
-        "AZURE_OPENAI_ENDPOINT": "endpoint",
-        "AZURE_OPENAI_KEY": "key",
-        "AZURE_OPENAI_DEPLOYMENT": "deployment"
-    })
-    def test_validate_environment_variables_all_set(self):
-        try:
-            validate_environment_variables()
-        except EnvironmentError:
-            self.fail("validate_environment_variables() raised EnvironmentError unexpectedly!")
-
-    @patch.dict(os.environ, {}, clear=True)
-    def test_validate_environment_variables_missing(self):
-        with self.assertRaises(EnvironmentError) as context:
-            validate_environment_variables()
-        self.assertIn("Missing required environment variables", str(context.exception))
-
-    @patch.dict(os.environ, {
-        "AZURE_API_ENDPOINT": "endpoint",
-        "AZURE_API_KEY": "key",
-        "AZURE_OPENAI_ENDPOINT": "endpoint"
-    }, clear=True)
-    def test_validate_some_environment_variables_missing(self):
-        with self.assertRaises(EnvironmentError) as context:
-            validate_environment_variables()
-        self.assertIn("Missing required environment variables", str(context.exception))
-        self.assertIn("AZURE_OPENAI_KEY", str(context.exception))
-        self.assertIn("AZURE_OPENAI_DEPLOYMENT", str(context.exception))
-
-
-class TestClassifyTestResult(unittest.TestCase):
-    @patch('performance_assessment.ACCURACY_THRESHOLD', 80.0)
-    def test_classify_test_result_pass(self):
-        self.assertEqual(classify_test_result(80.0), "Pass")
-        self.assertEqual(classify_test_result(90.0), "Pass")
-        self.assertEqual(classify_test_result(100.0), "Pass")
-
-    @patch('performance_assessment.ACCURACY_THRESHOLD', 80.0)
-    def test_classify_test_result_fail(self):
-        self.assertEqual(classify_test_result(79.9), "Fail")
-        self.assertEqual(classify_test_result(50.0), "Fail")
-        self.assertEqual(classify_test_result(0.0), "Fail")
-        self.assertEqual(classify_test_result(-10.0), "Fail")
-
-
-"""
-class MockNutrientValue(BaseModel):
-    nutrient: str
-    value: Optional[float] = None
-    unit: Optional[str] = None
-    
-    @field_validator('value', mode='before', check_fields=False)
-    def convert_value(cls, v):
-        if isinstance(v, bool):
-            return None
-        elif isinstance(v, (int, float)):
-            return str(v)
-        elif isinstance(v, (str)):
-            return extract_first_number(v)
-        return None
-
-class MockGuaranteedAnalysis(BaseModel):
-    title: Optional[str] = None
-    nutrients: list[MockNutrientValue] = []
-
-    @field_validator(
-        "nutrients",
-        mode="before",
-    )
-    def replace_none_with_empty_list(cls, v):
-        if v is None:
-            v = []
-        return v
-    
-class MockFertilizerInspection(FertilizerInspection):
-    company_name: Optional[str] = None
-    guaranteed_analysis: Optional[MockGuaranteedAnalysis] = None
-
-
-class TestLoadAndValidateJsonInspectionFile(unittest.TestCase):    
-
-    def test_load_json_inspection_file_valid(self):
-        test_data = {'key': 'value'}
-        json_content = json.dumps(test_data)
-        
-        # Use mock_open to simulate file operations
-        with patch('builtins.open', mock_open(read_data=json_content)) as mocked_file:
-            result = load_and_validate_json_inspection_file('dummy_path.json')
-            self.assertEqual(result, test_data)
-            mocked_file.assert_called_once_with('dummy_path.json', 'r')
-
-    def test_load_json_inspection_file_invalid_json(self):
-        invalid_json_content = '{"key": "value"'  # Missing closing brace
-        
-        with patch('builtins.open', mock_open(read_data=invalid_json_content)):
-            with self.assertRaises(json.JSONDecodeError):
-                load_and_validate_json_inspection_file('dummy_path.json')
-
-    def test_load_json_inspection_file_file_not_found(self):
-        # Simulate FileNotFoundError when attempting to open the file
-        with patch('builtins.open', side_effect=FileNotFoundError):
-            with self.assertRaises(FileNotFoundError):
-                load_and_validate_json_inspection_file('nonexistent_file.json')
-
-    def test_load_json_inspection_file_permission_error(self):
-        # Simulate PermissionError when attempting to open the file
-        with patch('builtins.open', side_effect=PermissionError):
-            with self.assertRaises(PermissionError):
-                load_and_validate_json_inspection_file('protected_file.json')
-
-    @patch('pipeline.inspection.FertilizerInspection', MockFertilizerInspection)
-    def test_load_json_inspection_file_validation_is_valid(self):
-        mock_data = {
-            "company_name": "Nature's aid",
-            "guaranteed_analysis": {
-                "title": "Analyse Garantie",
-                "nutrients": [
-                    {
-                        "nutrient": "extraits d'algues (ascophylle noueuse)",
-                        "value": 8.5,
-                        "unit": "%"
-                    },
-                    {
-                        "nutrient": "acide humique",
-                        "value": 0.6,
-                        "unit": "%"
-                    }
-                ]
-            }
-        }
-        json_content = json.dumps(mock_data)
-
-        with patch('builtins.open', mock_open(read_data=json_content)) as mocked_file:
-            result = load_and_validate_json_inspection_file('dummy_path.json')
-            self.assertEqual(result.company_name, "Nature's aid")
-            self.assertEqual(result.guaranteed_analysis.title, "Analyse Garantie")
-            self.assertEqual(result.guaranteed_analysis.nutrients[0].nutrient, "extraits d'algues (ascophylle noueuse)")
-            self.assertEqual(result.guaranteed_analysis.nutrients[0].value, 8.5)
-            self.assertEqual(result.guaranteed_analysis.nutrients[0].unit, "%")
-            self.assertEqual(result.guaranteed_analysis.nutrients[1].nutrient, "acide humique")
-            self.assertEqual(result.guaranteed_analysis.nutrients[1].value, 0.6)
-            self.assertEqual(result.guaranteed_analysis.nutrients[1].unit, "%")
-
-            mocked_file.assert_called_once_with('dummy_path.json', 'r')
-
-    @patch('pipeline.inspection.FertilizerInspection', MockFertilizerInspection)
-    def test_load_json_inspection_file_validation_is_invalid(self):
-        mock_data = {
-            "company_name": "Nature's aid",
-            "guaranteed_analysis": [
-                {
-                    "nutrients": "extraits d'algues (ascophylle noueuse)",
-                    "value": 8.5,
-                    "unit": "%"
-                },
-                {
-                    "nutrient": "acide humique",
-                    "value": 0.6,
-                    "unit": "%"
-                }
-            ]
-        }
-
-        json_content = json.dumps(mock_data)
-
-        with patch('builtins.open', mock_open(read_data=json_content)):
-            self.assertRaises(pydantic.ValidationError, load_and_validate_json_inspection_file('dummy_path.json'))
-"""
 
 class TestExtractLeafFields(unittest.TestCase):
     def test_extract_leaf_fields_simple_root_dict(self):
@@ -325,7 +147,233 @@ class TestExtractLeafFields(unittest.TestCase):
         actual_output = extract_leaf_fields(mock_input)
         self.assertEqual(actual_output, expected_output)
 
-if __name__ == '__main__':
+class TestFindTestCases(unittest.TestCase):
+
+    def setUp(self):
+        self.test_dir = "test_labels_folder"
+        os.makedirs(self.test_dir, exist_ok=True)
+
+    def tearDown(self):
+        shutil.rmtree(self.test_dir)
+
+    def create_test_structure(self, structure):
+        for path, files in structure.items():
+            dir_path = os.path.join(self.test_dir, path)
+            os.makedirs(dir_path, exist_ok=True)
+            for file_name, content in files.items():
+                with open(os.path.join(dir_path, file_name), 'w') as f:
+                    f.write(content)
+
+    def test_valid_structure(self):
+        structure = {
+            "label_001": {
+                "image001.png": "",
+                "image002.jpg": "",
+                "expected_output.json": "{}"
+            },
+            "label_002": {
+                "image001.png": "",
+                "expected_output.json": "{}"
+            },
+            "label_003": {
+                "image001.png": "",
+                "image002.jpg": "",
+                "expected_output.json": "{}"
+            }
+        }
+        self.create_test_structure(structure)
+        expected = [
+            (
+                [
+                    os.path.join(self.test_dir, "label_001", "image001.png"),
+                    os.path.join(self.test_dir, "label_001", "image002.jpg")
+                ],
+                os.path.join(self.test_dir, "label_001", "expected_output.json")
+            ),
+            (
+                [
+                    os.path.join(self.test_dir, "label_002", "image001.png")
+                ],
+                os.path.join(self.test_dir, "label_002", "expected_output.json")
+            ),
+            (
+                [
+                    os.path.join(self.test_dir, "label_003", "image001.png"),
+                    os.path.join(self.test_dir, "label_003", "image002.jpg")
+                ],
+                os.path.join(self.test_dir, "label_003", "expected_output.json")
+            )
+        ]
+        result = find_test_cases(self.test_dir)
+        self.assertEqual(result, expected)
+
+    def test_missing_expected_output(self):
+        structure = {
+            "label_001": {
+                "image001.png": "",
+                "image002.jpg": ""
+            }
+        }
+        self.create_test_structure(structure)
+        with self.assertRaises(FileNotFoundError):
+            find_test_cases(self.test_dir)
+
+    def test_no_image_files(self):
+        structure = {
+            "label_001": {
+                "expected_output.json": "{}"
+            }
+        }
+        self.create_test_structure(structure)
+        with self.assertRaises(FileNotFoundError):
+            find_test_cases(self.test_dir)
+
+    def test_empty_labels_folder(self):
+        with self.assertRaises(FileNotFoundError):
+            find_test_cases(self.test_dir)
+
+
+class TestCalculateAccuracy(unittest.TestCase):
+    def test_calculate_accuracy_perfect_score(self):
+        expected = {
+            "field_1": "value_1",
+            "field_2": "value_2"
+        }
+        actual = {
+            "field_1": "value_1",
+            "field_2": "value_2"
+        }
+        result = calculate_accuracy(expected, actual)
+        for field in result.values():
+            self.assertEqual(field['pass_fail'], "Pass")
+            self.assertEqual(field['score'], 100.0)
+
+    def test_calculate_accuracy_all_fail(self):
+        expected = {
+            "field_1": "value_1",
+            "field_2": "value_2"
+        }
+        actual = {
+            "field_1": "wrong_value",
+            "field_2": "another_wrong_value"
+        }
+        result = calculate_accuracy(expected, actual)
+        self.assertEqual(int(result['field_1']['score']), 27)
+        self.assertEqual(int(result['field_2']['score']), 15)
+
+
+    def test_calculate_accuracy_with_missing_field(self):
+        expected = {
+            "field_1": "value_1",
+            "field_2": "value_2"
+        }
+        actual = {
+            "field_1": "value_1",
+        }
+        result = calculate_accuracy(expected, actual)
+        self.assertEqual(int(result['field_1']['score']), 100)
+        self.assertEqual(int(result['field_2']['score']), 0)
+
+class TestRunTestCase(unittest.TestCase):
+    @patch("performance_assessment.LabelStorage")
+    @patch("performance_assessment.OCR")
+    @patch("performance_assessment.GPT")
+    @patch("performance_assessment.analyze")
+    def test_run_test_case(self, mock_analyze, MockGPT, MockOCR, MockLabelStorage):
+        # Setting up mock returns
+        mock_analyze.return_value.model_dump_json.return_value = json.dumps({
+            "field_1": "value_1",
+            "field_2": "value_2"
+        })
+        MockOCR.return_value = MagicMock()
+        MockGPT.return_value = MagicMock()
+        MockLabelStorage.return_value = MagicMock()
+        
+        # Create temporary image and expected JSON files
+        temp_image = tempfile.NamedTemporaryFile(delete=False, suffix=".png")
+        temp_json = tempfile.NamedTemporaryFile(delete=False, suffix=".json")
+        with open(temp_json.name, 'w') as f:
+            json.dump({"field_1": "value_1", "field_2": "value_2"}, f)
+        
+        result = run_test_case(1, [temp_image.name], temp_json.name)
+        
+        self.assertEqual(result['test_case_number'], 1)
+        self.assertIn('accuracy_results', result)
+        self.assertIn('performance', result)
+        for field in result['accuracy_results'].values():
+            self.assertEqual(field['pass_fail'], "Pass")
+
+        # Clean up temporary files
+        os.unlink(temp_image.name)
+        os.unlink(temp_json.name)
+
+
+class TestGenerateCSVReport(unittest.TestCase):
+    def setUp(self):
+        self.results = [
+            {
+                'test_case_number': 1,
+                'performance': 5.44,
+                'accuracy_results': {
+                    'field_1': {
+                        'score': 100.0,
+                        'expected_value': 'value_1',
+                        'actual_value': 'value_1',
+                        'pass_fail': 'Pass'
+                    },
+                    'field_2': {
+                        'score': 100.0,
+                        'expected_value': 'value_2',
+                        'actual_value': 'value_2',
+                        'pass_fail': 'Pass'
+                    }
+                }
+            }
+        ]
+        self.report_dir = tempfile.mkdtemp()
+
+    def tearDown(self):
+        shutil.rmtree(self.report_dir)
+
+    @patch("os.makedirs")
+    @patch("os.path.join", return_value=os.path.join(tempfile.gettempdir(), "test_results.csv"))
+    def test_generate_csv_report(self, mock_join, mock_makedirs):
+        # Generate the CSV report
+        generate_csv_report(self.results) # <- since we patched make_dirs, we don't need to clean up the directory
+        report_path = mock_join.return_value
+
+        # Check if the file was created
+        self.assertTrue(os.path.exists(report_path))
+
+        # Verify the contents of the CSV
+        with open(report_path, 'r') as f:
+            reader = csv.reader(f)
+            rows = list(reader)
+
+        # Check header
+        self.assertEqual(rows[0], [
+            "Test Case",
+            "Field Name",
+            "Pass/Fail",
+            "Accuracy Score",
+            "Pipeline Speed (seconds)",
+            "Expected Value",
+            "Actual Value"
+        ])
+
+        # Check data row
+        self.assertEqual(rows[1], [
+            '1',
+            'field_1',
+            'Pass',
+            '100.00',
+            '5.4400',
+            'value_1',
+            'value_1'
+        ])
+
+
+if __name__ == "__main__":
     unittest.main()
 
 
