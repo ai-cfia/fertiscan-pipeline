@@ -11,7 +11,6 @@ from performance_assessment import (
     calculate_accuracy,
     run_test_case,
     generate_csv_report,
-    main
 )
 
 class TestExtractLeafFields(unittest.TestCase):
