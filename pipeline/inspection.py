@@ -59,7 +59,7 @@ class GuaranteedAnalysis(BaseModel):
     def set_is_minimal(self):
         pattern = r'\bminim\w*\b'
         if self.title and re.search(pattern, self.title, re.IGNORECASE):
-            self.title_is_minimal = True
+            self.is_minimal = True
         return self
 
 class Specification(BaseModel):
