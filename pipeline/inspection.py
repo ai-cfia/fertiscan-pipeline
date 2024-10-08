@@ -44,7 +44,7 @@ class Value(BaseModel):
 class GuaranteedAnalysis(BaseModel):
     title: Optional[str] = None
     nutrients: List[NutrientValue] = []
-    title_is_minimal: bool = False
+    is_minimal: bool | None = None
 
     @field_validator(
         "nutrients",
@@ -56,7 +56,7 @@ class GuaranteedAnalysis(BaseModel):
         return v
     
     @model_validator(mode="after")
-    def set_title_is_minimal(self):
+    def set_is_minimal(self):
         pattern = r'\bminim\w*\b'
         if self.title and re.search(pattern, self.title, re.IGNORECASE):
             self.title_is_minimal = True
