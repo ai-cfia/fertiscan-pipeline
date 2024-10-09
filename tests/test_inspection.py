@@ -5,6 +5,7 @@ from pipeline.inspection import (
     NutrientValue,
     Specification,
     Value,
+    GuaranteedAnalysis,
 )
 
 
@@ -204,6 +205,32 @@ class TestNPKValidation(unittest.TestCase):
                 self.assertIsNone(
                     inspection.npk, f"Expected None for npk with input {npk}"
                 )
+
+class TestGuaranteedAnalysis(unittest.TestCase):
+    
+    def setUp(self):
+        self.nutrient_1 = NutrientValue(nutrient="Nitrogen", value="2", unit="mg/L")
+        self.nutrient_2 = NutrientValue(nutrient="Organic matter", value="15", unit="mg/L")
+
+    def test_set_is_minimal(self):
+        guaranteed_analysis = GuaranteedAnalysis(
+            title="Guaranteed minimum analysis",
+            nutrients=[self.nutrient_1, self.nutrient_2]
+        )
+        self.assertTrue(guaranteed_analysis.is_minimal)
+
+    def test_set_is_not_minimal(self):
+        guaranteed_analysis = GuaranteedAnalysis(
+            title="Guaranteed analysis",
+            nutrients=[self.nutrient_1, self.nutrient_2]
+        )
+        self.assertFalse(guaranteed_analysis.is_minimal)
+    
+    def test_is_minimal_in_none(self):
+        guaranteed_analysis = GuaranteedAnalysis(
+            nutrients=[self.nutrient_1, self.nutrient_2]
+        )
+        self.assertIsNone(guaranteed_analysis.is_minimal)
 
 
 class TestFertilizerInspectionListFields(unittest.TestCase):

@@ -1,8 +1,6 @@
 import re
 from typing import List, Optional
-
-from pydantic import BaseModel, Field, field_validator
-
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 class npkError(ValueError):
     pass
@@ -50,6 +48,7 @@ class Value(BaseModel):
 class GuaranteedAnalysis(BaseModel):
     title: Optional[str] = None
     nutrients: List[NutrientValue] = []
+    is_minimal: bool | None = None
 
     @field_validator(
         "nutrients",
@@ -59,6 +58,13 @@ class GuaranteedAnalysis(BaseModel):
         if v is None:
             v = []
         return v
+    
+    @model_validator(mode="after")
+    def set_is_minimal(self):
+        pattern = r'\bminim\w*\b'
+        if self.title:
+            self.is_minimal = re.search(pattern, self.title, re.IGNORECASE) is not None
+        return self
 
 
 class Specification(BaseModel):
