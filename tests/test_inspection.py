@@ -268,6 +268,35 @@ class TestFertilizerInspectionListFields(unittest.TestCase):
         self.assertEqual(inspection.ingredients_en, [])
         self.assertEqual(inspection.ingredients_fr, [])
         self.assertEqual(inspection.weight, [])
+        
+class TestFertilizerInspectionRegistrationNumber(unittest.TestCase):
+    def test_registration_number_with_less_digits(self):
+        instance = FertilizerInspection(registration_number="1234")
+        self.assertIsNone(instance.registration_number)
+
+    def test_registration_number_less_than_seven_digits(self):
+        instance = FertilizerInspection(registration_number="12345A")
+        self.assertIsNone(instance.registration_number)
+
+    def test_registration_number_seven_digits_no_letter(self):
+        instance = FertilizerInspection(registration_number="1234567")
+        self.assertIsNone(instance.registration_number)
+
+    def test_registration_number_seven_digits_with_lowercase_letter(self):
+        instance = FertilizerInspection(registration_number="1234567a")
+        self.assertIsNone(instance.registration_number)
+
+    def test_registration_number_correct_format(self):
+        instance = FertilizerInspection(registration_number="1234567A")
+        self.assertEqual(instance.registration_number, "1234567A")
+
+    def test_registration_number_extra_characters(self):
+        instance = FertilizerInspection(registration_number="12345678B")
+        self.assertIsNone(instance.registration_number)
+
+    def test_registration_number_mixed_format(self):
+        instance = FertilizerInspection(registration_number="12A34567B")
+        self.assertIsNone(instance.registration_number)
 
 
 if __name__ == "__main__":
