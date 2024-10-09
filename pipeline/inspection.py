@@ -5,19 +5,21 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 class npkError(ValueError):
     pass
 
+
 def extract_first_number(string: str) -> Optional[str]:
     if string is not None:
-        match = re.search(r'\d+(\.\d+)?', string)
+        match = re.search(r"\d+(\.\d+)?", string)
         if match:
             return match.group()
     return None
+
 
 class NutrientValue(BaseModel):
     nutrient: str
     value: Optional[float] = None
     unit: Optional[str] = None
 
-    @field_validator('value', mode='before', check_fields=False)
+    @field_validator("value", mode="before", check_fields=False)
     def convert_value(cls, v):
         if isinstance(v, bool):
             return None
@@ -26,12 +28,13 @@ class NutrientValue(BaseModel):
         elif isinstance(v, (str)):
             return extract_first_number(v)
         return None
-    
+
+
 class Value(BaseModel):
     value: Optional[float]
     unit: Optional[str]
 
-    @field_validator('value', mode='before', check_fields=False)
+    @field_validator("value", mode="before", check_fields=False)
     def convert_value(cls, v):
         if isinstance(v, bool):
             return None
@@ -40,7 +43,8 @@ class Value(BaseModel):
         elif isinstance(v, (str)):
             return extract_first_number(v)
         return None
-    
+
+
 class GuaranteedAnalysis(BaseModel):
     title: Optional[str] = None
     nutrients: List[NutrientValue] = []
@@ -62,12 +66,13 @@ class GuaranteedAnalysis(BaseModel):
             self.is_minimal = re.search(pattern, self.title, re.IGNORECASE) is not None
         return self
 
+
 class Specification(BaseModel):
-    humidity: Optional[float] = Field(..., alias='humidity')
-    ph: Optional[float] = Field(..., alias='ph')
+    humidity: Optional[float] = Field(..., alias="humidity")
+    ph: Optional[float] = Field(..., alias="ph")
     solubility: Optional[float]
 
-    @field_validator('humidity', 'ph', 'solubility', mode='before', check_fields=False)
+    @field_validator("humidity", "ph", "solubility", mode="before", check_fields=False)
     def convert_specification_values(cls, v):
         if isinstance(v, bool):
             return None
@@ -76,6 +81,7 @@ class Specification(BaseModel):
         elif isinstance(v, (str)):
             return extract_first_number(v)
         return None
+
 
 class FertilizerInspection(BaseModel):
     company_name: Optional[str] = None
@@ -101,11 +107,11 @@ class FertilizerInspection(BaseModel):
     instructions_fr: List[str] = []
     ingredients_en: List[NutrientValue] = []
     ingredients_fr: List[NutrientValue] = []
-    
-    @field_validator('npk', mode='before')
+
+    @field_validator("npk", mode="before")
     def validate_npk(cls, v):
         if v is not None:
-            pattern = re.compile(r'^\d+(\.\d+)?-\d+(\.\d+)?-\d+(\.\d+)?$')
+            pattern = re.compile(r"^\d+(\.\d+)?-\d+(\.\d+)?-\d+(\.\d+)?$")
             if not pattern.match(v):
                 return None
         return v
@@ -115,6 +121,8 @@ class FertilizerInspection(BaseModel):
         "cautions_fr",
         "instructions_en",
         "instructions_fr",
+        "ingredients_en",
+        "ingredients_fr",
         "weight",
         mode="before",
     )
@@ -122,7 +130,6 @@ class FertilizerInspection(BaseModel):
         if v is None:
             v = []
         return v
-
 
     class Config:
         populate_by_name = True
