@@ -62,8 +62,8 @@ class GuaranteedAnalysis(BaseModel):
     @model_validator(mode="after")
     def set_is_minimal(self):
         pattern = r'\bminim\w*\b'
-        if self.title and re.search(pattern, self.title, re.IGNORECASE):
-            self.is_minimal = True
+        if self.title:
+            self.is_minimal = re.search(pattern, self.title, re.IGNORECASE) is not None
         return self
 
 

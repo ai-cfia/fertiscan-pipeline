@@ -224,7 +224,12 @@ class TestGuaranteedAnalysis(unittest.TestCase):
             title="Guaranteed analysis",
             nutrients=[self.nutrient_1, self.nutrient_2]
         )
-
+        self.assertFalse(guaranteed_analysis.is_minimal)
+    
+    def test_is_minimal_in_none(self):
+        guaranteed_analysis = GuaranteedAnalysis(
+            nutrients=[self.nutrient_1, self.nutrient_2]
+        )
         self.assertIsNone(guaranteed_analysis.is_minimal)
 
 
