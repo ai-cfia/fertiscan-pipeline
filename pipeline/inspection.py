@@ -138,6 +138,19 @@ class FertilizerInspection(BaseModel):
             if re.match(pattern, v):
                 return v
         return None
+    
+    @field_validator("company_phone_number", "manufacturer_phone_number", mode="before")
+    def check_phone_number_format(cls, v):
+        if v is not None:
+            phone_number_pattern = r"(\+?1[\s-]?)?(\(?\d{3}\)?)[\s-]?(\d{3})[\s-]?(\d{4})"
+            first_matched_phone_number = re.search(phone_number_pattern, v)
+            if phone_number_pattern:
+                area_code = first_matched_phone_number.group(2).replace('(', '').replace(')', '')
+                middle_digits = first_matched_phone_number.group(3)
+                last_digits = first_matched_phone_number.group(4)
+                
+                return f"{area_code}-{middle_digits}-{last_digits}"
+        return None
 
     class Config:
         populate_by_name = True
