@@ -44,7 +44,6 @@ class ProduceLabelForm(dspy.Signature):
     """
     
     text : str = dspy.InputField(desc="The text of the fertilizer label extracted using OCR.")
-    # json_schema : str = dspy.InputField(desc="The JSON schema to follow.")
     requirements : str = dspy.InputField(desc="The instructions and guidelines to follow.")
     inspection : FertilizerInspection = dspy.OutputField(desc="The inspection results.")
 
@@ -57,21 +56,18 @@ class GPT:
         if not config:
             raise ValueError(f"The deployment_id {deployment_id} is not supported.")
         
-        self.dspy_client = dspy.AzureOpenAI(
-            user="fertiscan",
+        self.lm = dspy.LM(
+            model=f"azure/{deployment_id}",
             api_base=api_endpoint,
             api_key=api_key,
-            deployment_id=deployment_id,
-            **config
-            # api_version=config.get("api_version"),
-            # max_tokens=config.get("max_token"),
-            # response_format=config.get("response_format"),
+            max_tokens=config["max_tokens"],
+            api_version=config["api_version"],
+            # response_format=config["response_format"]
         )
 
     def create_inspection(self, text) -> Prediction:
-        with dspy.context(lm=self.dspy_client, experimental=True):
+        with dspy.context(lm=self.lm, experimental=True):
             predictor = dspy.TypedChainOfThought(ProduceLabelForm)
-            json_schema = FertilizerInspection.model_json_schema()
-            prediction = predictor(text=text, json_schema=json_schema, requirements=REQUIREMENTS)
+            prediction = predictor(text=text, requirements=REQUIREMENTS)
 
         return prediction
