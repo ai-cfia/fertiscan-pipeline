@@ -1,0 +1,102 @@
+{
+    "company_name": "Matériaux Paysagers Savaria Ltée",
+    "company_address": "950, de Lorraine Boucherville (Québec) J48 SE4",
+    "company_website": "http://www.savaria.ca",
+    "company_phone_number": "450 655-6147",
+    "manufacturer_name": null,
+    "manufacturer_address": null,
+    "manufacturer_website": null,
+    "manufacturer_phone_number": null,
+    "fertiliser_name": "COMPOST DE CREVETTES (3300)",
+    "registration_number": null,
+    "lot_number": null,
+    "weight": [
+      {
+        "value": null,
+        "unit": "kg"
+      },
+      {
+        "value": null,
+        "unit": "lb"
+      }
+    ],
+    "density": {
+      "value": null,
+      "unit": null
+    },
+    "volume": {
+      "value": null,
+      "unit": null
+    },
+    "npk": null,
+    "guaranteed_analysis_en": {
+      "title": null,
+      "nutrients": null
+    },
+    "guaranteed_analysis_fr": {
+      "title": "Guaranteed Analysis",
+      "nutrients": [
+        {
+          "nutrient": "PH",
+          "value": 6,
+          "unit": null
+        },
+        {
+          "nutrient": "Matière organique (Walkley-Black)",
+          "value": 60,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Azote total N (base tel que reçu)",
+          "value": 0.55,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Phosphore total P205 (base tel que reçu)",
+          "value": 0.7,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Potassium total K20 (base tel que reçu)",
+          "value": 0.1,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Magnésium total Mg (base tel que reçu)",
+          "value": 0.1,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Calcium total Ca (base tel que reçu)",
+          "value": 1.55,
+          "unit": "%"
+        }
+      ]
+    },
+    "ingredients_en": null,
+    "ingredients_fr": [
+      {
+        "ingredient": "Canadian sphagnum peat moss",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "compost",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "shrimp residues",
+        "value": null,
+        "unit": null
+      }
+    ],
+    "cautions_en": null,
+    "cautions_fr": null,
+    "instructions_en": null,
+    "instructions_fr": [
+      "Fertilisation d'une pelouse établie : terreautage 1 m3 / 150 m2",
+      "Fertilisation du site d'établissement d'une nouvelle pelouse : 2 à 5 cm incorporés sur 15 cm de profondeur.",
+      "Fertilisation d'un lit de plantation de potager, vivaces et arbustes : 3 ou 6 cm incorporés sur 15 cm de profondeur plus ou moins. Ne pas utiliser plus d'un an sur deux au taux de 6 cm."
+    ]
+  }
