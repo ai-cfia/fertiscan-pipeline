@@ -5,14 +5,24 @@ import dspy.utils
 
 from pipeline.inspection import FertilizerInspection
 
+from phoenix.otel import register
+from openinference.instrumentation.dspy import DSPyInstrumentor
+
+tracer_provider = register(
+  project_name="gpt-ferti", # Default is 'default'
+  endpoint="http://0.0.0.0:4317", # gRPC endpoint given by Phoenix when starting the server (default is "http://localhost:4317")
+)
+
+DSPyInstrumentor().instrument(tracer_provider=tracer_provider)
+
 SUPPORTED_MODELS = {
     "gpt-3.5-turbo": {
-        "max_token": 12000,
+        "max_tokens": 12000,
         "api_version": "2024-02-01",
         "response_format": { "type": "json_object" },
     },
     "gpt-4o": {
-        "max_token": None,
+        "max_tokens": None,
         "api_version": "2024-02-15-preview",
         "response_format": { "type": "json_object" },
     }
@@ -33,10 +43,10 @@ class ProduceLabelForm(dspy.Signature):
     Your response should be accurate, intelligible, information in JSON, and contain all the text from the provided text.
     """
     
-    text = dspy.InputField(desc="The text of the fertilizer label extracted using OCR.")
-    json_schema = dspy.InputField(desc="The JSON schema of the object to be returned.")
-    requirements = dspy.InputField(desc="The instructions and guidelines to follow.")
-    inspection = dspy.OutputField(desc="Only a complete JSON.")
+    text : str = dspy.InputField(desc="The text of the fertilizer label extracted using OCR.")
+    # json_schema : str = dspy.InputField(desc="The JSON schema to follow.")
+    requirements : str = dspy.InputField(desc="The instructions and guidelines to follow.")
+    inspection : FertilizerInspection = dspy.OutputField(desc="The inspection results.")
 
 class GPT:
     def __init__(self, api_endpoint, api_key, deployment_id):
@@ -52,16 +62,16 @@ class GPT:
             api_base=api_endpoint,
             api_key=api_key,
             deployment_id=deployment_id,
-            # model_type='text',
-            api_version=config.get("api_version"),
-            max_tokens=config.get("max_token"),
-            response_format=config.get("response_format"),
+            **config
+            # api_version=config.get("api_version"),
+            # max_tokens=config.get("max_token"),
+            # response_format=config.get("response_format"),
         )
 
     def create_inspection(self, text) -> Prediction:
         with dspy.context(lm=self.dspy_client, experimental=True):
+            predictor = dspy.TypedChainOfThought(ProduceLabelForm)
             json_schema = FertilizerInspection.model_json_schema()
-            signature = dspy.ChainOfThought(ProduceLabelForm)
-            prediction = signature(text=text, json_schema=json_schema, requirements=REQUIREMENTS)
+            prediction = predictor(text=text, json_schema=json_schema, requirements=REQUIREMENTS)
 
         return prediction
