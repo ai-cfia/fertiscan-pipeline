@@ -300,20 +300,24 @@ class TestFertilizerInspectionRegistrationNumber(unittest.TestCase):
 
 class TestFertilizerInspectionPhoneNumberFormat(unittest.TestCase):
     def test_phone_number_with_country_code(self):
-        instance = FertilizerInspection(company_phone_number="1-800-640-9605")
-        self.assertEqual(instance.company_phone_number, "800-640-9605")
+        instance = FertilizerInspection(company_phone_number="1 800 640 9605")
+        self.assertEqual(instance.company_phone_number, "+1-800-640-9605")
     
     def test_phone_number_with_parentheses(self):
         instance = FertilizerInspection(manufacturer_phone_number="(757) 123-4567, (800) 456-7890")
-        self.assertEqual(instance.manufacturer_phone_number, "757-123-4567")
+        self.assertEqual(instance.manufacturer_phone_number, "+1-757-123-4567")
         
     def test_phone_number_with_parentheses_and_country_code(self):
         instance = FertilizerInspection(manufacturer_phone_number="+1 (757) 123-4567, (800) 456-7890")
-        self.assertEqual(instance.manufacturer_phone_number, "757-123-4567")
+        self.assertEqual(instance.manufacturer_phone_number, "+1-757-123-4567")
     
     def test_phone_number_with_chars(self):
         instance = FertilizerInspection(manufacturer_phone_number="+1 800 123-4567 FAX")
-        self.assertEqual(instance.manufacturer_phone_number, "800-123-4567")
+        self.assertEqual(instance.manufacturer_phone_number, "+1-800-123-4567")
+        
+    def test_phone_number_from_other_countries(self):
+        instance = FertilizerInspection(manufacturer_phone_number="+98 919-678-8900")
+        self.assertEqual(instance.manufacturer_phone_number, "+98-919-678-8900")
 
 if __name__ == "__main__":
     unittest.main()
