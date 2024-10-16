@@ -1,8 +1,6 @@
 import re
 from typing import List, Optional
-
-from pydantic import BaseModel, Field, field_validator
-
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 class npkError(ValueError):
     pass
