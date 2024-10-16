@@ -107,7 +107,7 @@ def run_test_case(
     )
 
     # Run performance test
-    print(f"\tRunning analysis for test case...")
+    print("\tRunning analysis for test case...")
     start_time = time.time()
     actual_output = analyze(storage, ocr, gpt) # <-- the `analyse` function deletes the images it processes so we don't need to clean up our image copies
     performance = time.time() - start_time
@@ -121,7 +121,7 @@ def run_test_case(
         expected_fields = extract_leaf_fields(json.load(file))
 
     # Calculate accuracy
-    print(f"\tCalculating accuracy of results...")
+    print("\tCalculating accuracy of results...")
     accuracy_results = calculate_accuracy(expected_fields, actual_fields)
 
     # Return results
