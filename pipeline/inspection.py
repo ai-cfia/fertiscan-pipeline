@@ -50,6 +50,7 @@ class Value(BaseModel):
 class GuaranteedAnalysis(BaseModel):
     title: Optional[str] = None
     nutrients: List[NutrientValue] = []
+    is_minimal: bool | None = None
 
     @field_validator(
         "nutrients",
@@ -59,6 +60,13 @@ class GuaranteedAnalysis(BaseModel):
         if v is None:
             v = []
         return v
+    
+    @model_validator(mode="after")
+    def set_is_minimal(self):
+        pattern = r'\bminim\w*\b'
+        if self.title:
+            self.is_minimal = re.search(pattern, self.title, re.IGNORECASE) is not None
+        return self
 
 
 class Specification(BaseModel):
@@ -124,6 +132,14 @@ class FertilizerInspection(BaseModel):
         if v is None:
             v = []
         return v
+    
+    @field_validator("registration_number", mode="before")
+    def check_registration_number_format(cls, v):
+        if v is not None:
+            pattern = r'^\d{7}[A-Z]$'
+            if re.match(pattern, v):
+                return v
+        return None
 
     class Config:
         populate_by_name = True
