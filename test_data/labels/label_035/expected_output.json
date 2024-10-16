@@ -1,0 +1,180 @@
+{
+    "company_name": "Gloco",
+    "company_address": "26, route Maritime, Forestville, Quebec G0T 1E0",
+    "company_website": "http://bionik.ca",
+    "company_phone_number": null,
+    "manufacturer_name": null,
+    "manufacturer_address": null,
+    "manufacturer_website": null,
+    "manufacturer_phone_number": null,
+    "fertiliser_name": "Bionik",
+    "registration_number": null,
+    "lot_number": null,
+    "weight": [
+      {
+        "value": 14,
+        "unit": "kg"
+      },
+      {
+        "value": 30.8,
+        "unit": "lb"
+      }
+    ],
+    "density": {
+      "value": null,
+      "unit": null
+    },
+    "volume": {
+      "value": 22,
+      "unit": "L"
+    },
+    "npk": "0.6-1.8-0.13",
+    "guaranteed_analysis_en": {
+      "title": "GUARANTEED MINIMUM ANALYSIS",
+      "nutrients": [
+        {
+          "nutrient": "Total nitrogen (N)",
+          "value": 0.6,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Available phosphoric acid (P2O5)",
+          "value": 1.8,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Soluble potash (K2O)",
+          "value": 0.1,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Calcium (Ca)",
+          "value": 14,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Magnesium (Mg)",
+          "value": 0.2,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Organic matter",
+          "value": 28,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Moisture (Max)",
+          "value": 55,
+          "unit": "%"
+        }
+      ]
+    },
+    "guaranteed_analysis_fr": {
+      "title": "ANALYSE MINIMUM GARANTIE",
+      "nutrients": [
+        {
+          "nutrient": "Azote total (N)",
+          "value": 0.6,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Acide phosphorique (P2O5)",
+          "value": 1.8,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Potasse soluble (k2O)",
+          "value": 0.1,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Calcium (Ca)",
+          "value": 14,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Magnesium (Mg)",
+          "value": 0.2,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Matière organique",
+          "value": 28,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Moisture (Max)",
+          "value": 55,
+          "unit": "%"
+        }
+      ]
+    },
+    "ingredients_en": [
+      {
+        "ingredient": "Barks",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "Snow crab",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "Whelks",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "Red wigglers",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "Fish",
+        "value": null,
+        "unit": null
+      }
+    ],
+    "ingredients_fr": [
+      {
+        "ingredient": "Écorces",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "Crabes des neiges",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "Bourgots",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "Vers rouges",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "Poissons",
+        "value": null,
+        "unit": null
+      }
+    ],
+    "cautions_en": null,
+    "cautions_fr": null,
+    "instructions_en": [
+      "Vegetable gardens and flower beds: Spread a 0.6 mm (1/4 in) layer of compost on the soil surface and quickly work into the soil.",
+      "Demanding plants: Add one to three handfuls into the planting hole and work into the soil.",
+      "Trees, shrubs, evergreens and hedges: Spread a 0.6 mm (1/4 in) layer of compost on the soil surface covered by the plants. Water as needed.",
+      "For optimal results: Apply the complete Bionik Fertilization Program."
+    ],
+    "instructions_fr": [
+      "Potager et plates-bandes: Épandre 0,6 mm (1/4 po) de compost à la surface du sol et mélanger au sol rapidement.",
+      "Plantes exigeantes: Ajouter une à trois poignées dans le trou de plantation et mélanger au sol.",
+      "Arbres, arbustes, conifères et haies: Épandre 0,6 mm (1/4 po) de compost à la surface du sol recouvert par les plants. Arroser au besoin.",
+      "Pour un résultat optimal: Utiliser le programme complet de fertilisation Bionik."
+    ]
+  }

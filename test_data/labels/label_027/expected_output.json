@@ -1,0 +1,156 @@
+{
+    "company_name": "Synagri s.e.c./l.p",
+    "company_address": "4075, rue Industrielle, Contrecoeur, Qc, JOL 1CO",
+    "company_website": null,
+    "company_phone_number": null,
+    "manufacturer_name": null,
+    "manufacturer_address": null,
+    "manufacturer_website": null,
+    "manufacturer_phone_number": null,
+    "fertiliser_name": "15-5-15 40% LENT 1.5 MG 3s .3ZN .3MN",
+    "registration_number": null,
+    "lot_number": null,
+    "weight": [
+      {
+        "value": 25,
+        "unit": "kg"
+      },
+      {
+        "value": null,
+        "unit": "lb"
+      }
+    ],
+    "density": {
+      "value": 1036,
+      "unit": "kg/m3 ou 64.74 lbs/pi3"
+    },
+    "volume": {
+      "value": null,
+      "unit": null
+    },
+    "npk": "2015-05-15",
+    "guaranteed_analysis_en": {
+      "title": "Guaranteed Analysis",
+      "nutrients": [
+        {
+          "nutrient": "Total Nitrogen",
+          "value": 15.0,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Available Phosphoric acid",
+          "value": 5.0,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Soluble Potassium",
+          "value": 15.0,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Magnesium",
+          "value": 1.6,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Sulfur (S)",
+          "value": 2.72,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Boron (B)",
+          "value": 0.030,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Zinc (Zn)",
+          "value": 0.600,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Copper (Cu)",
+          "value": 0.030,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Manganese (Mn)",
+          "value": 0.150,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Calcium (Ca)",
+          "value": 1.21,
+          "unit": "%"
+        }
+      ]
+    },
+    "guaranteed_analysis_fr": {
+      "title": "Guaranteed Analysis",
+      "nutrients": [
+        {
+          "nutrient": "Azote total",
+          "value": 15.0,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Acide Phosphorique assimilable",
+          "value": 5.0,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Potasse soluble",
+          "value": 15.0,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Magnésium",
+          "value": 1.6,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Soufre (S)",
+          "value": 2.72,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Bore (B)",
+          "value": 0.030,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Zinc (Zn)",
+          "value": 0.600,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Cuivre (Cu)",
+          "value": 0.030,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Manganèse (Mn)",
+          "value": 0.150,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Calcium (Ca)",
+          "value": 1.21,
+          "unit": "%"
+        }
+      ]
+    },
+    "ingredients_en": null,
+    "ingredients_fr": null,
+    "cautions_en": [
+      "This fertilizer contains Boron (B), Zinc (Zn), Copper (Cu), Manganese (Mn) and should be used only as recommended. May be harmful if misused."
+    ],
+    "cautions_fr": [
+      "Cet engrais renferme du Bore (B), Zinc (Zn), Cuivre (Cu), Manganèse (Mn) et ne doit être employé que de la manière recommandée. Il peut être nocif s'il est employé mal à propos."
+    ],
+    "instructions_en": [
+      "See your fertilization program."
+    ],
+    "instructions_fr": [
+      "Voir votre programme de fertilisation."
+    ]
+  }
