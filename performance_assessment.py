@@ -11,7 +11,6 @@ from tests import levenshtein_similarity
 
 ACCURACY_THRESHOLD = 80.0
 
-
 def extract_leaf_fields(
     data: dict | list, parent_key: str = ''
 ) -> dict[str, str | int | float | bool | None]:
@@ -43,6 +42,7 @@ def find_test_cases(labels_folder: str) -> list[tuple[list[str], str]]:
         if os.path.isdir(os.path.join(labels_folder, directory)) and directory.startswith("label_")
     )
     if len(label_directories) == 0:
+        print(f"No label directories found in {labels_folder}")
         raise FileNotFoundError(f"No label directories found in {labels_folder}")
 
     for label_directory in label_directories:
@@ -107,9 +107,11 @@ def run_test_case(
     )
 
     # Run performance test
+    print(f"\tRunning analysis for test case...")
     start_time = time.time()
     actual_output = analyze(storage, ocr, gpt) # <-- the `analyse` function deletes the images it processes so we don't need to clean up our image copies
     performance = time.time() - start_time
+    print(f"\tAnalysis completed in {performance:.2f} seconds.")
 
     # Process actual output
     actual_fields = extract_leaf_fields(json.loads(actual_output.model_dump_json()))
@@ -119,6 +121,7 @@ def run_test_case(
         expected_fields = extract_leaf_fields(json.load(file))
 
     # Calculate accuracy
+    print(f"\tCalculating accuracy of results...")
     accuracy_results = calculate_accuracy(expected_fields, actual_fields)
 
     # Return results
@@ -163,8 +166,10 @@ def generate_csv_report(results: list[dict[str, any]]) -> None:
 
 
 def main() -> None:
-    load_dotenv()
+    print("Script execution started.")
 
+    load_dotenv()
+    
     # Validate required environment variables
     required_vars = [
         "AZURE_API_ENDPOINT",
@@ -178,12 +183,20 @@ def main() -> None:
         raise RuntimeError(f"Missing required environment variables: {', '.join(missing_vars)}")
 
     test_cases = find_test_cases("test_data/labels")
+    print(f"Found {len(test_cases)} test case(s) to process.")
+
     results = []
     for idx, (image_paths, expected_json_path) in enumerate(test_cases, 1):
-        result = run_test_case(idx, image_paths, expected_json_path)
-        results.append(result)
+        print(f"Processing test case {idx}...")
+        try:
+            result = run_test_case(idx, image_paths, expected_json_path)
+            results.append(result)
+        except Exception as e:
+            print(f"Error processing test case {idx}: {e}")
+            continue # I'd rather continue processing the other test cases than stop the script for now
+    
     generate_csv_report(results)
-
+    print("Script execution completed.")
 
 if __name__ == "__main__":
     main()
