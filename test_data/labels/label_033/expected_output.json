@@ -1,22 +1,22 @@
 {
-    "company_name": "AMP Advanced Micronutrient Product, Inc",
-    "company_address": "2405 W Vassar RD Reese ml-48757 USA",
+    "company_name": "La Coop fédérée",
+    "company_address": "4225, rue Saint-Joseph, Trois-Rivières (Québec) G9A 5L9",
     "company_website": null,
     "company_phone_number": null,
     "manufacturer_name": null,
     "manufacturer_address": null,
     "manufacturer_website": null,
     "manufacturer_phone_number": null,
-    "fertiliser_name": "Micronutrient Corn Mix Mélange d'oligoéléments pour maïs",
-    "registration_number": "2013098B",
-    "lot_number": "34913501",
+    "fertiliser_name": "Unijardin",
+    "registration_number": null,
+    "lot_number": null,
     "weight": [
       {
-        "value": 907,
+        "value": 2,
         "unit": "kg"
       },
       {
-        "value": 2000,
+        "value": null,
         "unit": "lb"
       }
     ],
@@ -28,79 +28,87 @@
       "value": null,
       "unit": null
     },
-    "npk": null,
+    "npk": "2-14-0",
     "guaranteed_analysis_en": {
-      "title": "Guaranteed Minimum Analysis",
+      "title": "GUARANTEED MINIMUM ANALYSIS",
       "nutrients": [
         {
-          "nutrient": "Sulphur (S)",
-          "value": 9,
+          "nutrient": "Total nitrogen (N)",
+          "value": 2,
           "unit": "%"
         },
         {
-          "nutrient": "Boron (B) (Actual)",
-          "value": 1,
+          "nutrient": "Water insoluble nitrogen",
+          "value": 2,
           "unit": "%"
         },
         {
-          "nutrient": "Copper (Cu) (Actual)",
-          "value": 1,
+          "nutrient": "Available phosphoric acid (P2O5)",
+          "value": 14,
           "unit": "%"
         },
         {
-          "nutrient": "Manganese (Mn) (Actual)",
-          "value": 4,
+          "nutrient": "Calcium (Ca)",
+          "value": 25,
           "unit": "%"
         },
         {
-          "nutrient": "Zinc (Zn) (Actual)",
-          "value": 20,
+          "nutrient": "Organic matter",
+          "value": 25,
           "unit": "%"
         }
       ]
     },
     "guaranteed_analysis_fr": {
-      "title": "Analyse Minimale Garantie",
+      "title": "ANALYSE MINIMALE GARANTIE",
       "nutrients": [
         {
-          "nutrient": "Soufre (S)",
-          "value": 9,
+          "nutrient": "Azote total (N)",
+          "value": 2,
           "unit": "%"
         },
         {
-          "nutrient": "Bore (B) (Actual)",
-          "value": 1,
+          "nutrient": "Azote insoluble dans l'eau",
+          "value": 2,
           "unit": "%"
         },
         {
-          "nutrient": "Cuivre (Cu) (Actual)",
-          "value": 1,
+          "nutrient": "Acide phosphorique assimilable (P2O5)",
+          "value": 14,
           "unit": "%"
         },
         {
-          "nutrient": "Manganese (Mn) (Actual)",
-          "value": 4,
+          "nutrient": "Calcium (Ca)",
+          "value": 25,
           "unit": "%"
         },
         {
-          "nutrient": "Zinc (Zn) (Actual)",
-          "value": 20,
+          "nutrient": "Matière organique",
+          "value": 25,
           "unit": "%"
         }
       ]
     },
-    "ingredients_en": null,
-    "ingredients_fr": null,
-    "cautions_en": [
-      "Caution: This fertilizer contains boron, copper, manganese, sulphur and zinc and should be used only as recommended. It may prove harmful when misused."
+    "ingredients_en": [
+      {
+        "ingredient": "BONE MEAL",
+        "value": null,
+        "unit": null
+      }
     ],
-    "cautions_fr": [
-      "Avertissement: Cet engrais renferme bore, cuivre, manganèse, soufre, zinc, et ne doit être employé que de la manière recommandée. Il peut être nocif s'il est employé mal à propos."
+    "ingredients_fr": [
+      {
+        "ingredient": "POUDRE D'OS",
+        "value": null,
+        "unit": null
+      }
     ],
+    "cautions_en": null,
+    "cautions_fr": null,
     "instructions_en": [
-      "To be used in blending fertilizer for soil application. Applications should be based on results of soil or leaf analysis."
+      "Spread fertilizer evenly at the base of plants and lightly hoe around to make it penetrate. It is best to apply fertilizer before a rainfall, or to water after each application. This fertilizer must be used as part of a complete fertilization program. We recommend following up maintenance with Unijardin fertilizers designed to meet the plant's specific needs."
     ],
     "instructions_fr": [
-      "Pour un emploi en mélange d'engrais pour application au sol. Les traitements devraient être faits selon les résultats obtenus à la suite d'une analyse du sol ou des feuilles."
+      "Épandre l'engrais uniformément au pied des plantes et biner légèrement autour pour faire pénétrer. Il est préférable d'appliquer l'engrais avant une pluie ou de procéder à un arrosage après chaque application. Cet engrais doit être utilisé comme élément d'un programme de fertilisation complet. Il est recommandé de poursuivre la fertilisation d'entretien des plants avec des engrais Unijardin conçus pour répondre à leurs besoins spécifiques."
     ]
   }

@@ -1,15 +1,15 @@
 {
-    "company_name": "Cameron Chemicals, Inc",
-    "company_address": "830 Old Dil Road Suffolk VA 23434 USA",
+    "company_name": "AMP Advanced Micronutrient Product, Inc",
+    "company_address": "2405 W Vassar RD Reese ml-48757 USA",
     "company_website": null,
-    "company_phone_number": "(757) 437-0656",
+    "company_phone_number": null,
     "manufacturer_name": null,
     "manufacturer_address": null,
     "manufacturer_website": null,
     "manufacturer_phone_number": null,
-    "fertiliser_name": "GRANULAR ZINC 20%",
-    "registration_number": "2015045B",
-    "lot_number": "31923352",
+    "fertiliser_name": "Micronutrient Corn Mix Mélange d'oligoéléments pour maïs",
+    "registration_number": "2013098B",
+    "lot_number": "34913501",
     "weight": [
       {
         "value": 907,
@@ -28,71 +28,79 @@
       "value": null,
       "unit": null
     },
-    "npk": "none",
+    "npk": null,
     "guaranteed_analysis_en": {
-      "title": "GUARANTEED ANALYSIS",
+      "title": "Guaranteed Minimum Analysis",
       "nutrients": [
         {
-          "nutrient": "Sulphur",
-          "value": 3,
+          "nutrient": "Sulphur (S)",
+          "value": 9,
           "unit": "%"
         },
         {
-          "nutrient": "Zinc",
+          "nutrient": "Boron (B) (Actual)",
+          "value": 1,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Copper (Cu) (Actual)",
+          "value": 1,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Manganese (Mn) (Actual)",
+          "value": 4,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Zinc (Zn) (Actual)",
           "value": 20,
           "unit": "%"
         }
       ]
     },
     "guaranteed_analysis_fr": {
-      "title": "ANALYSE GARANTIE",
+      "title": "Analyse Minimale Garantie",
       "nutrients": [
         {
-          "nutrient": "Soufre",
-          "value": 3,
+          "nutrient": "Soufre (S)",
+          "value": 9,
           "unit": "%"
         },
         {
-          "nutrient": "Zinc",
+          "nutrient": "Bore (B) (Actual)",
+          "value": 1,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Cuivre (Cu) (Actual)",
+          "value": 1,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Manganese (Mn) (Actual)",
+          "value": 4,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Zinc (Zn) (Actual)",
           "value": 20,
           "unit": "%"
         }
       ]
     },
-    "ingredients_en": [
-      {
-        "ingredient": "Zinc Sulphate",
-        "value": null,
-        "unit": null
-      },
-      {
-        "ingredient": "Zinc Oxide",
-        "value": null,
-        "unit": null
-      }
-    ],
-    "ingredients_fr": [
-      {
-        "ingredient": "sulfate de Zinc",
-        "value": null,
-        "unit": null
-      },
-      {
-        "ingredient": "Oxide de zinc",
-        "value": null,
-        "unit": null
-      }
-    ],
+    "ingredients_en": null,
+    "ingredients_fr": null,
     "cautions_en": [
-      "This fertilizer contains zinc and sulfur and should be used only as recommended"
+      "Caution: This fertilizer contains boron, copper, manganese, sulphur and zinc and should be used only as recommended. It may prove harmful when misused."
     ],
     "cautions_fr": [
-      "Cet engrais renferme du zinc et souffre et ne doit être employé que de la manière recommandée."
+      "Avertissement: Cet engrais renferme bore, cuivre, manganèse, soufre, zinc, et ne doit être employé que de la manière recommandée. Il peut être nocif s'il est employé mal à propos."
     ],
     "instructions_en": [
-      "To be used in blending fertilizer for soil application, Application should be based on result of soil or leaf analysis."
+      "To be used in blending fertilizer for soil application. Applications should be based on results of soil or leaf analysis."
     ],
     "instructions_fr": [
-      "Pour un emploi en mélange d'engrais pour application au sol. Les traitements devraient être faits selon les résultats obtenus à la suite d'une analyse de sol ou des feuilles."
+      "Pour un emploi en mélange d'engrais pour application au sol. Les traitements devraient être faits selon les résultats obtenus à la suite d'une analyse du sol ou des feuilles."
     ]
   }

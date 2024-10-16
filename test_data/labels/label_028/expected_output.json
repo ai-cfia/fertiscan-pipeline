@@ -1,22 +1,22 @@
 {
-    "company_name": null,
-    "company_address": null,
+    "company_name": "Cameron Chemicals, Inc",
+    "company_address": "830 Old Dil Road Suffolk VA 23434 USA",
     "company_website": null,
-    "company_phone_number": null,
-    "manufacturer_name": "ETI MADEN MINES AND PRODUCTS",
-    "manufacturer_address": "03010 Etlik/Kecioren Ankara-Turkey Bahçekapi Mah. Fatih Sultan Mehmet Bulvan No:179 Postcode:05377 Esmesgut / ANKARA, TURKEY",
+    "company_phone_number": "(757) 437-0656",
+    "manufacturer_name": null,
+    "manufacturer_address": null,
     "manufacturer_website": null,
     "manufacturer_phone_number": null,
-    "fertiliser_name": "Granular Ulexite",
-    "registration_number": "2020056B",
-    "lot_number": "6151",
+    "fertiliser_name": "GRANULAR ZINC 20%",
+    "registration_number": "2015045B",
+    "lot_number": "31923352",
     "weight": [
       {
-        "value": 1200,
+        "value": 907,
         "unit": "kg"
       },
       {
-        "value": 2645,
+        "value": 2000,
         "unit": "lb"
       }
     ],
@@ -28,34 +28,71 @@
       "value": null,
       "unit": null
     },
-    "npk": null,
+    "npk": "none",
     "guaranteed_analysis_en": {
-      "title": "Guaranteed Analysis",
+      "title": "GUARANTEED ANALYSIS",
       "nutrients": [
         {
-          "nutrient": "Boron (B)",
-          "value": 10.1,
+          "nutrient": "Sulphur",
+          "value": 3,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Zinc",
+          "value": 20,
           "unit": "%"
         }
       ]
     },
     "guaranteed_analysis_fr": {
-      "title": null,
-      "nutrients": null
+      "title": "ANALYSE GARANTIE",
+      "nutrients": [
+        {
+          "nutrient": "Soufre",
+          "value": 3,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Zinc",
+          "value": 20,
+          "unit": "%"
+        }
+      ]
     },
-    "ingredients_en": null,
-    "ingredients_fr": null,
+    "ingredients_en": [
+      {
+        "ingredient": "Zinc Sulphate",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "Zinc Oxide",
+        "value": null,
+        "unit": null
+      }
+    ],
+    "ingredients_fr": [
+      {
+        "ingredient": "sulfate de Zinc",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "Oxide de zinc",
+        "value": null,
+        "unit": null
+      }
+    ],
     "cautions_en": [
-      "This fertilizer contains boron and should be used only as recommended. It may prove harmful when misused."
+      "This fertilizer contains zinc and sulfur and should be used only as recommended"
     ],
-    "cautions_fr": null,
+    "cautions_fr": [
+      "Cet engrais renferme du zinc et souffre et ne doit être employé que de la manière recommandée."
+    ],
     "instructions_en": [
-      "This product can be used as a fertilizer, micronutrient, and component used for formulating fertilizers as a source for plant micronutrients.",
-      "Granular Ulexite is compatible with most pesticides and fertilizers. However, if the desired combination has not been previously used, a compatibility test is recommended.",
-      "It is recommended for use on field, vegetable, fruit, and nut crops.",
-      "It is applied to soil.",
-      "Because the function of boron and nitrogen are related in plant nutrition, applications with nitrogen-containing fertilizers often enhances results.",
-      "Thorough and uniform application coverage are necessary for best results and to prevent crop injury."
+      "To be used in blending fertilizer for soil application, Application should be based on result of soil or leaf analysis."
     ],
-    "instructions_fr": null
+    "instructions_fr": [
+      "Pour un emploi en mélange d'engrais pour application au sol. Les traitements devraient être faits selon les résultats obtenus à la suite d'une analyse de sol ou des feuilles."
+    ]
   }
