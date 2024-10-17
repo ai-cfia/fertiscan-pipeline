@@ -25,9 +25,6 @@ jobs:
     name: fertiscan-pipeline-pyproject-version-bump
     uses: ai-cfia/github-workflows/.github/workflows/workflow-version-bump-python.yml@main
     secrets: inherit
-    with:
-      pyproject-path: 'pyproject.toml'
-      package-name: 'fertiscan-pipeline'
 
   trigger-release:
     if: github.event.pull_request.merged == true
