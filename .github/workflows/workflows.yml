@@ -19,3 +19,17 @@ jobs:
   repo-standard:
     uses: ai-cfia/github-workflows/.github/workflows/workflow-repo-standards-validation.yml@main
     secrets: inherit
+
+  pyproject-version-bump:
+    if: github.event.pull_request.merged != true
+    name: fertiscan-pipeline-pyproject-version-bump
+    uses: ai-cfia/github-workflows/.github/workflows/workflow-version-bump-python.yml@main
+    secrets: inherit
+    with:
+      pyproject-path: 'pyproject.toml'
+      package-name: 'fertiscan-pipeline'
+
+  trigger-release:
+    if: github.event.pull_request.merged == true
+    uses: ai-cfia/github-workflows/.github/workflows/workflow-pyproject-release.yml@main
+    secrets: inherit
