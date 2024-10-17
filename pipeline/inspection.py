@@ -1,7 +1,9 @@
 import re
-from typing import List, Optional
-from pydantic import BaseModel, Field, field_validator, model_validator
+from typing import  List, Optional
+
 import phonenumbers
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
 
 class npkError(ValueError):
     pass
@@ -59,10 +61,10 @@ class GuaranteedAnalysis(BaseModel):
         if v is None:
             v = []
         return v
-    
+
     @model_validator(mode="after")
     def set_is_minimal(self):
-        pattern = r'\bminim\w*\b'
+        pattern = r"\bminim\w*\b"
         if self.title:
             self.is_minimal = re.search(pattern, self.title, re.IGNORECASE) is not None
         return self
@@ -108,6 +110,7 @@ class FertilizerInspection(BaseModel):
     instructions_fr: List[str] = []
     ingredients_en: List[NutrientValue] = []
     ingredients_fr: List[NutrientValue] = []
+    model_config = ConfigDict(populate_by_name=True)
 
     @field_validator("npk", mode="before")
     def validate_npk(cls, v):
@@ -131,29 +134,28 @@ class FertilizerInspection(BaseModel):
         if v is None:
             v = []
         return v
-    
+
     @field_validator("registration_number", mode="before")
     def check_registration_number_format(cls, v):
         if v is not None:
-            pattern = r'^\d{7}[A-Z]$'
+            pattern = r"^\d{7}[A-Z]$"
             if re.match(pattern, v):
                 return v
         return None
-    
+
     @field_validator("company_phone_number", "manufacturer_phone_number", mode="before")
     def check_phone_number_format(cls, v):
-        if v is not None:
-            phone_number_pattern = re.compile(r'\+?(\d{1,4})?[\s-]?\(?\d{1,4}\)?[\s-]?\d{1,4}[\s-]?\d{1,4}[\s-]?\d{1,9}')
-            first_matched_phone_number = re.search(phone_number_pattern, v)
-            if first_matched_phone_number:
-                try:
-                    phone_number = phonenumbers.parse(first_matched_phone_number.group(), "US")
-                    phone_number = phonenumbers.format_number(phone_number, phonenumbers.PhoneNumberFormat.INTERNATIONAL)
-                    return phone_number.replace(" ", "-")
-                
-                except phonenumbers.phonenumberutil.NumberParseException:
-                    return None
-        return None
+        if v is None:
+            return
 
-    class Config:
-        populate_by_name = True
+        try:
+            phone_number = phonenumbers.parse(v, "CA")
+            if not phonenumbers.is_valid_number(phone_number):
+                return
+            phone_number = phonenumbers.format_number(
+                phone_number, phonenumbers.PhoneNumberFormat.E164
+            )
+            return phone_number
+
+        except phonenumbers.phonenumberutil.NumberParseException:
+            return
