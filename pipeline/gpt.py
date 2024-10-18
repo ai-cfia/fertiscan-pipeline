@@ -6,14 +6,14 @@ import dspy.utils
 from pipeline.inspection import FertilizerInspection
 
 from phoenix.otel import register
-from openinference.instrumentation.dspy import DSPyInstrumentor
+# from openinference.instrumentation.dspy import DSPyInstrumentor
 
-tracer_provider = register(
-  project_name="gpt-ferti", # Default is 'default'
-  endpoint="http://0.0.0.0:4317", # gRPC endpoint given by Phoenix when starting the server (default is "http://localhost:4317")
-)
+# tracer_provider = register(
+#   project_name="gpt-ferti", # Default is 'default'
+#   endpoint="http://0.0.0.0:4317", # gRPC endpoint given by Phoenix when starting the server (default is "http://localhost:4317")
+# )
 
-DSPyInstrumentor().instrument(tracer_provider=tracer_provider)
+# DSPyInstrumentor().instrument(tracer_provider=tracer_provider)
 
 SUPPORTED_MODELS = {
     "gpt-3.5-turbo": {

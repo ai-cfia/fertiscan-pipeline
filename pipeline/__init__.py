@@ -4,7 +4,6 @@ from .inspection import FertilizerInspection  # noqa: F401
 from .gpt import GPT  # noqa: F401
 
 import os
-import json
 from datetime import datetime
 
 def save_text_to_file(text: str, output_path: str): # pragma: no cover

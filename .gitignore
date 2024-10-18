@@ -6,9 +6,6 @@ __pycache__/
 # tests
 logs/
 test_logs/
-reports/
-test_data/
-performance_assessment.py
 
 # VS Code
 .vscode
