@@ -1,5 +1,5 @@
 import re
-from typing import  List, Optional
+from typing import List, Optional
 
 import phonenumbers
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -90,11 +90,15 @@ class FertilizerInspection(BaseModel):
     company_name: Optional[str] = None
     company_address: Optional[str] = None
     company_website: Optional[str] = None
-    company_phone_number: Optional[str] = None
+    company_phone_number: Optional[str] = Field(
+        description="The distributor's primary phone number. Return only one."
+    )
     manufacturer_name: Optional[str] = None
     manufacturer_address: Optional[str] = None
     manufacturer_website: Optional[str] = None
-    manufacturer_phone_number: Optional[str] = None
+    manufacturer_phone_number: Optional[str] = Field(
+        description="The manufacturer's primary phone number. Return only one."
+    )
     fertiliser_name: Optional[str] = None
     registration_number: Optional[str] = None
     lot_number: Optional[str] = None
