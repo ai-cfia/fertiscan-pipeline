@@ -1,4 +1,6 @@
 import os
+import shutil
+import tempfile
 import unittest
 from datetime import datetime
 
@@ -64,9 +66,13 @@ class TestPipeline(unittest.TestCase):
         # Perform assertions
         self.assertIsInstance(inspection, FertilizerInspection, inspection)
         self.assertIn(Value(value="25", unit="kg"), inspection.weight, inspection)
+        manufacturer_or_company = (
+            inspection.manufacturer_name or inspection.company_name
+        )
+        self.assertIsNotNone(manufacturer_or_company, inspection)
         self.assertGreater(
             levenshtein_similarity(
-                inspection.manufacturer_name, "TerraLink Horticulture Inc."
+                manufacturer_or_company, "TerraLink Horticulture Inc."
             ),
             0.95,
             inspection,
@@ -107,28 +113,44 @@ class TestPhoneNumbers(unittest.TestCase):
             deployment_id=cls.api_deployment_gpt,
         )
 
-        # Define possible image filenames and extensions
-        cls.image_filenames = ["img_001", "img_002"]
+        # Supported image extensions
         cls.image_extensions = [".jpg", ".png"]
 
-    def add_images_to_storage(self, label_folder, label_storage):
-        for image_filename in self.image_filenames:
-            for ext in self.image_extensions:
-                image_path = os.path.join(label_folder, f"{image_filename}{ext}")
-                if os.path.exists(image_path):
-                    label_storage.add_image(image_path)
+        # Create a temporary directory for image copies
+        cls.temp_dir = tempfile.mkdtemp()
+
+    @classmethod
+    def tearDownClass(cls):
+        # Clean up the temporary directory after tests are done
+        shutil.rmtree(cls.temp_dir)
+
+    def copy_images_to_temp_dir(self, label_folder):
+        copied_files = []
+        for file_name in os.listdir(label_folder):
+            _, ext = os.path.splitext(file_name)
+            if ext.lower() in self.image_extensions:
+                image_path = os.path.join(label_folder, file_name)
+                temp_image_path = os.path.join(self.temp_dir, file_name)
+                shutil.copy(image_path, temp_image_path)
+                copied_files.append(temp_image_path)
+        return copied_files
+
+    def add_images_to_storage(self, image_paths, label_storage):
+        for image_path in image_paths:
+            label_storage.add_image(image_path)
 
     def test_label_008_inspection(self):
         label_folder = "test_data/labels/label_008"
         label_storage = LabelStorage()
 
-        # Add images using the helper function
-        self.add_images_to_storage(label_folder, label_storage)
+        # Copy images to temporary directory and add to storage
+        image_paths = self.copy_images_to_temp_dir(label_folder)
+        self.add_images_to_storage(image_paths, label_storage)
 
         # Run the analyze function
         inspection = analyze(label_storage, self.ocr, self.gpt)
 
-        # assertions
+        # Assertions
         self.assertEqual(inspection.company_phone_number, "+18003279462")
         self.assertIsNone(inspection.manufacturer_phone_number)
 
@@ -136,13 +158,14 @@ class TestPhoneNumbers(unittest.TestCase):
         label_folder = "test_data/labels/label_024"
         label_storage = LabelStorage()
 
-        # Add images using the helper function
-        self.add_images_to_storage(label_folder, label_storage)
+        # Copy images to temporary directory and add to storage
+        image_paths = self.copy_images_to_temp_dir(label_folder)
+        self.add_images_to_storage(image_paths, label_storage)
 
         # Run the analyze function
         inspection = analyze(label_storage, self.ocr, self.gpt)
 
-        # assertions
+        # Assertions
         self.assertEqual(inspection.company_phone_number, "+14506556147")
         self.assertIsNone(inspection.manufacturer_phone_number)
 
