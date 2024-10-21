@@ -1,5 +1,5 @@
 azure-ai-documentintelligence==1.0.0b3
-dspy-ai
+dspy-ai==2.4.13
 openai>=1.0
 pydantic>=2.7.1
 python-dotenv
@@ -8,3 +8,4 @@ setuptools
 phonenumbers
 # Test dependencies
 Levenshtein
+pytest
