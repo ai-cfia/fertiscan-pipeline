@@ -1,6 +1,14 @@
 import re
-from typing import List, Optional
-from pydantic import BaseModel, Field, field_validator, model_validator
+from typing import Annotated, List, Optional
+
+from pydantic import (
+    BaseModel,
+    Field,
+    StringConstraints,
+    field_validator,
+    model_validator,
+)
+
 
 class npkError(ValueError):
     pass
@@ -58,10 +66,10 @@ class GuaranteedAnalysis(BaseModel):
         if v is None:
             v = []
         return v
-    
+
     @model_validator(mode="after")
     def set_is_minimal(self):
-        pattern = r'\bminim\w*\b'
+        pattern = r"\bminim\w*\b"
         if self.title:
             self.is_minimal = re.search(pattern, self.title, re.IGNORECASE) is not None
         return self
@@ -86,11 +94,19 @@ class Specification(BaseModel):
 class FertilizerInspection(BaseModel):
     company_name: Optional[str] = None
     company_address: Optional[str] = None
-    company_website: Optional[str] = None
+    company_website: Annotated[str | None, StringConstraints(to_lower=True)] = Field(
+        None,
+        description="Return the distributor's website, ensuring 'www.' prefix is added.",
+    )
     company_phone_number: Optional[str] = None
     manufacturer_name: Optional[str] = None
     manufacturer_address: Optional[str] = None
-    manufacturer_website: Optional[str] = None
+    manufacturer_website: Annotated[str | None, StringConstraints(to_lower=True)] = (
+        Field(
+            None,
+            description="Return the manufacturer's website, ensuring 'www.' prefix is added.",
+        )
+    )
     manufacturer_phone_number: Optional[str] = None
     fertiliser_name: Optional[str] = None
     registration_number: Optional[str] = None
@@ -130,11 +146,11 @@ class FertilizerInspection(BaseModel):
         if v is None:
             v = []
         return v
-    
+
     @field_validator("registration_number", mode="before")
     def check_registration_number_format(cls, v):
         if v is not None:
-            pattern = r'^\d{7}[A-Z]$'
+            pattern = r"^\d{7}[A-Z]$"
             if re.match(pattern, v):
                 return v
         return None
