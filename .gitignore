@@ -6,6 +6,7 @@ __pycache__/
 # tests
 logs/
 test_logs/
+reports/
 
 # VS Code
 .vscode
