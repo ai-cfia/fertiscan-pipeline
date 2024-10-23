@@ -50,3 +50,15 @@ AZURE_OPENAI_API_ENDPOINT=your_azure_openai_endpoint
 AZURE_OPENAI_API_KEY=your_azure_openai_key
 AZURE_OPENAI_DEPLOYMENT=your_azure_openai_deployment
 ```
+
+## Packaging and release workflow
+
+The pipeline triggers on PRs to check code quality, markdown, repository standards, and ensures that the version in `pyproject.toml` is bumped. When a PR is merged, the workflow automatically creates a release based on the version in `pyproject.toml`. The latest releases and changelogs are available [here](https://github.com/ai-cfia/fertiscan-pipeline/releases).
+
+To use this package in other projects, add it to your `requirements.txt` (e.g., in the [fertiscan-backend](https://github.com/ai-cfia/fertiscan-backend)):
+
+```sh
+git+https://github.com/ai-cfia/fertiscan-pipeline.git@vX.X.X
+```
+
+Where `vX.X.X` is the version from the [release page](https://github.com/ai-cfia/fertiscan-pipeline/releases).
