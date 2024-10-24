@@ -1,6 +1,9 @@
 import re
 from typing import List, Optional
-from pydantic import BaseModel, Field, field_validator, model_validator
+
+import phonenumbers
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
 
 class npkError(ValueError):
     pass
@@ -58,10 +61,10 @@ class GuaranteedAnalysis(BaseModel):
         if v is None:
             v = []
         return v
-    
+
     @model_validator(mode="after")
     def set_is_minimal(self):
-        pattern = r'\bminim\w*\b'
+        pattern = r"\bminim\w*\b"
         if self.title:
             self.is_minimal = re.search(pattern, self.title, re.IGNORECASE) is not None
         return self
@@ -87,11 +90,15 @@ class FertilizerInspection(BaseModel):
     company_name: Optional[str] = None
     company_address: Optional[str] = None
     company_website: Optional[str] = None
-    company_phone_number: Optional[str] = None
+    company_phone_number: Optional[str] = Field(
+        None, description="The distributor's primary phone number. Return only one."
+    )
     manufacturer_name: Optional[str] = None
     manufacturer_address: Optional[str] = None
     manufacturer_website: Optional[str] = None
-    manufacturer_phone_number: Optional[str] = None
+    manufacturer_phone_number: Optional[str] = Field(
+        None, description="The manufacturer's primary phone number. Return only one."
+    )
     fertiliser_name: Optional[str] = None
     registration_number: Optional[str] = None
     lot_number: Optional[str] = None
@@ -107,6 +114,7 @@ class FertilizerInspection(BaseModel):
     instructions_fr: List[str] = []
     ingredients_en: List[NutrientValue] = []
     ingredients_fr: List[NutrientValue] = []
+    model_config = ConfigDict(populate_by_name=True)
 
     @field_validator("npk", mode="before")
     def validate_npk(cls, v):
@@ -130,14 +138,28 @@ class FertilizerInspection(BaseModel):
         if v is None:
             v = []
         return v
-    
+
     @field_validator("registration_number", mode="before")
     def check_registration_number_format(cls, v):
         if v is not None:
-            pattern = r'^\d{7}[A-Z]$'
+            pattern = r"^\d{7}[A-Z]$"
             if re.match(pattern, v):
                 return v
         return None
 
-    class Config:
-        populate_by_name = True
+    @field_validator("company_phone_number", "manufacturer_phone_number", mode="before")
+    def check_phone_number_format(cls, v):
+        if v is None:
+            return
+
+        try:
+            phone_number = phonenumbers.parse(v, "CA")
+            if not phonenumbers.is_valid_number(phone_number):
+                return
+            phone_number = phonenumbers.format_number(
+                phone_number, phonenumbers.PhoneNumberFormat.E164
+            )
+            return phone_number
+
+        except phonenumbers.phonenumberutil.NumberParseException:
+            return
