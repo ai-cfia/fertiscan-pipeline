@@ -6,14 +6,7 @@ import dspy.utils
 from pipeline.inspection import FertilizerInspection
 
 from phoenix.otel import register
-# from openinference.instrumentation.dspy import DSPyInstrumentor
-
-# tracer_provider = register(
-#   project_name="gpt-ferti", # Default is 'default'
-#   endpoint="http://0.0.0.0:4317", # gRPC endpoint given by Phoenix when starting the server (default is "http://localhost:4317")
-# )
-
-# DSPyInstrumentor().instrument(tracer_provider=tracer_provider)
+from openinference.instrumentation.dspy import DSPyInstrumentor
 
 SUPPORTED_MODELS = {
     "gpt-3.5-turbo": {
@@ -48,13 +41,21 @@ class ProduceLabelForm(dspy.Signature):
     inspection : FertilizerInspection = dspy.OutputField(desc="The inspection results.")
 
 class GPT:
-    def __init__(self, api_endpoint, api_key, deployment_id):
+    def __init__(self, api_endpoint, api_key, deployment_id, phoenix_endpoint:str = None):
         if not api_endpoint or not api_key or not deployment_id:
             raise ValueError("The API endpoint, key and deployment_id are required to instantiate the GPT class.")
 
         config = SUPPORTED_MODELS.get(deployment_id)
         if not config:
             raise ValueError(f"The deployment_id {deployment_id} is not supported.")
+        
+        if phoenix_endpoint is not None:
+            tracer_provider = register(
+            project_name="gpt-fertiscan", # Default is 'default'
+            endpoint=phoenix_endpoint, # gRPC endpoint given by Phoenix when starting the server (default is "http://localhost:4317")
+            )
+
+            DSPyInstrumentor().instrument(tracer_provider=tracer_provider)  
         
         self.lm = dspy.LM(
             model=f"azure/{deployment_id}",
