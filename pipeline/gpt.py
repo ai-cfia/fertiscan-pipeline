@@ -64,8 +64,8 @@ class GPT:
 
             DSPyInstrumentor().instrument(tracer_provider=tracer_provider)
 
-        self.lm = dspy.AzureOpenAI(
-            model=deployment_id,
+        self.lm = dspy.LM(
+            model=f"azure/{deployment_id}",
             api_base=api_endpoint,
             api_key=api_key,
             max_tokens=config["max_tokens"],
