@@ -1,0 +1,113 @@
+{
+    "company_name": "Sustane Natural Fertilizer, Inc.",
+    "company_address": "310 Holiday Avenue, Cannon Falls, MN 35099 USA",
+    "company_website": "http://www.sustane.com",
+    "company_phone_number": "(507) 263-3003",
+    "manufacturer_name": null,
+    "manufacturer_address": null,
+    "manufacturer_website": null,
+    "manufacturer_phone_number": null,
+    "fertiliser_name": "SUSTÅNE® 4·6·4",
+    "registration_number": null,
+    "lot_number": null,
+    "weight": [
+      {
+        "value": 22.67,
+        "unit": "kg"
+      },
+      {
+        "value": 50,
+        "unit": "lb"
+      }
+    ],
+    "density": {
+      "value": 36,
+      "unit": "lb./ft3"
+    },
+    "volume": {
+      "value": null,
+      "unit": null
+    },
+    "npk": "4-6-4",
+    "guaranteed_analysis_en": {
+      "title": "Guaranteed Analysis",
+      "nutrients": [
+        {
+          "nutrient": "Total Nitrogen (N)",
+          "value": 4,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Ammoniacal Nitrogen",
+          "value": 0.4,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Water Soluble Organic Nitrogen",
+          "value": 0.4,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Water Insoluble Organic Nitrogen",
+          "value": 3.2,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Available Phosphate (P2Os)",
+          "value": 6,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Soluble Potash (K2O)",
+          "value": 4,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Calcium (Ca)",
+          "value": 4,
+          "unit": "%"
+        }
+      ]
+    },
+    "guaranteed_analysis_fr": {
+      "title": null,
+      "nutrients": null
+    },
+    "ingredients_en": [
+      {
+        "ingredient": "aerobically composted turkey litter",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "feather meal",
+        "value": null,
+        "unit": null
+      },
+      {
+        "ingredient": "sulfate of potash",
+        "value": null,
+        "unit": null
+      }
+    ],
+    "ingredients_fr": null,
+    "cautions_en": [
+      "Information regarding the contents and levels of metals in this product is available on the internet at http://www.apfco.org/metals.htm"
+    ],
+    "cautions_fr": null,
+    "instructions_en": [
+      "Warm Season Turf Athletic Fields, Parks and Lawncare Apply 4-7 times per season. Spring and Fall - 25 lb. per 1000 ft2 Summer - 19 Ib. per 1000 m2",
+      "Cool Season Turf Athletic Fields, Parks and Lawncare Apply 2-3 times per season at a rate not exceeding 25 lbs. per 1000 ft2",
+      "Soil Preparation For Flower & Shrub Beds · Light, High Sandy Soil: 20 lb. per 100 square feet of bed",
+      "Medium, Clay Loam Soil: 15 lb. per 100 square feet of bed",
+      "Heavy, Silty, Clay Loam: 10 lb. per 100 square feet of bed",
+      "Turf Coverage 50 lb. covers 2000 ft2 @ 1 lb. N per 1000 ft2 (44 lb. N per acre) 22.67 kg covers 186 m2 @ 0.5 kg N per 100 m2 (50 kg N per ha) 25 lb. per 1000 ft3 12.5 g per 1 m2",
+      "Preplant - Broadcast and Incorporate into top 4 in. (5 cm) of soil 50 lb. per 1,000 ft2 or 2,200 lb. per acre 25 kg per 100 m2 or 1,250 kg per ha",
+      "Postplant - 45-60 days Broadcast and water in 25 lb. per 1,000 ft2 or 1,100 lb. per acre 12.5 kg per 100 m2 or 1,250 kg per ha",
+      "Overseeding - Apply 25 lb. per 1,000 ft2 at time of overseeding",
+      "Hydroseeding - Add 15 lb. per 1,000 ft2 in tank with binder",
+      "Fertilizer Maintenance for Large Trees Once trees have become well established, apply Sustane into holes punched into the ground within tree crown drip line. Once the tree has developed a 4-6 inch diameter, increase application rate to 1.5 lb. of Sustane per inch of tree trunk diameter.",
+      "NOTE: Adjust fertilizer program for local conditions and requirements"
+    ],
+    "instructions_fr": null
+  }

@@ -1,0 +1,101 @@
+{
+    "company_name": "Synagri L.P./S.E.C.",
+    "company_address": "SAINT-HYACINTHE, QC CANADA J2R 2B4",
+    "company_website": null,
+    "company_phone_number": null,
+    "manufacturer_name": "Chazy NY, 12921",
+    "manufacturer_address": "Giroux's Poultry Farm",
+    "manufacturer_website": null,
+    "manufacturer_phone_number": null,
+    "fertiliser_name": "Heat-Treated Pellets",
+    "registration_number": null,
+    "lot_number": null,
+    "weight": [
+      {
+        "value": null,
+        "unit": "kg"
+      },
+      {
+        "value": 25,
+        "unit": "lb"
+      }
+    ],
+    "density": {
+      "value": null,
+      "unit": null
+    },
+    "volume": {
+      "value": null,
+      "unit": null
+    },
+    "npk": "4 3 2",
+    "guaranteed_analysis_en": {
+      "title": "Minimum Guaranteed Analysis",
+      "nutrients": [
+        {
+          "nutrient": "Nitrogen",
+          "value": 4,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Available Phosphate",
+          "value": 3,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Soluble Potash",
+          "value": 2,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Calcium (Ca)",
+          "value": 7,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Magnesium (Mg)",
+          "value": 0.6,
+          "unit": "%"
+        }
+      ]
+    },
+    "guaranteed_analysis_fr": {
+      "title": "Minimum Guaranteed Analysis",
+      "nutrients": [
+        {
+          "nutrient": "Nitrogen",
+          "value": 4,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Available Phosphate",
+          "value": 3,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Soluble Potash",
+          "value": 2,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Calcium (Ca)",
+          "value": 7,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Magnesium (Mg)",
+          "value": 0.6,
+          "unit": "%"
+        }
+      ]
+    },
+    "ingredients_en": null,
+    "ingredients_fr": null,
+    "cautions_en": null,
+    "cautions_fr": null,
+    "instructions_en": [
+      "Directions for use: See your fertilization program.",
+      "Use only as recommended.  May be harmful if misused."
+    ],
+    "instructions_fr": null
+  }
