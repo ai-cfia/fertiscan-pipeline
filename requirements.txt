@@ -3,6 +3,7 @@ dspy-ai
 openai>=1.0
 pydantic>=2.7.1
 arize-phoenix-otel
+openinference-instrumentation-dspy
 python-dotenv
 reportlab
 setuptools

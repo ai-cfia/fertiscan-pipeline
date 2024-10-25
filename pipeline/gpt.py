@@ -63,7 +63,6 @@ class GPT:
             api_key=api_key,
             max_tokens=config["max_tokens"],
             api_version=config["api_version"],
-            # response_format=config["response_format"]
         )
 
     def create_inspection(self, text) -> Prediction:
