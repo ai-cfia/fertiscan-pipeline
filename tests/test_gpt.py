@@ -1,11 +1,14 @@
+import json
 import os
 import unittest
-import json
 
 from dotenv import load_dotenv
-from pipeline.inspection import FertilizerInspection
+from pydantic import ValidationError
+
 from pipeline.gpt import GPT
+from pipeline.inspection import FertilizerInspection
 from tests import levenshtein_similarity
+
 
 class TestLanguageModel(unittest.TestCase):
     def setUp(self):
@@ -15,7 +18,11 @@ class TestLanguageModel(unittest.TestCase):
         gpt_api_key = os.getenv("AZURE_OPENAI_KEY")
         gpt_api_deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT")
 
-        self.gpt = GPT(api_endpoint=gpt_api_endpoint, api_key=gpt_api_key, deployment_id=gpt_api_deployment)
+        self.gpt = GPT(
+            api_endpoint=gpt_api_endpoint,
+            api_key=gpt_api_key,
+            deployment_id=gpt_api_deployment,
+        )
 
         self.prompt = """
         GreenGrow Fertilizers Inc.
@@ -29,7 +36,7 @@ class TestLanguageModel(unittest.TestCase):
         www.agrotechindustries.com
         +1 416 555 0123
         SuperGrow 20-20-20 
-        Registration Number F12345678
+        Registration Number 2018007A
         Lot L987654321
         25 kg
         55 lb
@@ -89,28 +96,39 @@ class TestLanguageModel(unittest.TestCase):
         First Aid:
         En cas de contact avec les yeux, rincer immédiatement à grande eau et consulter un médecin.
         """
-    
+
     def check_json(self, extracted_info):
-        file = open('./expected.json')
+        file = open("./expected.json")
         expected_json = json.load(file)
 
         file.close()
 
         # Check if all keys are present
         for key in expected_json.keys():
-            assert key in extracted_info, f"Key '{key}' is missing in the extracted information"
+            assert (
+                key in extracted_info
+            ), f"Key '{key}' is missing in the extracted information"
 
         # Check if the json matches the format
         FertilizerInspection(**expected_json)
 
         # Check if values match
         for key, expected_value in expected_json.items():
-            assert levenshtein_similarity(str(extracted_info[key]), str(expected_value)) > 0.9, f"Value for key '{key}' does not match. Expected '{expected_value}', got '{extracted_info[key]}'"
+            assert (
+                levenshtein_similarity(str(extracted_info[key]), str(expected_value))
+                > 0.9
+            ), f"Value for key '{key}' does not match. Expected '{expected_value}', got '{extracted_info[key]}'"
 
     def test_generate_form_gpt(self):
         prediction = self.gpt.create_inspection(self.prompt)
         self.assertIsNotNone(prediction)
-            # self.check_json(prediction.inspection)
+        try:
+            inspection = FertilizerInspection.model_validate(prediction.inspection)
+        except ValidationError as e:
+            self.fail(f"Validation failed: {e}")
 
-if __name__ == '__main__':
+        self.check_json(inspection.model_dump())
+
+
+if __name__ == "__main__":
     unittest.main()

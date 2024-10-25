@@ -46,9 +46,7 @@ class ProduceLabelForm(dspy.Signature):
 
 
 class GPT:
-    def __init__(
-        self, api_endpoint, api_key, deployment_id, phoenix_endpoint: str = None
-    ):
+    def __init__(self, api_endpoint, api_key, deployment_id, phoenix_endpoint=None):
         if not api_endpoint or not api_key or not deployment_id:
             raise ValueError(
                 "The API endpoint, key and deployment_id are required to instantiate the GPT class."
