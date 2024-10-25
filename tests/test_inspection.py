@@ -2,10 +2,10 @@ import unittest
 
 from pipeline.inspection import (
     FertilizerInspection,
+    GuaranteedAnalysis,
     NutrientValue,
     Specification,
     Value,
-    GuaranteedAnalysis,
 )
 
 
@@ -206,26 +206,27 @@ class TestNPKValidation(unittest.TestCase):
                     inspection.npk, f"Expected None for npk with input {npk}"
                 )
 
+
 class TestGuaranteedAnalysis(unittest.TestCase):
-    
     def setUp(self):
         self.nutrient_1 = NutrientValue(nutrient="Nitrogen", value="2", unit="mg/L")
-        self.nutrient_2 = NutrientValue(nutrient="Organic matter", value="15", unit="mg/L")
+        self.nutrient_2 = NutrientValue(
+            nutrient="Organic matter", value="15", unit="mg/L"
+        )
 
     def test_set_is_minimal(self):
         guaranteed_analysis = GuaranteedAnalysis(
             title="Guaranteed minimum analysis",
-            nutrients=[self.nutrient_1, self.nutrient_2]
+            nutrients=[self.nutrient_1, self.nutrient_2],
         )
         self.assertTrue(guaranteed_analysis.is_minimal)
 
     def test_set_is_not_minimal(self):
         guaranteed_analysis = GuaranteedAnalysis(
-            title="Guaranteed analysis",
-            nutrients=[self.nutrient_1, self.nutrient_2]
+            title="Guaranteed analysis", nutrients=[self.nutrient_1, self.nutrient_2]
         )
         self.assertFalse(guaranteed_analysis.is_minimal)
-    
+
     def test_is_minimal_in_none(self):
         guaranteed_analysis = GuaranteedAnalysis(
             nutrients=[self.nutrient_1, self.nutrient_2]
@@ -268,7 +269,8 @@ class TestFertilizerInspectionListFields(unittest.TestCase):
         self.assertEqual(inspection.ingredients_en, [])
         self.assertEqual(inspection.ingredients_fr, [])
         self.assertEqual(inspection.weight, [])
-        
+
+
 class TestFertilizerInspectionRegistrationNumber(unittest.TestCase):
     def test_registration_number_with_less_digits(self):
         instance = FertilizerInspection(registration_number="1234")
@@ -298,6 +300,45 @@ class TestFertilizerInspectionRegistrationNumber(unittest.TestCase):
         instance = FertilizerInspection(registration_number="12A34567B")
         self.assertIsNone(instance.registration_number)
 
+
+class TestFertilizerInspectionPhoneNumberFormat(unittest.TestCase):
+    def test_valid_phone_number_with_country_code(self):
+        instance = FertilizerInspection(company_phone_number="+1 800 640 9605")
+        self.assertEqual(instance.company_phone_number, "+18006409605")
+
+    def test_valid_phone_number_without_country_code(self):
+        instance = FertilizerInspection(company_phone_number="800 640 9605")
+        self.assertEqual(instance.company_phone_number, "+18006409605")
+
+    def test_phone_number_with_parentheses(self):
+        instance = FertilizerInspection(company_phone_number="(757) 321-4567")
+        self.assertEqual(instance.company_phone_number, "+17573214567")
+
+    def test_phone_number_with_extra_characters(self):
+        instance = FertilizerInspection(company_phone_number="+1 800 321-9605 FAX")
+        self.assertIsNone(instance.company_phone_number)
+
+    def test_phone_number_with_multiple_numbers(self):
+        instance = FertilizerInspection(
+            company_phone_number="(757) 123-4567 (800) 456-7890, 1234567890"
+        )
+        self.assertIsNone(instance.company_phone_number)
+
+    def test_phone_number_from_other_country(self):
+        instance = FertilizerInspection(manufacturer_phone_number="+44 20 7946 0958")
+        self.assertEqual(instance.manufacturer_phone_number, "+442079460958")
+
+    def test_invalid_phone_number(self):
+        instance = FertilizerInspection(company_phone_number="invalid phone")
+        self.assertIsNone(instance.company_phone_number)
+
+    def test_phone_number_with_invalid_format(self):
+        instance = FertilizerInspection(company_phone_number="12345")
+        self.assertIsNone(instance.company_phone_number)
+
+
+if __name__ == "__main__":
+    unittest.main()
 
 if __name__ == "__main__":
     unittest.main()

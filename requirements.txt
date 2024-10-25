@@ -7,5 +7,7 @@ openinference-instrumentation-dspy
 python-dotenv
 reportlab
 setuptools
+phonenumbers
 # Test dependencies
 Levenshtein
+pytest
