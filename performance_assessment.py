@@ -1,18 +1,21 @@
-import os
-import time
-import json
-import shutil
-import datetime
 import csv
+import datetime
+import json
+import os
+import shutil
 import tempfile
+import time
+
 from dotenv import load_dotenv
-from pipeline import analyze, LabelStorage, OCR, GPT
+
+from pipeline import GPT, OCR, LabelStorage, analyze
 from tests import levenshtein_similarity
 
 ACCURACY_THRESHOLD = 80.0
 
+
 def extract_leaf_fields(
-    data: dict | list, parent_key: str = ''
+    data: dict | list, parent_key: str = ""
 ) -> dict[str, str | int | float | bool | None]:
     leaves: dict[str, str | int | float | bool | None] = {}
 
@@ -39,33 +42,35 @@ def find_test_cases(labels_folder: str) -> list[tuple[list[str], str]]:
     label_directories = sorted(
         os.path.join(labels_folder, directory)
         for directory in os.listdir(labels_folder)
-        if os.path.isdir(os.path.join(labels_folder, directory)) and directory.startswith("label_")
+        if os.path.isdir(os.path.join(labels_folder, directory))
+        and directory.startswith("label_")
     )
     if len(label_directories) == 0:
         print(f"No label directories found in {labels_folder}")
         raise FileNotFoundError(f"No label directories found in {labels_folder}")
 
     for label_directory in label_directories:
-        files = os.listdir(label_directory)
-        image_paths = [
+        files = sorted(os.listdir(label_directory))
+        image_paths = sorted(
             os.path.join(label_directory, file)
             for file in files
             if file.lower().endswith((".png", ".jpg"))
-        ]
+        )
         expected_json_path = os.path.join(label_directory, "expected_output.json")
 
         if not image_paths:
             raise FileNotFoundError(f"No image files found in {label_directory}")
         if not os.path.exists(expected_json_path):
-            raise FileNotFoundError(f"Expected output JSON not found in {label_directory}")
+            raise FileNotFoundError(
+                f"Expected output JSON not found in {label_directory}"
+            )
         test_cases.append((image_paths, expected_json_path))
 
     return test_cases
 
 
 def calculate_accuracy(
-    expected_fields: dict[str, str],
-    actual_fields: dict[str, str]
+    expected_fields: dict[str, str], actual_fields: dict[str, str]
 ) -> dict[str, dict[str, str | float]]:
     accuracy_results = {}
     for field_name, expected_value in expected_fields.items():
@@ -76,10 +81,10 @@ def calculate_accuracy(
             score = levenshtein_similarity(str(expected_value), str(actual_value))
         pass_fail = "Pass" if score >= ACCURACY_THRESHOLD else "Fail"
         accuracy_results[field_name] = {
-            'score': score,
-            'expected_value': expected_value,
-            'actual_value': actual_value,
-            'pass_fail': pass_fail,
+            "score": score,
+            "expected_value": expected_value,
+            "actual_value": actual_value,
+            "pass_fail": pass_fail,
         }
     return accuracy_results
 
@@ -90,7 +95,9 @@ def run_test_case(
     # Copy images to temporary files to prevent deletion due to LabelStorage behavior
     copied_image_paths = []
     for image_path in image_paths:
-        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(image_path)[1])
+        temp_file = tempfile.NamedTemporaryFile(
+            delete=False, suffix=os.path.splitext(image_path)[1]
+        )
         shutil.copy2(image_path, temp_file.name)
         copied_image_paths.append(temp_file.name)
 
@@ -109,7 +116,9 @@ def run_test_case(
     # Run performance test
     print("\tRunning analysis for test case...")
     start_time = time.time()
-    actual_output = analyze(storage, ocr, gpt) # <-- the `analyse` function deletes the images it processes so we don't need to clean up our image copies
+    actual_output = analyze(
+        storage, ocr, gpt
+    )  # <-- the `analyse` function deletes the images it processes so we don't need to clean up our image copies
     performance = time.time() - start_time
     print(f"\tAnalysis completed in {performance:.2f} seconds.")
 
@@ -117,7 +126,7 @@ def run_test_case(
     actual_fields = extract_leaf_fields(json.loads(actual_output.model_dump_json()))
 
     # Load expected output
-    with open(expected_json_path, 'r') as file:
+    with open(expected_json_path, "r") as file:
         expected_fields = extract_leaf_fields(json.load(file))
 
     # Calculate accuracy
@@ -126,9 +135,9 @@ def run_test_case(
 
     # Return results
     return {
-        'test_case_number': test_case_number,
-        'performance': performance,
-        'accuracy_results': accuracy_results,
+        "test_case_number": test_case_number,
+        "performance": performance,
+        "accuracy_results": accuracy_results,
     }
 
 
@@ -137,31 +146,35 @@ def generate_csv_report(results: list[dict[str, any]]) -> None:
     os.makedirs("reports", exist_ok=True)
     report_path = os.path.join("reports", f"test_results_{timestamp}.csv")
 
-    with open(report_path, mode='w', newline='') as file:
+    with open(report_path, mode="w", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow([
-            "Test Case",
-            "Field Name",
-            "Pass/Fail",
-            "Accuracy Score",
-            "Pipeline Speed (seconds)",
-            "Expected Value",
-            "Actual Value",
-        ])
+        writer.writerow(
+            [
+                "Test Case",
+                "Field Name",
+                "Pass/Fail",
+                "Accuracy Score",
+                "Pipeline Speed (seconds)",
+                "Expected Value",
+                "Actual Value",
+            ]
+        )
 
         for result in results:
-            test_case_number = result['test_case_number']
-            performance = result['performance']
-            for field_name, data in result['accuracy_results'].items():
-                writer.writerow([
-                    test_case_number,
-                    field_name,
-                    data['pass_fail'],
-                    f"{data['score']:.2f}",
-                    f"{performance:.4f}",
-                    data['expected_value'],
-                    data['actual_value'],
-                ])
+            test_case_number = result["test_case_number"]
+            performance = result["performance"]
+            for field_name, data in result["accuracy_results"].items():
+                writer.writerow(
+                    [
+                        test_case_number,
+                        field_name,
+                        data["pass_fail"],
+                        f"{data['score']:.2f}",
+                        f"{performance:.4f}",
+                        data["expected_value"],
+                        data["actual_value"],
+                    ]
+                )
     print(f"CSV report generated and saved to: {report_path}")
 
 
@@ -169,7 +182,7 @@ def main() -> None:
     print("Script execution started.")
 
     load_dotenv()
-    
+
     # Validate required environment variables
     required_vars = [
         "AZURE_API_ENDPOINT",
@@ -180,7 +193,9 @@ def main() -> None:
     ]
     missing_vars = [var for var in required_vars if not os.getenv(var)]
     if missing_vars:
-        raise RuntimeError(f"Missing required environment variables: {', '.join(missing_vars)}")
+        raise RuntimeError(
+            f"Missing required environment variables: {', '.join(missing_vars)}"
+        )
 
     test_cases = find_test_cases("test_data/labels")
     print(f"Found {len(test_cases)} test case(s) to process.")
@@ -193,10 +208,11 @@ def main() -> None:
             results.append(result)
         except Exception as e:
             print(f"Error processing test case {idx}: {e}")
-            continue # I'd rather continue processing the other test cases than stop the script for now
-    
+            continue  # I'd rather continue processing the other test cases than stop the script for now
+
     generate_csv_report(results)
     print("Script execution completed.")
+
 
 if __name__ == "__main__":
     main()

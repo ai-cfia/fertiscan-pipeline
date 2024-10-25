@@ -4,7 +4,6 @@ from .inspection import FertilizerInspection  # noqa: F401
 from .gpt import GPT  # noqa: F401
 
 import os
-import json
 from datetime import datetime
 
 def save_text_to_file(text: str, output_path: str): # pragma: no cover
@@ -40,15 +39,12 @@ def analyze(label_storage: LabelStorage, ocr: OCR, gpt: GPT, log_dir_path: str =
     # Generate inspection from extracted text
     prediction = gpt.create_inspection(result.content)
 
-    # Logs the results from GPT
-    save_text_to_file(prediction.inspection, f"{log_dir_path}/{now}.json")
-    save_text_to_file(prediction.rationale, f"{log_dir_path}/{now}.txt")
-
-    # Load a JSON from the text
-    raw_json = json.loads(prediction.inspection)
-
     # Check the coninspectionity of the JSON
-    inspection = FertilizerInspection(**raw_json)
+    inspection = prediction.inspection
+
+    # Logs the results from GPT
+    save_text_to_file(prediction.reasoning, f"{log_dir_path}/{now}.txt")
+    save_text_to_file(inspection.model_dump_json(indent=2), f"{log_dir_path}/{now}.json")
 
     # Clear the label cache
     label_storage.clear()
