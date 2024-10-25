@@ -1,0 +1,136 @@
+{
+    "company_name": "Novago Coopérative",
+    "company_address": "839, rue papineau, Joliette, QC J6E 2L6",
+    "company_website": null,
+    "company_phone_number": null,
+    "manufacturer_name": null,
+    "manufacturer_address": null,
+    "manufacturer_website": null,
+    "manufacturer_phone_number": null,
+    "fertiliser_name": null,
+    "registration_number": null,
+    "lot_number": "18538",
+    "weight": [
+      {
+        "value": 1000,
+        "unit": "kg"
+      }
+    ],
+    "density": {
+      "value": 97.46,
+      "unit": "kg/hl"
+    },
+    "volume": {
+      "value": null,
+      "unit": null
+    },
+    "npk": "15-22-6",
+    "guaranteed_analysis_en": {
+      "title": "Guaranteed Analysis",
+      "nutrients": [
+        {
+          "nutrient": "Total Nitrogen (N)",
+          "value": 15,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Available Phosphate (P2O5)",
+          "value": 22,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Soluble Potash (K2O)",
+          "value": 6,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Magnesium (Mg)",
+          "value": 1.21,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Boron (B)",
+          "value": 0.12,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Sulfur (S)",
+          "value": 6.36,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Calcium (Ca)",
+          "value": 1.24,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Zinc (Zn)",
+          "value": 0.55,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Matter Content",
+          "value": 0.5,
+          "unit": "%"
+        }
+      ]
+    },
+    "guaranteed_analysis_fr": {
+      "title": "Analyse Garantie Minimale",
+      "nutrients": [
+        {
+          "nutrient": "Azote Totale (N)",
+          "value": 15,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Acide Phosphorique Assimilable (P2O5)",
+          "value": 22,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Potasse Soluble (K2O)",
+          "value": 6,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Magnésium (Mg)",
+          "value": 1.21,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Bore (B)",
+          "value": 0.12,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Soufre (S)",
+          "value": 6.36,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Calcium (Ca)",
+          "value": 1.24,
+          "unit": "%"
+        },
+        {
+          "nutrient": "Zinc (Zn)",
+          "value": 0.55,
+          "unit": "%"
+        },
+        {
+          "nutrient": "% de matière",
+          "value": 0.5,
+          "unit": "%"
+        }
+      ]
+    },
+    "ingredients_en": null,
+    "ingredients_fr": null,
+    "cautions_en": null,
+    "cautions_fr": [
+      "Cet engrais renferme du B, ZN et ne doit être employé que de la manière recommandée."
+    ],
+    "instructions_en": null,
+    "instructions_fr": null
+  }
