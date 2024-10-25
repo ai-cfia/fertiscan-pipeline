@@ -66,8 +66,14 @@ class TestPipeline(unittest.TestCase):
         # Perform assertions
         self.assertIsInstance(inspection, FertilizerInspection, inspection)
         self.assertIn(Value(value="25", unit="kg"), inspection.weight, inspection)
+        manufacturer_or_company = (
+            inspection.manufacturer_name or inspection.company_name
+        )
+        self.assertIsNotNone(manufacturer_or_company, inspection)
         self.assertGreater(
-            levenshtein_similarity(inspection.manufacturer_name, "TerraLink"),
+            levenshtein_similarity(
+                manufacturer_or_company, "TerraLink Horticulture Inc."
+            ),
             0.95,
             inspection,
         )
@@ -86,7 +92,7 @@ class TestPipeline(unittest.TestCase):
         self.assertFalse(os.path.exists(txt_log_path))
 
 
-class TestWebsiteFields(unittest.TestCase):
+class TestInspectionAnnotatedFields(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Load environment variables
@@ -132,6 +138,36 @@ class TestWebsiteFields(unittest.TestCase):
     def add_images_to_storage(self, image_paths, label_storage):
         for image_path in image_paths:
             label_storage.add_image(image_path)
+
+    def test_label_008_phone_number_inspection(self):
+        label_folder = "test_data/labels/label_008"
+        label_storage = LabelStorage()
+
+        # Copy images to temporary directory and add to storage
+        image_paths = self.copy_images_to_temp_dir(label_folder)
+        self.add_images_to_storage(image_paths, label_storage)
+
+        # Run the analyze function
+        inspection = analyze(label_storage, self.ocr, self.gpt)
+
+        # Assertions
+        self.assertEqual(inspection.company_phone_number, "+18003279462")
+        self.assertIsNone(inspection.manufacturer_phone_number)
+
+    def test_label_024_phone_number_inspection(self):
+        label_folder = "test_data/labels/label_024"
+        label_storage = LabelStorage()
+
+        # Copy images to temporary directory and add to storage
+        image_paths = self.copy_images_to_temp_dir(label_folder)
+        self.add_images_to_storage(image_paths, label_storage)
+
+        # Run the analyze function
+        inspection = analyze(label_storage, self.ocr, self.gpt)
+
+        # Assertions
+        self.assertEqual(inspection.company_phone_number, "+14506556147")
+        self.assertIsNone(inspection.manufacturer_phone_number)
 
     def test_label_001_website_inspection(self):
         label_folder = "test_data/labels/label_001"

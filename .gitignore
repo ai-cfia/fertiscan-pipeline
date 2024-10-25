@@ -4,7 +4,9 @@ __pycache__/
 *$py.class
 
 # tests
+logs/
 test_logs/
+reports/
 
 # VS Code
 .vscode
@@ -169,5 +171,6 @@ cython_debug/
 
 # Testing artifacts
 end_to_end_pipeline_artifacts
-reports
-logs
+
+logs/
+reports/

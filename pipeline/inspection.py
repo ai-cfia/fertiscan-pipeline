@@ -1,8 +1,10 @@
 import re
 from typing import Annotated, List, Optional
 
+import phonenumbers
 from pydantic import (
     BaseModel,
+    ConfigDict,
     Field,
     StringConstraints,
     field_validator,
@@ -98,7 +100,9 @@ class FertilizerInspection(BaseModel):
         None,
         description="Return the distributor's website, ensuring 'www.' prefix is added.",
     )
-    company_phone_number: Optional[str] = None
+    company_phone_number: Optional[str] = Field(
+        None, description="The distributor's primary phone number. Return only one."
+    )
     manufacturer_name: Optional[str] = None
     manufacturer_address: Optional[str] = None
     manufacturer_website: Annotated[str | None, StringConstraints(to_lower=True)] = (
@@ -107,7 +111,9 @@ class FertilizerInspection(BaseModel):
             description="Return the manufacturer's website, ensuring 'www.' prefix is added.",
         )
     )
-    manufacturer_phone_number: Optional[str] = None
+    manufacturer_phone_number: Optional[str] = Field(
+        None, description="The manufacturer's primary phone number. Return only one."
+    )
     fertiliser_name: Optional[str] = None
     registration_number: Optional[str] = None
     lot_number: Optional[str] = None
@@ -123,6 +129,7 @@ class FertilizerInspection(BaseModel):
     instructions_fr: List[str] = []
     ingredients_en: List[NutrientValue] = []
     ingredients_fr: List[NutrientValue] = []
+    model_config = ConfigDict(populate_by_name=True)
 
     @field_validator("npk", mode="before")
     def validate_npk(cls, v):
@@ -155,5 +162,19 @@ class FertilizerInspection(BaseModel):
                 return v
         return None
 
-    class Config:
-        populate_by_name = True
+    @field_validator("company_phone_number", "manufacturer_phone_number", mode="before")
+    def check_phone_number_format(cls, v):
+        if v is None:
+            return
+
+        try:
+            phone_number = phonenumbers.parse(v, "CA")
+            if not phonenumbers.is_valid_number(phone_number):
+                return
+            phone_number = phonenumbers.format_number(
+                phone_number, phonenumbers.PhoneNumberFormat.E164
+            )
+            return phone_number
+
+        except phonenumbers.phonenumberutil.NumberParseException:
+            return
