@@ -1,8 +1,15 @@
 import re
-from typing import List, Optional
+from typing import Annotated, List, Optional
 
 import phonenumbers
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StringConstraints,
+    field_validator,
+    model_validator,
+)
 
 
 class npkError(ValueError):
@@ -89,13 +96,21 @@ class Specification(BaseModel):
 class FertilizerInspection(BaseModel):
     company_name: Optional[str] = None
     company_address: Optional[str] = None
-    company_website: Optional[str] = None
+    company_website: Annotated[str | None, StringConstraints(to_lower=True)] = Field(
+        None,
+        description="Return the distributor's website, ensuring 'www.' prefix is added.",
+    )
     company_phone_number: Optional[str] = Field(
         None, description="The distributor's primary phone number. Return only one."
     )
     manufacturer_name: Optional[str] = None
     manufacturer_address: Optional[str] = None
-    manufacturer_website: Optional[str] = None
+    manufacturer_website: Annotated[str | None, StringConstraints(to_lower=True)] = (
+        Field(
+            None,
+            description="Return the manufacturer's website, ensuring 'www.' prefix is added.",
+        )
+    )
     manufacturer_phone_number: Optional[str] = Field(
         None, description="The manufacturer's primary phone number. Return only one."
     )
