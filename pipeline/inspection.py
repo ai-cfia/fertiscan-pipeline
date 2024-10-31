@@ -1,4 +1,5 @@
 import re
+from enum import Enum
 from typing import Annotated, List, Optional
 
 import phonenumbers
@@ -54,6 +55,23 @@ class Value(BaseModel):
             return extract_first_number(v)
         return None
 
+# class syntax
+
+class RegistrationNumberType(Enum):
+    INGREDIENT = "ingredient"
+    FERTILIZER = "fertilizer"
+
+class RegistrationNumber(BaseModel):
+    number: str
+    type: Optional[RegistrationNumberType] = None
+
+    @field_validator("number", mode="before")
+    def check_registration_number_format(cls, v):
+        if v is not None:
+            pattern = r"^\d{7}[A-Z]$"
+            if re.match(pattern, v):
+                return v
+        return None
 
 class GuaranteedAnalysis(BaseModel):
     title: Optional[str] = None
@@ -115,7 +133,7 @@ class FertilizerInspection(BaseModel):
         None, description="The manufacturer's primary phone number. Return only one."
     )
     fertiliser_name: Optional[str] = None
-    registration_number: Optional[str] = None
+    registration_number: List[RegistrationNumber] = []
     lot_number: Optional[str] = None
     weight: List[Value] = []
     density: Optional[Value] = None
@@ -153,14 +171,6 @@ class FertilizerInspection(BaseModel):
         if v is None:
             v = []
         return v
-
-    @field_validator("registration_number", mode="before")
-    def check_registration_number_format(cls, v):
-        if v is not None:
-            pattern = r"^\d{7}[A-Z]$"
-            if re.match(pattern, v):
-                return v
-        return None
 
     @field_validator("company_phone_number", "manufacturer_phone_number", mode="before")
     def check_phone_number_format(cls, v):
