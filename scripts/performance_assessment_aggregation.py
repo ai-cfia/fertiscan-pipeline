@@ -59,6 +59,12 @@ def generate_markdown_report(field_stats, test_case_stats, total_pass_rate, aver
     
     # Field-Level Aggregation
     markdown_report += "## Field-Level Aggregation\n\n"
+    markdown_report += "The following table provides an overview of the accuracy, pass rate, and missing rate for each field across all test cases.\n\n"
+    markdown_report += "`Field name`: correspond to a unique field in the Inspection.\n\n"
+    markdown_report += "`Average Accuracy Score`: the average accuracy score for the given field across all test cases.\n\n"
+    markdown_report += "`Pass Rate`: the percentage of test cases where the given field passed the accuracy threshold(default is 80%).\n\n"
+    markdown_report += "`Missing Rate`: the percentage of test cases where the given field was not found in the Inspection returned by the pipeline.\n\n"
+    markdown_report += "`Occurrences`: the number of times the given field was found across all test cases.\n\n"
     markdown_report += "| Field Name | Average Accuracy Score | Pass Rate | Missing Rate | Occurrences |\n"
     markdown_report += "|------------|------------------------|-----------|--------------|-------------|\n"
     
@@ -73,6 +79,9 @@ def generate_markdown_report(field_stats, test_case_stats, total_pass_rate, aver
     
     # Test Case-Level Aggregation
     markdown_report += "\n## Test Case-Level Aggregation\n\n"
+    markdown_report += "The following table provides an overview of the overall pass rate and average accuracy score for each test case.\n\n"
+    markdown_report += "`Overall Pass Rate`: the percentage of fields that passed the accuracy threshold(default is 80%) in the given test case.\n\n"
+    markdown_report += "`Average Accuracy Score`: the average accuracy score for all fields in the given test case.\n\n"
     markdown_report += "| Test Case | Overall Pass Rate | Average Accuracy Score |\n"
     markdown_report += "|-----------|-------------------|------------------------|\n"
     

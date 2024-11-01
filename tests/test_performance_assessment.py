@@ -5,7 +5,7 @@ import shutil
 import csv
 import tempfile
 from unittest.mock import patch, MagicMock
-from performance_assessment import (
+from performance_test import (
     extract_leaf_fields,
     find_test_cases,
     calculate_accuracy,
