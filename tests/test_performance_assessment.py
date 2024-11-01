@@ -274,10 +274,10 @@ class TestCalculateAccuracy(unittest.TestCase):
         self.assertEqual(int(result['field_2']['score']), 0)
 
 class TestRunTestCase(unittest.TestCase):
-    @patch("performance_assessment.LabelStorage")
-    @patch("performance_assessment.OCR")
-    @patch("performance_assessment.GPT")
-    @patch("performance_assessment.analyze")
+    @patch("performance_test.LabelStorage")
+    @patch("performance_test.OCR")
+    @patch("performance_test.GPT")
+    @patch("performance_test.analyze")
     def test_run_test_case(self, mock_analyze, MockGPT, MockOCR, MockLabelStorage):
         # Setting up mock returns
         mock_analyze.return_value.model_dump_json.return_value = json.dumps({
