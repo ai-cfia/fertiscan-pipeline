@@ -77,7 +77,7 @@ class RegistrationNumber(BaseModel):
             pattern = r"^\d{7}[A-Z]$"
             if re.match(pattern, v):
                 return v
-        return None
+        raise ValueError(f"Invalid registration number format : {v}")
 
 class GuaranteedAnalysis(BaseModel):
     title: Optional[str] = None
@@ -175,9 +175,10 @@ class FertilizerInspection(BaseModel):
         mode="before",
     )
     def replace_none_with_empty_list(cls, v):
-        if v is None or v == 0:
+        if v is None:
             v = []
         return v
+
 
     @field_validator("company_phone_number", "manufacturer_phone_number", mode="before")
     def check_phone_number_format(cls, v):

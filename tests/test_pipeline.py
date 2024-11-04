@@ -210,7 +210,7 @@ class TestInspectionAnnotatedFields(unittest.TestCase):
 
         # Assertions for website fields
         self.assertEqual(
-            inspection.man, "www.advancednutrients.com/growersupport"
+            inspection.company_website, "www.advancednutrients.com/growersupport"
         )
 
 
