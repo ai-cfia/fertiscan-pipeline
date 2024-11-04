@@ -57,15 +57,21 @@ class Value(BaseModel):
 
 # class syntax
 
-class RegistrationNumberType(Enum):
-    INGREDIENT = "ingredient"
-    FERTILIZER = "fertilizer"
+class RegistrationNumberType(str, Enum):
+    """
+    Represents the type of registration number for fertilizers.
+
+    - INGREDIENT: Refers to a registration number associated with a specific ingredient in the ingredient list of a fertilizer.
+    - FERTILIZER: Refers to the unique registration number assigned to the fertilizer product itself.
+    """
+    INGREDIENT = "ingredient_component"
+    FERTILIZER = "fertilizer_product"
 
 class RegistrationNumber(BaseModel):
-    number: str
+    identifier: str = Field(..., description="A string composed of 7-digit number followed by an uppercase letter.")
     type: Optional[RegistrationNumberType] = None
 
-    @field_validator("number", mode="before")
+    @field_validator("identifier", mode="before")
     def check_registration_number_format(cls, v):
         if v is not None:
             pattern = r"^\d{7}[A-Z]$"
@@ -164,11 +170,12 @@ class FertilizerInspection(BaseModel):
         "instructions_fr",
         "ingredients_en",
         "ingredients_fr",
+        "registration_number",
         "weight",
         mode="before",
     )
     def replace_none_with_empty_list(cls, v):
-        if v is None:
+        if v is None or v == 0:
             v = []
         return v
 

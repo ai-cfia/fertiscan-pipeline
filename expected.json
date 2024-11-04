@@ -8,7 +8,12 @@
   "manufacturer_website": "https://www.agrisupply.com",
   "manufacturer_phone_number": "987-654-3210",
   "fertiliser_name": "GreenGrow Fertilizer 20-20-20",
-  "registration_number": "2018007A",
+  "registration_number": [
+    {
+      "identifier": "2018007A",
+      "type": "fertilizer_product"
+    }
+  ],
   "lot_number": "LOT20240901",
   "weight": [
     {
