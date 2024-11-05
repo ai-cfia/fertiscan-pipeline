@@ -68,7 +68,7 @@ class RegistrationNumberType(str, Enum):
     FERTILIZER = "fertilizer_product"
 
 class RegistrationNumber(BaseModel):
-    identifier: str = Field(..., description="A string composed of 7-digit number followed by an uppercase letter.")
+    identifier: Optional[str] = Field(..., description="A string composed of 7-digit number followed by an uppercase letter.")
     type: Optional[RegistrationNumberType] = None
 
     @field_validator("identifier", mode="before")
@@ -77,7 +77,12 @@ class RegistrationNumber(BaseModel):
             pattern = r"^\d{7}[A-Z]$"
             if re.match(pattern, v):
                 return v
-        raise ValueError(f"Invalid registration number format : {v}")
+        return None
+
+    @field_validator("type", mode="before")
+    def check_registration_number_type(cls, v):
+        if v not in RegistrationNumberType:
+            return None
 
 class GuaranteedAnalysis(BaseModel):
     title: Optional[str] = None

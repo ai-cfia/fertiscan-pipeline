@@ -266,14 +266,12 @@ class TestRegistrationNumber(unittest.TestCase):
     def test_invalid_registration_number(self):
         for registration_number in self.invalid_registration_number_data:
             with self.subTest(registration_number=registration_number):
-                with self.assertRaises(ValueError):
-                    RegistrationNumber(identifier=registration_number, type=RegistrationNumberType.FERTILIZER)
+                self.assertIsNone(RegistrationNumber(identifier=registration_number, type=RegistrationNumberType.FERTILIZER).identifier)
 
     def test_invalid_registration_type(self):
         for registration_type in self.invalid_registration_type_data:
             with self.subTest(registration_type=registration_type):
-                with self.assertRaises(ValueError):
-                    RegistrationNumber(identifier="1234567A", type=registration_type)
+                self.assertIsNone(RegistrationNumber(identifier="1234567A", type=registration_type).type)
     
 
 class TestGuaranteedAnalysis(unittest.TestCase):
