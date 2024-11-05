@@ -81,7 +81,7 @@ class RegistrationNumber(BaseModel):
 
     @field_validator("type", mode="before")
     def check_registration_number_type(cls, v):
-        if v not in RegistrationNumberType:
+        if v not in RegistrationNumberType.__members__.values():
             return None
 
 class GuaranteedAnalysis(BaseModel):
