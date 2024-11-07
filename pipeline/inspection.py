@@ -1,5 +1,4 @@
 import re
-from enum import Enum
 from typing import Annotated, List, Optional
 
 import phonenumbers
