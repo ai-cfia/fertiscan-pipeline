@@ -57,19 +57,9 @@ class Value(BaseModel):
 
 # class syntax
 
-class RegistrationNumberType(str, Enum):
-    """
-    Represents the type of registration number for fertilizers.
-
-    - INGREDIENT: Refers to a registration number associated with a specific ingredient in the ingredient list of a fertilizer.
-    - FERTILIZER: Refers to the unique registration number assigned to the fertilizer product itself.
-    """
-    INGREDIENT = "ingredient_component"
-    FERTILIZER = "fertilizer_product"
-
 class RegistrationNumber(BaseModel):
     identifier: Optional[str] = Field(..., description="A string composed of 7-digit number followed by an uppercase letter.")
-    type: Optional[RegistrationNumberType] = None
+    type: Optional[str] = Field(None, description="Type of registration number, either 'ingredient_component' or 'fertilizer_product'.")
 
     @field_validator("identifier", mode="before")
     def check_registration_number_format(cls, v):
@@ -81,8 +71,9 @@ class RegistrationNumber(BaseModel):
 
     @field_validator("type", mode="before")
     def check_registration_number_type(cls, v):
-        if v not in RegistrationNumberType.__members__.values():
+        if v not in ["ingredient_component", "fertilizer_product"]:
             return None
+        return v
 
 class GuaranteedAnalysis(BaseModel):
     title: Optional[str] = None

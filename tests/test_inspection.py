@@ -4,7 +4,6 @@ from pipeline.inspection import (
     FertilizerInspection,
     GuaranteedAnalysis,
     RegistrationNumber,
-    RegistrationNumberType,
     NutrientValue,
     Specification,
     Value,
@@ -266,7 +265,7 @@ class TestRegistrationNumber(unittest.TestCase):
     def test_invalid_registration_number(self):
         for registration_number in self.invalid_registration_number_data:
             with self.subTest(registration_number=registration_number):
-                self.assertIsNone(RegistrationNumber(identifier=registration_number, type=RegistrationNumberType.FERTILIZER).identifier)
+                self.assertIsNone(RegistrationNumber(identifier=registration_number, type="fertilizer_product").identifier)
 
     def test_invalid_registration_type(self):
         for registration_type in self.invalid_registration_type_data:
@@ -316,7 +315,7 @@ class TestFertilizerInspectionListFields(unittest.TestCase):
             "registration_number": [
                 {
                     "identifier": "1234567A",
-                    "type": RegistrationNumberType.FERTILIZER,
+                    "type": "fertilizer_product",
                 }
             ],
             "lot_number": "LOT987",
