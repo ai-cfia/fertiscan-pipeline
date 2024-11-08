@@ -5,7 +5,7 @@ import shutil
 import csv
 import tempfile
 from unittest.mock import patch, MagicMock
-from performance_assessment import (
+from scripts.run_performance_assessment_data_collection import (
     extract_leaf_fields,
     find_test_cases,
     calculate_accuracy,
@@ -274,10 +274,10 @@ class TestCalculateAccuracy(unittest.TestCase):
         self.assertEqual(int(result['field_2']['score']), 0)
 
 class TestRunTestCase(unittest.TestCase):
-    @patch("performance_assessment.LabelStorage")
-    @patch("performance_assessment.OCR")
-    @patch("performance_assessment.GPT")
-    @patch("performance_assessment.analyze")
+    @patch("scripts.run_performance_assessment_data_collection.LabelStorage")
+    @patch("scripts.run_performance_assessment_data_collection.OCR")
+    @patch("scripts.run_performance_assessment_data_collection.GPT")
+    @patch("scripts.run_performance_assessment_data_collection.analyze")
     def test_run_test_case(self, mock_analyze, MockGPT, MockOCR, MockLabelStorage):
         # Setting up mock returns
         mock_analyze.return_value.model_dump_json.return_value = json.dumps({
