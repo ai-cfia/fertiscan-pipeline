@@ -6,7 +6,6 @@ from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
-    StringConstraints,
     field_validator,
     model_validator,
 )
@@ -38,7 +37,7 @@ class Organization(BaseModel):
         if v is None:
             return None
         try:
-            phone_number = phonenumbers.parse(v, "CA")
+            phone_number = phonenumbers.parse(v, "CA", _check_region=False)
             if not phonenumbers.is_valid_number(phone_number):
                 return None
             phone_number = phonenumbers.format_number(
@@ -48,14 +47,6 @@ class Organization(BaseModel):
 
         except phonenumbers.phonenumberutil.NumberParseException:
             return None
-    
-    @field_validator("website", mode="before")
-    def check_dead_link(cls, v):
-        if v is not None:
-            if not v.startswith("www."):
-                v = "www." + v
-            return v
-        return None
 
 
 
@@ -162,6 +153,7 @@ class FertilizerInspection(BaseModel):
         "instructions_fr",
         "ingredients_en",
         "ingredients_fr",
+        "organizations",
         "weight",
         mode="before",
     )
@@ -169,7 +161,7 @@ class FertilizerInspection(BaseModel):
         if v is None:
             v = []
         return v
-
+    
     @field_validator("registration_number", mode="before")
     def check_registration_number_format(cls, v):
         if v is not None:
@@ -177,20 +169,3 @@ class FertilizerInspection(BaseModel):
             if re.match(pattern, v):
                 return v
         return None
-
-    @field_validator("company_phone_number", "manufacturer_phone_number", mode="before")
-    def check_phone_number_format(cls, v):
-        if v is None:
-            return
-
-        try:
-            phone_number = phonenumbers.parse(v, "CA")
-            if not phonenumbers.is_valid_number(phone_number):
-                return
-            phone_number = phonenumbers.format_number(
-                phone_number, phonenumbers.PhoneNumberFormat.E164
-            )
-            return phone_number
-
-        except phonenumbers.phonenumberutil.NumberParseException:
-            return
