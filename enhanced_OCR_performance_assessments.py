@@ -8,7 +8,7 @@ import time
 
 from dotenv import load_dotenv
 
-from pipeline import GPT, OCR, LabelStorage, analyze
+from pipeline import GPT, OCR, LabelStorage, analyze_with_ocr_enhancment
 from tests import levenshtein_similarity
 
 ACCURACY_THRESHOLD = 80.0
@@ -107,6 +107,20 @@ def run_test_case(
         storage.add_image(image_path)
 
     ocr = OCR(os.getenv("AZURE_API_ENDPOINT"), os.getenv("AZURE_API_KEY"))
+    
+    document = storage.get_document()
+    result = ocr.extract_text(document=document)
+    # # Generate inspection from extracted text
+    # # prediction = gpt.create_inspection(result.content)
+    # print("--------------------------------------------------------------")
+    # print(result)
+    # print("--------------------------------------------------------------")
+    print(result.content)
+    print("--------------------------------------------------------------")
+    print(os.getenv("AZURE_OPENAI_API_KEY"))
+    # print(type(result.content))
+    # print("--------------------------------------------------------------")
+    
     gpt = GPT(
         os.getenv("AZURE_OPENAI_ENDPOINT"),
         os.getenv("AZURE_OPENAI_KEY"),
@@ -116,9 +130,14 @@ def run_test_case(
     # Run performance test
     print("\tRunning analysis for test case...")
     start_time = time.time()
-    actual_output = analyze(
+    # actual_output = analyze(
+    #     storage, ocr, gpt
+    # )  # <-- the `analyse` function deletes the images it processes so we don't need to clean up our image copies
+    
+    actual_output = analyze_with_ocr_enhancment(
         storage, ocr, gpt
-    )  # <-- the `analyse` function deletes the images it processes so we don't need to clean up our image copies
+    )
+    
     performance = time.time() - start_time
     print(f"\tAnalysis completed in {performance:.2f} seconds.")
 
