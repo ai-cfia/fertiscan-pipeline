@@ -108,19 +108,6 @@ def run_test_case(
 
     ocr = OCR(os.getenv("AZURE_API_ENDPOINT"), os.getenv("AZURE_API_KEY"))
     
-    document = storage.get_document()
-    result = ocr.extract_text(document=document)
-    # # Generate inspection from extracted text
-    # # prediction = gpt.create_inspection(result.content)
-    # print("--------------------------------------------------------------")
-    # print(result)
-    # print("--------------------------------------------------------------")
-    print(result.content)
-    print("--------------------------------------------------------------")
-    print(os.getenv("AZURE_OPENAI_API_KEY"))
-    # print(type(result.content))
-    # print("--------------------------------------------------------------")
-    
     gpt = GPT(
         os.getenv("AZURE_OPENAI_ENDPOINT"),
         os.getenv("AZURE_OPENAI_KEY"),

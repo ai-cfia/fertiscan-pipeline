@@ -3,7 +3,7 @@ from .ocr import OCR  # noqa: F401
 from .inspection import FertilizerInspection  # noqa: F401
 from .gpt import GPT  # noqa: F401
 
-import openai
+from openai import AzureOpenAI
 from IPython.display import Image, display, Audio, Markdown
 import base64
 
@@ -72,18 +72,22 @@ def analyze_with_ocr_enhancment(label_storage: LabelStorage, ocr: OCR, gpt: GPT,
     document = label_storage.get_document()
     result = ocr.extract_text(document=document)
     
-    # Open the image file and encode it as a base64 string
     def encode_image(image_path):
         with open(image_path, "rb") as image_file:
             return base64.b64encode(image_file.read()).decode("utf-8")
         
     base64_image = encode_image(label_storage.images[0])
     
-    client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    client = AzureOpenAI(
+        azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT"), 
+        api_key=os.getenv("AZURE_OPENAI_KEY"),  
+        api_version="2024-02-15-preview"
+    )
+    
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model=os.getenv("AZURE_OPENAI_DEPLOYMENT"),
         messages=[
-            {"role": "system", "content": "You are a helpful assistant that responds in Markdown. Help me with reading the infromation in the image!"},
+            {"role": "system", "content": "You are a helpful assistant that responds in Markdown. Help me with reading the information in the image!"},
             {"role": "user", "content": [
                 {"type": "text", "text": "In the image below, there is a fertilizer label. We extracted the following text from the image: " + result.content + " Using both the image and the extracted text, I want you to improve and enrich the text based on the image in the following ways: -fill out the missing information in the image. - improve the structure of the text to be more readable. - correct any errors in the extracted text."},
                 {"type": "image_url", "image_url": {
