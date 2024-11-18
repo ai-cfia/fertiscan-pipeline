@@ -47,7 +47,12 @@ class Organization(BaseModel):
 
         except phonenumbers.phonenumberutil.NumberParseException:
             return None
-
+        
+    @field_validator("website", mode="before")
+    def website_lowercase(cls, v):
+        if v is not None:
+            return v.lower()
+        return v
 
 
 class NutrientValue(BaseModel):

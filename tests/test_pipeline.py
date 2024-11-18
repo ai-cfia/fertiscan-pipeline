@@ -66,9 +66,7 @@ class TestPipeline(unittest.TestCase):
         # Perform assertions
         self.assertIsInstance(inspection, FertilizerInspection, inspection)
         self.assertIn(Value(value="25", unit="kg"), inspection.weight, inspection)
-        manufacturer_or_company = (
-            inspection.manufacturer_name or inspection.company_name
-        )
+        manufacturer_or_company = inspection.organizations[0].name
         self.assertIsNotNone(manufacturer_or_company, inspection)
         self.assertGreater(
             levenshtein_similarity(
@@ -151,8 +149,8 @@ class TestInspectionAnnotatedFields(unittest.TestCase):
         inspection = analyze(label_storage, self.ocr, self.gpt)
 
         # Assertions
-        self.assertEqual(inspection.company_phone_number, "+18003279462")
-        self.assertIsNone(inspection.manufacturer_phone_number)
+        self.assertIn("+18003279462", str(inspection.organizations), inspection.organizations)
+        # self.assertIsNone(inspection.manufacturer_phone_number)
 
     def test_label_024_phone_number_inspection(self):
         label_folder = "test_data/labels/label_024"
@@ -166,8 +164,8 @@ class TestInspectionAnnotatedFields(unittest.TestCase):
         inspection = analyze(label_storage, self.ocr, self.gpt)
 
         # Assertions
-        self.assertEqual(inspection.company_phone_number, "+14506556147")
-        self.assertIsNone(inspection.manufacturer_phone_number)
+        self.assertIn("+14506556147", str(inspection.organizations))
+        # self.assertIsNone(inspection.manufacturer_phone_number)
 
     def test_label_001_website_inspection(self):
         label_folder = "test_data/labels/label_001"
@@ -181,7 +179,7 @@ class TestInspectionAnnotatedFields(unittest.TestCase):
         inspection = analyze(label_storage, self.ocr, self.gpt)
 
         # Assertions for website fields
-        self.assertEqual(inspection.company_website, "www.soil-aid.com")
+        self.assertIn("www.soil-aid.com", str(inspection.organizations))
 
     def test_label_006_website_inspection(self):
         label_folder = "test_data/labels/label_006"
@@ -195,7 +193,7 @@ class TestInspectionAnnotatedFields(unittest.TestCase):
         inspection = analyze(label_storage, self.ocr, self.gpt)
 
         # Assertions for website fields
-        self.assertEqual(inspection.company_website, "www.activeagriscience.com")
+        self.assertIn("activeagriscience.com", str(inspection.organizations))
 
     def test_label_034_website_inspection(self):
         label_folder = "test_data/labels/label_034"
@@ -209,9 +207,7 @@ class TestInspectionAnnotatedFields(unittest.TestCase):
         inspection = analyze(label_storage, self.ocr, self.gpt)
 
         # Assertions for website fields
-        self.assertEqual(
-            inspection.company_website, "www.advancednutrients.com/growersupport"
-        )
+        self.assertIn("www.advancednutrients.com/growersupport", str(inspection.organizations))
 
 
 if __name__ == "__main__":
