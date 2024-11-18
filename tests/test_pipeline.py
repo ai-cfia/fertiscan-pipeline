@@ -164,9 +164,7 @@ class TestInspectionAnnotatedFields(unittest.TestCase):
         inspection = analyze(label_storage, self.ocr, self.gpt)
 
         # Assertions
-        for organization in inspection.organizations:
-            self.assertIsNone(organization.phone_number)
-        # self.assertIn("+14506556147", str(inspection.organizations))
+        self.assertIn("+14506556147", str(inspection.organizations))
         # self.assertIsNone(inspection.manufacturer_phone_number)
 
     def test_label_001_website_inspection(self):

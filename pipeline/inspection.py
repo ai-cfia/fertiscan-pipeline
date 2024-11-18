@@ -51,6 +51,8 @@ class Organization(BaseModel):
     @field_validator("website", mode="before")
     def website_lowercase(cls, v):
         if v is not None:
+            if not v.startswith("www."):
+                v = "www." + v
             return v.lower()
         return v
 
