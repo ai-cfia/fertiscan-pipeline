@@ -1,5 +1,5 @@
 import re
-from typing import Annotated, List, Optional
+from typing import List, Optional
 
 import phonenumbers
 from pydantic import (
