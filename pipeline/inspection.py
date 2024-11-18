@@ -29,8 +29,8 @@ class Organization(BaseModel):
     """
     name: Optional[str] = Field(None, description="The name of the organization.")
     address: Optional[str] = Field(None, description="The address of the organization.")
-    website: Optional[str] = Field(None, description="The website of the organization.")
-    phone_number: Optional[str] = Field(None, description="The phone number of the organization.")
+    website: Optional[str] = Field(None, description="The website of the organization, ensuring 'www.' prefix is added..")
+    phone_number: Optional[str] = Field(None, description="The primary phone number of the organization. Return only one.")
 
     @field_validator("phone_number", mode="before")
     def validate_phone_number(cls, v):

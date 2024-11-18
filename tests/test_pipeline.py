@@ -195,7 +195,7 @@ class TestInspectionAnnotatedFields(unittest.TestCase):
         inspection = analyze(label_storage, self.ocr, self.gpt)
 
         # Assertions for website fields
-        self.assertIn("activeagriscience.com", str(inspection.organizations))
+        self.assertIn("www.activeagriscience.com", str(inspection.organizations))
 
     def test_label_034_website_inspection(self):
         label_folder = "test_data/labels/label_034"
