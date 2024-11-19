@@ -6,6 +6,7 @@ from pipeline.inspection import (
     RegistrationNumber,
     NutrientValue,
     Specification,
+    Organization,
     Value,
 )
 
@@ -165,7 +166,34 @@ class TestSpecification(unittest.TestCase):
                     f"Expected None for solubility with input {data['solubility']}",
                 )
 
+class TestOrganizations(unittest.TestCase):
+    def setUp(self):
+        self.valid_organization_data = [
+            {"name": "Test Company", "address": "123 Test St", "website": "https://test.com", "phone_number": "800 640 9605"},
+            {"name": "Test Manufacturer", "address": "456 Test Blvd", "website": "https://manufacturer.com", "phone_number": "800-765-4321"},
+        ]
 
+        self.invalid_organization_data = [
+            {"name": "Test Company", "address": "123 Test St", "website": "https://test.com", "phone_number": "123-456-7890"},
+            {"name": "Test Manufacturer", "address": "456 Test Blvd", "website": "https://manufacturer.com", "phone_number": "098-765-4321"},
+        ]
+
+    def test_valid_organization(self):
+        for data in self.valid_organization_data:
+            with self.subTest(data=data):
+                organization = Organization(**data)
+                self.assertIsNotNone(organization.name, data["name"])
+                self.assertIsNotNone(organization.address, data["address"])
+                self.assertIsNotNone(organization.website, data["website"])
+                self.assertIsNotNone(organization.phone_number, data["phone_number"])
+
+    def test_invalid_organization(self):
+        for data in self.invalid_organization_data:
+            with self.subTest(data=data):
+                organization = Organization(**data)
+                self.assertIsNone(
+                    organization.phone_number, f"Expected None for phone_number with input {data['phone_number']}"
+                )
 class TestNPKValidation(unittest.TestCase):
     def setUp(self):
         self.valid_npk_data = ["10-5-20", "0-0-0", "100-200-300", "10.2-5.5-20.3"]
@@ -303,14 +331,6 @@ class TestGuaranteedAnalysis(unittest.TestCase):
 class TestFertilizerInspectionListFields(unittest.TestCase):
     def setUp(self):
         self.default_data = {
-            "company_name": "Test Company",
-            "company_address": "123 Test St",
-            "company_website": "https://test.com",
-            "company_phone_number": "123-456-7890",
-            "manufacturer_name": "Test Manufacturer",
-            "manufacturer_address": "456 Test Blvd",
-            "manufacturer_website": "https://manufacturer.com",
-            "manufacturer_phone_number": "098-765-4321",
             "fertiliser_name": "Test Fertilizer",
             "registration_number": [
                 {
@@ -341,40 +361,71 @@ class TestFertilizerInspectionListFields(unittest.TestCase):
         self.assertEqual(inspection.ingredients_fr, [])
         self.assertEqual(inspection.weight, [])
 
-class TestFertilizerInspectionPhoneNumberFormat(unittest.TestCase):
+
+class TestFertilizerInspectionRegistrationNumber(unittest.TestCase):
+    def test_registration_number_with_less_digits(self):
+        instance = FertilizerInspection(registration_number="1234")
+        self.assertIsNone(instance.registration_number)
+
+    def test_registration_number_less_than_seven_digits(self):
+        instance = FertilizerInspection(registration_number="12345A")
+        self.assertIsNone(instance.registration_number)
+
+    def test_registration_number_seven_digits_no_letter(self):
+        instance = FertilizerInspection(registration_number="1234567")
+        self.assertIsNone(instance.registration_number)
+
+    def test_registration_number_seven_digits_with_lowercase_letter(self):
+        instance = FertilizerInspection(registration_number="1234567a")
+        self.assertIsNone(instance.registration_number)
+
+    def test_registration_number_correct_format(self):
+        instance = FertilizerInspection(registration_number="1234567A")
+        self.assertEqual(instance.registration_number, "1234567A")
+
+    def test_registration_number_extra_characters(self):
+        instance = FertilizerInspection(registration_number="12345678B")
+        self.assertIsNone(instance.registration_number)
+
+    def test_registration_number_mixed_format(self):
+        instance = FertilizerInspection(registration_number="12A34567B")
+        self.assertIsNone(instance.registration_number)
+
+
+class TestOrganizationPhoneNumberFormat(unittest.TestCase):
     def test_valid_phone_number_with_country_code(self):
-        instance = FertilizerInspection(company_phone_number="+1 800 640 9605")
-        self.assertEqual(instance.company_phone_number, "+18006409605")
+        instance = Organization(phone_number="+1 800 640 9605")
+        self.assertEqual(instance.phone_number, "+18006409605")
 
     def test_valid_phone_number_without_country_code(self):
-        instance = FertilizerInspection(company_phone_number="800 640 9605")
-        self.assertEqual(instance.company_phone_number, "+18006409605")
+        instance = Organization(phone_number="800 640 9605")
+        self.assertEqual(instance.phone_number, "+18006409605")
 
     def test_phone_number_with_parentheses(self):
-        instance = FertilizerInspection(company_phone_number="(757) 321-4567")
-        self.assertEqual(instance.company_phone_number, "+17573214567")
+        instance = Organization(phone_number="(757) 321-4567")
+        self.assertEqual(instance.phone_number, "+17573214567")
 
     def test_phone_number_with_extra_characters(self):
-        instance = FertilizerInspection(company_phone_number="+1 800 321-9605 FAX")
-        self.assertIsNone(instance.company_phone_number)
+        instance = Organization(phone_number="+1 800 321-9605 FAX")
+        self.assertIsNone(instance.phone_number)
 
     def test_phone_number_with_multiple_numbers(self):
-        instance = FertilizerInspection(
-            company_phone_number="(757) 123-4567 (800) 456-7890, 1234567890"
+        instance = Organization(
+            phone_number="(757) 123-4567 (800) 456-7890, 1234567890"
         )
-        self.assertIsNone(instance.company_phone_number)
+        self.assertIsNone(instance.phone_number)
 
     def test_phone_number_from_other_country(self):
-        instance = FertilizerInspection(manufacturer_phone_number="+44 20 7946 0958")
-        self.assertEqual(instance.manufacturer_phone_number, "+442079460958")
+        instance = Organization(phone_number="+44 20 7946 0958")
+        self.assertEqual(instance.phone_number, "+442079460958")
 
     def test_invalid_phone_number(self):
-        instance = FertilizerInspection(company_phone_number="invalid phone")
-        self.assertIsNone(instance.company_phone_number)
+        instance = Organization(phone_number="invalid phone")
+        self.assertIsNone(instance.phone_number)
 
     def test_phone_number_with_invalid_format(self):
-        instance = FertilizerInspection(company_phone_number="12345")
-        self.assertIsNone(instance.company_phone_number)
+        instance = Organization(phone_number="12345")
+        self.assertIsNone(instance.phone_number)
 
 
 if __name__ == "__main__":
