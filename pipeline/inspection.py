@@ -188,11 +188,3 @@ class FertilizerInspection(BaseModel):
         if v is None:
             v = []
         return v
-    
-    @field_validator("registration_number", mode="before")
-    def check_registration_number_format(cls, v):
-        if v is not None:
-            pattern = r"^\d{7}[A-Z]$"
-            if re.match(pattern, v):
-                return v
-        return None
