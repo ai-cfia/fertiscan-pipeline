@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "fertiscan_pipeline"
-version = "0.0.7"
+version = "0.0.8"
 description = "A pipeline for the FertiScan project"
 authors = [
     { name = "Albert Bryan Ndjeutcha", email = "albert.ndjeutcha@inspection.gc.ca" }

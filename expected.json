@@ -1,12 +1,18 @@
 {
-  "company_name": "GreenGrow Inc.",
-  "company_address": "123 Green Road, Farmville, State, 12345",
-  "company_website": "https://www.greengrow.com",
-  "company_phone_number": "123-456-7890",
-  "manufacturer_name": "AgriSupply Co.",
-  "manufacturer_address": "456 Supply Lane, AgriTown, State, 67890",
-  "manufacturer_website": "https://www.agrisupply.com",
-  "manufacturer_phone_number": "987-654-3210",
+  "organizations": [
+    {
+      "name": "GreenGrow Inc.",
+      "address": "123 Green Road, Farmville, State, 12345",
+      "website": "https://www.greengrow.com",
+      "phone_number": "123-456-7890"
+    },
+    {
+      "name": "AgriSupply Co.",
+      "address": "456 Supply Lane, AgriTown, State, 67890",
+      "website": "https://www.agrisupply.com",
+      "phone_number": "987-654-3210"
+    }
+  ],
   "fertiliser_name": "GreenGrow Fertilizer 20-20-20",
   "registration_number": "2018007A",
   "lot_number": "LOT20240901",
