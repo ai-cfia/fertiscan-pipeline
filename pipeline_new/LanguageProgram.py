@@ -19,21 +19,21 @@ SUPPORTED_MODELS = {
 }
 
 class LanguageProgram(dspy.Module):
-    def __init__(self, azure_openai_key, azure_openai_endpoint, azure_ocr_key, azure_ocr_endpoint, deployment_id):
+    def __init__(self, llm_api_key, llm_api_endpoint, llm_deployment_id, orc_api_key, ocr_api_endpoint):
         # initialize all the components to be used in the forward method
         lm = dspy.LM(
-            model=f"azure/{deployment_id}",
-            api_base=azure_openai_endpoint,
-            api_key=azure_openai_key,
-            max_tokens=SUPPORTED_MODELS.get(deployment_id)["max_tokens"],
-            api_version=SUPPORTED_MODELS.get(deployment_id)["api_version"],
+            model=f"azure/{llm_deployment_id}",
+            api_base=llm_api_endpoint,
+            api_key=llm_api_key,
+            max_tokens=SUPPORTED_MODELS.get(llm_deployment_id)["max_tokens"],
+            api_version=SUPPORTED_MODELS.get(llm_deployment_id)["api_version"],
         )
         dspy.configure(lm=lm)
-        self.ocr = OCR(azure_ocr_endpoint, azure_ocr_key)
+        self.ocr = OCR(ocr_api_endpoint, orc_api_key)
         self.label_storage = LabelStorage()
         self.inspector = dspy.TypedChainOfThought(Inspector)
 
-    def forward(self, image_paths):
+    def forward(self, image_paths) -> dspy.Prediction:
         print("loading images...")
         for image_path in image_paths:
             self.label_storage.add_image(image_path)
@@ -45,12 +45,12 @@ class LanguageProgram(dspy.Module):
         ocr_results = self.ocr.extract_text(document=document)
 
         print("sending the text to llm...")
-        inspection = self.inspector(text=ocr_results.content, requirements=REQUIREMENTS)
+        inspection_prediction = self.inspector(text=ocr_results.content, requirements=REQUIREMENTS)
 
         print("done")
         self.label_storage.clear()
 
-        return inspection
+        return inspection_prediction
 
 
 if __name__ == "__main__":
@@ -75,7 +75,7 @@ if __name__ == "__main__":
 
     test_image = os.path.join("/workspaces/fertiscan-pipeline/test_data/labels/label_001/img_001.png")
 
-    language_program = LanguageProgram(AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT,AZURE_API_KEY,AZURE_API_ENDPOINT, AZURE_OPENAI_DEPLOYMENT)
+    language_program = LanguageProgram(AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT,AZURE_API_KEY,AZURE_API_ENDPOINT)
 
     language_program.forward([test_image])
 
