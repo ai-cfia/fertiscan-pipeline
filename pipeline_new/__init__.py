@@ -1,4 +1,4 @@
-from pipeline_new.LanguageProgram import LanguageProgram
+from pipeline_new.modules.LanguageProgram import LanguageProgram
 from pipeline_new.components.label import LabelStorage  # noqa: F401
 from pipeline_new.components.ocr import OCR  # noqa: F401
 from pipeline_new.schemas.inspection import FertilizerInspection  # noqa: F401
