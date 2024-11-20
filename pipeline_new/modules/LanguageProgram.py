@@ -1,10 +1,11 @@
 import os
 from dotenv import load_dotenv
 import dspy
-from pipeline_new.signatures.Inspector import Inspector, REQUIREMENTS
 from pipeline_new.components.label import LabelStorage
 from pipeline_new.components.ocr import OCR
+from pipeline_new.schemas.inspection import FertilizerInspection
 
+# Constants
 SUPPORTED_MODELS = {
     "gpt-3.5-turbo": {
         "max_tokens": 12000,
@@ -18,6 +19,36 @@ SUPPORTED_MODELS = {
     },
 }
 
+REQUIREMENTS = """
+The content of keys with the suffix _en must be in English.
+The content of keys with the suffix _fr must be in French.
+Translation of the text is prohibited.
+You are prohibited from generating any text that is not part of the JSON.
+The JSON must contain exclusively keys specified in "keys".
+"""
+
+
+# Signatures
+class Inspector(dspy.Signature):
+    """
+    You are a fertilizer label inspector working for the Canadian Food Inspection Agency.
+    Your task is to classify all information present in the provided text using the specified keys.
+    Your response should be accurate, intelligible, information in JSON, and contain all the text from the provided text.
+    """
+
+    text: str = dspy.InputField(
+        desc="The text of the fertilizer label extracted using OCR."
+    )
+
+    # TODO remove the depency on the pseudo prompt engineering
+    requirements: str = dspy.InputField(
+        desc="The instructions and guidelines to follow."
+    )
+
+    inspection: FertilizerInspection = dspy.OutputField(desc="The inspection results.")
+
+
+# Modules
 class LanguageProgram(dspy.Module):
     def __init__(self, llm_api_key, llm_api_endpoint, llm_deployment_id, orc_api_key, ocr_api_endpoint):
         # initialize all the components to be used in the forward method
