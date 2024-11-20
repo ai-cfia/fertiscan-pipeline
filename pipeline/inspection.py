@@ -1,12 +1,11 @@
 import re
-from typing import Annotated, List, Optional
+from typing import List, Optional
 
 import phonenumbers
 from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
-    StringConstraints,
     field_validator,
     model_validator,
 )
@@ -22,6 +21,40 @@ def extract_first_number(string: str) -> Optional[str]:
         if match:
             return match.group()
     return None
+
+class Organization(BaseModel):
+    """
+    Represents an organization such as a manufacturer, company, or any entity 
+    associated with a fertilizer.
+    """
+    name: Optional[str] = Field(None, description="The name of the organization.")
+    address: Optional[str] = Field(None, description="The address of the organization.")
+    website: Optional[str] = Field(None, description="The website of the organization, ensuring 'www.' prefix is added..")
+    phone_number: Optional[str] = Field(None, description="The primary phone number of the organization. Return only one.")
+
+    @field_validator("phone_number", mode="before")
+    def validate_phone_number(cls, v):
+        if v is None:
+            return None
+        try:
+            phone_number = phonenumbers.parse(v, "CA", _check_region=False)
+            if not phonenumbers.is_valid_number(phone_number):
+                return None
+            phone_number = phonenumbers.format_number(
+                phone_number, phonenumbers.PhoneNumberFormat.E164
+            )
+            return phone_number
+
+        except phonenumbers.phonenumberutil.NumberParseException:
+            return None
+        
+    @field_validator("website", mode="before")
+    def website_lowercase(cls, v):
+        if v is not None:
+            if not v.startswith("www."):
+                v = "www." + v
+            return v.lower()
+        return v
 
 
 class NutrientValue(BaseModel):
@@ -94,26 +127,7 @@ class Specification(BaseModel):
 
 
 class FertilizerInspection(BaseModel):
-    company_name: Optional[str] = None
-    company_address: Optional[str] = None
-    company_website: Annotated[str | None, StringConstraints(to_lower=True)] = Field(
-        None,
-        description="Return the distributor's website, ensuring 'www.' prefix is added.",
-    )
-    company_phone_number: Optional[str] = Field(
-        None, description="The distributor's primary phone number. Return only one."
-    )
-    manufacturer_name: Optional[str] = None
-    manufacturer_address: Optional[str] = None
-    manufacturer_website: Annotated[str | None, StringConstraints(to_lower=True)] = (
-        Field(
-            None,
-            description="Return the manufacturer's website, ensuring 'www.' prefix is added.",
-        )
-    )
-    manufacturer_phone_number: Optional[str] = Field(
-        None, description="The manufacturer's primary phone number. Return only one."
-    )
+    organizations: List[Organization] = []
     fertiliser_name: Optional[str] = None
     registration_number: Optional[str] = None
     lot_number: Optional[str] = None
@@ -146,6 +160,7 @@ class FertilizerInspection(BaseModel):
         "instructions_fr",
         "ingredients_en",
         "ingredients_fr",
+        "organizations",
         "weight",
         mode="before",
     )
@@ -153,7 +168,7 @@ class FertilizerInspection(BaseModel):
         if v is None:
             v = []
         return v
-
+    
     @field_validator("registration_number", mode="before")
     def check_registration_number_format(cls, v):
         if v is not None:
@@ -161,20 +176,3 @@ class FertilizerInspection(BaseModel):
             if re.match(pattern, v):
                 return v
         return None
-
-    @field_validator("company_phone_number", "manufacturer_phone_number", mode="before")
-    def check_phone_number_format(cls, v):
-        if v is None:
-            return
-
-        try:
-            phone_number = phonenumbers.parse(v, "CA")
-            if not phonenumbers.is_valid_number(phone_number):
-                return
-            phone_number = phonenumbers.format_number(
-                phone_number, phonenumbers.PhoneNumberFormat.E164
-            )
-            return phone_number
-
-        except phonenumbers.phonenumberutil.NumberParseException:
-            return

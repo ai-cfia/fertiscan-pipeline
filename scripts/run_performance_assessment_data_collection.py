@@ -176,6 +176,7 @@ def generate_csv_report(results: list[dict[str, any]]) -> None:
                     ]
                 )
     print(f"CSV report generated and saved to: {report_path}")
+    return report_path
 
 
 def main() -> None:
