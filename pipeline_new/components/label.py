@@ -49,8 +49,8 @@ class LabelStorage:
         return pdf_buffer
     
     def clear(self):
-        for image_path in self.images:
-            os.remove(image_path)
+        # for image_path in self.images:
+        #     os.remove(image_path)
 
         self.images = []
 
