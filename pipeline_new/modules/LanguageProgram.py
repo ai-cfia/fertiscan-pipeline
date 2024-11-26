@@ -104,7 +104,7 @@ if __name__ == "__main__":
     AZURE_OPENAI_KEY = os.getenv('AZURE_OPENAI_KEY')
     AZURE_OPENAI_DEPLOYMENT = os.getenv('AZURE_OPENAI_DEPLOYMENT')
 
-    test_image = os.path.join("/workspaces/fertiscan-pipeline/test_data/labels/label_001/img_001.png")
+    test_image = os.path.join(os.getcwd(), "test_data", "labels", "label_001", "img_001.png")
 
     language_program = LanguageProgram(AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT,AZURE_API_KEY,AZURE_API_ENDPOINT)
 
