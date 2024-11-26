@@ -99,9 +99,7 @@ class TestPipeline(unittest.TestCase):
         # Perform assertions
         self.assertIsInstance(inspection, FertilizerInspection, inspection)
         self.assertIn(Value(value="25", unit="kg"), inspection.weight, inspection)
-        manufacturer_or_company = (
-            inspection.manufacturer_name or inspection.company_name
-        )
+        manufacturer_or_company = inspection.organizations[0].name
         self.assertIsNotNone(manufacturer_or_company, inspection)
         self.assertGreater(
             levenshtein_similarity(
