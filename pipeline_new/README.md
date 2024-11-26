@@ -1,7 +1,7 @@
 # Pipeline Structure
 
 ```markdown
-└── Pipeline                    <- Source code for use in this project.
+└── Pipeline                    <- Source code that will be available when importing the package.
     │
     ├── __init__.py             <- Makes Pipeline a Python module and defines the interface for communications
     │
