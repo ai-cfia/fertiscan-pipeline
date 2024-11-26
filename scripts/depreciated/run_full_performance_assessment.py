@@ -2,8 +2,8 @@ import os
 from dotenv import load_dotenv
 
 
-from scripts.evaluation.run_performance_assessment_data_collection import find_test_cases, run_test_case, generate_csv_report
-from scripts.visualization.run_performance_assessment_data_visualization import load_csv, calculate_field_stats, calculate_test_case_stats, calculate_overall_metrics, generate_markdown_report, save_report
+from scripts.depreciated.run_performance_assessment_data_collection import find_test_cases, run_test_case, generate_csv_report
+from scripts.depreciated.run_performance_assessment_data_visualization import load_csv, calculate_field_stats, calculate_test_case_stats, calculate_overall_metrics, generate_markdown_report, save_report
 
 CSV_FOLDER = "reports"
 
