@@ -55,3 +55,31 @@ def analyze(label_storage: LabelStorage, ocr: OCR, gpt: GPT, log_dir_path: str =
     os.remove(f"{log_dir_path}/{now}.json")
 
     return inspection
+
+def analyze_document(document: bytes, ocr: OCR, gpt: GPT, log_dir_path: str = './logs') -> FertilizerInspection:
+    """
+    Analyze the raw document of the fertiliser label using an OCR and an LLM.
+    It returns the data extracted from the label in a FertiliserForm.
+    """
+    result = ocr.extract_text(document=document)
+
+    # Logs the results from document intelligence
+    now = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    save_text_to_file(result.content, f"{log_dir_path}/{now}.md")
+
+    # Generate inspection from extracted text
+    prediction = gpt.create_inspection(result.content)
+
+    # Check the coninspectionity of the JSON
+    inspection = prediction.inspection
+
+    # Logs the results from GPT
+    save_text_to_file(prediction.reasoning, f"{log_dir_path}/{now}.txt")
+    save_text_to_file(inspection.model_dump_json(indent=2), f"{log_dir_path}/{now}.json")
+
+    # Delete the logs if there's no error
+    os.remove(f"{log_dir_path}/{now}.md")   
+    os.remove(f"{log_dir_path}/{now}.txt")     
+    os.remove(f"{log_dir_path}/{now}.json")
+
+    return inspection

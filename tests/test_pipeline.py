@@ -6,7 +6,7 @@ from datetime import datetime
 
 from dotenv import load_dotenv
 
-from pipeline import GPT, OCR, LabelStorage, analyze
+from pipeline import GPT, OCR, LabelStorage, analyze, analyze_document
 from pipeline.inspection import FertilizerInspection, Value
 from tests import curl_file, levenshtein_similarity
 
@@ -61,6 +61,39 @@ class TestPipeline(unittest.TestCase):
         # Run the analyze function
         inspection = analyze(
             self.label_storage, self.ocr, self.gpt, log_dir_path=self.log_dir_path
+        )
+
+        # Perform assertions
+        self.assertIsInstance(inspection, FertilizerInspection, inspection)
+        self.assertIn(Value(value="25", unit="kg"), inspection.weight, inspection)
+        manufacturer_or_company = inspection.organizations[0].name
+        self.assertIsNotNone(manufacturer_or_company, inspection)
+        self.assertGreater(
+            levenshtein_similarity(
+                manufacturer_or_company, "TerraLink Horticulture Inc."
+            ),
+            0.95,
+            inspection,
+        )
+        self.assertGreater(
+            levenshtein_similarity(inspection.npk, "10-52-0"), 0.90, inspection
+        )
+
+        # Ensure logs are created and then deleted
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        md_log_path = f"{self.log_dir_path}/{now}.md"
+        json_log_path = f"{self.log_dir_path}/{now}.json"
+        txt_log_path = f"{self.log_dir_path}/{now}.txt"
+
+        self.assertFalse(os.path.exists(md_log_path))
+        self.assertFalse(os.path.exists(json_log_path))
+        self.assertFalse(os.path.exists(txt_log_path))
+
+    def test_analyze_document(self):
+        # Run the analyze function
+        self.setUpClass()
+        inspection = analyze_document(
+            self.label_storage.get_document(), self.ocr, self.gpt, log_dir_path=self.log_dir_path
         )
 
         # Perform assertions
