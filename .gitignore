@@ -7,7 +7,7 @@ __pycache__/
 logs/
 test_logs/
 reports/
-test_label.py
+analyze_label.py
 
 # VS Code
 .vscode
