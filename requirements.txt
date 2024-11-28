@@ -11,3 +11,4 @@ phonenumbers
 # Test dependencies
 Levenshtein
 pytest
+jellyfish
