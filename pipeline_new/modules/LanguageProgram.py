@@ -65,20 +65,20 @@ class LanguageProgram(dspy.Module):
         self.inspector = dspy.TypedChainOfThought(Inspector)
 
     def forward(self, image_paths) -> dspy.Prediction:
-        print("loading images...")
+        #print("loading images...")
         for image_path in image_paths:
             self.label_storage.add_image(image_path)
 
-        print("turning images into pdfs...")
+        #print("turning images into pdfs...")
         document = self.label_storage.get_document()
         
-        print("sending the pdf to ocr...")
+        #print("sending the pdf to ocr...")
         ocr_results = self.ocr.extract_text(document=document)
 
-        print("sending the text to llm...")
+        #print("sending the text to llm...")
         inspection_prediction = self.inspector(text=ocr_results.content, requirements=REQUIREMENTS)
 
-        print("done")
+        #print("done")
         self.label_storage.clear()
 
         return inspection_prediction
