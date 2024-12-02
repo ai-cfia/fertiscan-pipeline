@@ -87,6 +87,25 @@ class Value(BaseModel):
             return extract_first_number(v)
         return None
 
+# class syntax
+
+class RegistrationNumber(BaseModel):
+    identifier: Optional[str] = Field(..., description="A string composed of 7-digit number followed by an uppercase letter.")
+    type: Optional[str] = Field(None, description="Type of registration number, either 'ingredient_component' or 'fertilizer_product'.")
+
+    @field_validator("identifier", mode="before")
+    def check_registration_number_format(cls, v):
+        if v is not None:
+            pattern = r"^\d{7}[A-Z]$"
+            if re.match(pattern, v):
+                return v
+        return None
+
+    @field_validator("type", mode="before")
+    def check_registration_number_type(cls, v):
+        if v not in ["ingredient_component", "fertilizer_product"]:
+            return None
+        return v
 
 class GuaranteedAnalysis(BaseModel):
     title: Optional[str] = None
@@ -129,7 +148,7 @@ class Specification(BaseModel):
 class FertilizerInspection(BaseModel):
     organizations: List[Organization] = []
     fertiliser_name: Optional[str] = None
-    registration_number: Optional[str] = None
+    registration_number: List[RegistrationNumber] = []
     lot_number: Optional[str] = None
     weight: List[Value] = []
     density: Optional[Value] = None
@@ -160,6 +179,7 @@ class FertilizerInspection(BaseModel):
         "instructions_fr",
         "ingredients_en",
         "ingredients_fr",
+        "registration_number",
         "organizations",
         "weight",
         mode="before",
@@ -168,11 +188,3 @@ class FertilizerInspection(BaseModel):
         if v is None:
             v = []
         return v
-    
-    @field_validator("registration_number", mode="before")
-    def check_registration_number_format(cls, v):
-        if v is not None:
-            pattern = r"^\d{7}[A-Z]$"
-            if re.match(pattern, v):
-                return v
-        return None

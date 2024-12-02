@@ -3,6 +3,7 @@ import unittest
 from pipeline.inspection import (
     FertilizerInspection,
     GuaranteedAnalysis,
+    RegistrationNumber,
     NutrientValue,
     Specification,
     Organization,
@@ -234,6 +235,71 @@ class TestNPKValidation(unittest.TestCase):
                     inspection.npk, f"Expected None for npk with input {npk}"
                 )
 
+class TestRegistrationNumber(unittest.TestCase):
+    def setUp(self):
+        self.valid_registration_number_data = [
+            "1234567A",
+            "1234567B",
+            "1234567C",
+            "1234567D",
+            "1234567E",
+            "1234567F",
+            "1234567G",
+            "1234567H",
+            "1234567I",
+            "1234567J",
+            "1234567K",
+            "1234567L",
+            "1234567M",
+            "1234567N",
+            "1234567O",
+            "1234567P",
+            "1234567Q",
+            "1234567R",
+            "1234567S",
+            "1234567T",
+            "1234567U",
+            "1234567V",
+            "1234567W",
+            "1234567X",
+            "1234567Y",
+            "1234567Z",
+        ]
+
+        self.invalid_registration_number_data = [
+            "1234567",
+            "1234567AA",
+            "1234567A1",
+            "1234567A ",
+            "1234567 A",
+            "1234567A-",
+            "1234567A.",
+            "1234567A,",
+        ]
+
+        self.invalid_registration_type_data = [
+            "FERTILIZER",
+            "INGREDIENT",
+            "PRODUCT",
+            "COMPONENT",
+        ]
+
+    def test_valid_registration_number(self):
+        for registration_number in self.valid_registration_number_data:
+            with self.subTest(registration_number=registration_number):
+                registration = RegistrationNumber(identifier=registration_number)
+                self.assertEqual(registration.identifier, registration_number)
+            
+    def test_invalid_registration_number(self):
+        for registration_number in self.invalid_registration_number_data:
+            with self.subTest(registration_number=registration_number):
+                self.assertIsNone(RegistrationNumber(identifier=registration_number, type="fertilizer_product").identifier)
+
+    def test_invalid_registration_type(self):
+        for registration_type in self.invalid_registration_type_data:
+            with self.subTest(registration_type=registration_type):
+                self.assertIsNone(RegistrationNumber(identifier="1234567A", type=registration_type).type)
+    
 
 class TestGuaranteedAnalysis(unittest.TestCase):
     def setUp(self):
@@ -266,7 +332,12 @@ class TestFertilizerInspectionListFields(unittest.TestCase):
     def setUp(self):
         self.default_data = {
             "fertiliser_name": "Test Fertilizer",
-            "registration_number": "ABC123",
+            "registration_number": [
+                {
+                    "identifier": "1234567A",
+                    "type": "fertilizer_product",
+                }
+            ],
             "lot_number": "LOT987",
             "npk": "10-5-20",
             "guaranteed_analysis_en": None,
@@ -293,32 +364,32 @@ class TestFertilizerInspectionListFields(unittest.TestCase):
 
 class TestFertilizerInspectionRegistrationNumber(unittest.TestCase):
     def test_registration_number_with_less_digits(self):
-        instance = FertilizerInspection(registration_number="1234")
-        self.assertIsNone(instance.registration_number)
+        instance = RegistrationNumber(identifier="1234")
+        self.assertIsNone(instance.identifier)
 
     def test_registration_number_less_than_seven_digits(self):
-        instance = FertilizerInspection(registration_number="12345A")
-        self.assertIsNone(instance.registration_number)
+        instance = RegistrationNumber(identifier="12345A")
+        self.assertIsNone(instance.identifier)
 
     def test_registration_number_seven_digits_no_letter(self):
-        instance = FertilizerInspection(registration_number="1234567")
-        self.assertIsNone(instance.registration_number)
+        instance = RegistrationNumber(identifier="1234567")
+        self.assertIsNone(instance.identifier)
 
     def test_registration_number_seven_digits_with_lowercase_letter(self):
-        instance = FertilizerInspection(registration_number="1234567a")
-        self.assertIsNone(instance.registration_number)
+        instance = RegistrationNumber(identifier="1234567a")
+        self.assertIsNone(instance.identifier)
 
     def test_registration_number_correct_format(self):
-        instance = FertilizerInspection(registration_number="1234567A")
-        self.assertEqual(instance.registration_number, "1234567A")
+        instance = RegistrationNumber(identifier="1234567A")
+        self.assertEqual(instance.identifier, "1234567A")
 
     def test_registration_number_extra_characters(self):
-        instance = FertilizerInspection(registration_number="12345678B")
-        self.assertIsNone(instance.registration_number)
+        instance = RegistrationNumber(identifier="12345678B")
+        self.assertIsNone(instance.identifier)
 
     def test_registration_number_mixed_format(self):
-        instance = FertilizerInspection(registration_number="12A34567B")
-        self.assertIsNone(instance.registration_number)
+        instance = RegistrationNumber(identifier="12A34567B")
+        self.assertIsNone(instance.identifier)
 
 
 class TestOrganizationPhoneNumberFormat(unittest.TestCase):
