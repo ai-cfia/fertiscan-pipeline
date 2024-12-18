@@ -12,3 +12,4 @@ phonenumbers
 Levenshtein
 pytest
 jellyfish
+scikit-learn
