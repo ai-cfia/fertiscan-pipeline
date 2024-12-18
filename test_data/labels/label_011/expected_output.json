@@ -161,94 +161,94 @@
   },
   "ingredients_en": [
     {
-      "ingredient": "Rock phosphate",
+      "nutrient": "Rock phosphate",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "kelp",
+      "nutrient": "kelp",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "calcium carbonate",
+      "nutrient": "calcium carbonate",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "sodium molybdate",
+      "nutrient": "sodium molybdate",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "manganese sulfate",
+      "nutrient": "manganese sulfate",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "copper sulfate",
+      "nutrient": "copper sulfate",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "zinc sulfate",
+      "nutrient": "zinc sulfate",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "disodium octaborate",
+      "nutrient": "disodium octaborate",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "humates",
+      "nutrient": "humates",
       "value": null,
       "unit": null
     }
   ],
   "ingredients_fr": [
     {
-      "ingredient": "phosphate de roche",
+      "nutrient": "phosphate de roche",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "varech",
+      "nutrient": "varech",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "calcium de carbonate",
+      "nutrient": "calcium de carbonate",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "molybdate de sodium",
+      "nutrient": "molybdate de sodium",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "sulfate de manganèse",
+      "nutrient": "sulfate de manganèse",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "sulfate de cuivre",
+      "nutrient": "sulfate de cuivre",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "sulfate de zinc",
+      "nutrient": "sulfate de zinc",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "octaborate de disodium",
+      "nutrient": "octaborate de disodium",
       "value": null,
       "unit": null
     },
     {
-      "ingredient": "humates",
+      "nutrient": "humates",
       "value": null,
       "unit": null
     }

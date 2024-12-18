@@ -75,17 +75,17 @@
     },
     "ingredients_en": [
       {
-        "ingredient": "aerobically composted turkey litter",
+        "nutrient": "aerobically composted turkey litter",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "feather meal",
+        "nutrient": "feather meal",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "sulfate of potash",
+        "nutrient": "sulfate of potash",
         "value": null,
         "unit": null
       }

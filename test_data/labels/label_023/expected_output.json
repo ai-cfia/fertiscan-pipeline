@@ -85,32 +85,32 @@
     },
     "ingredients_en": [
       {
-        "ingredient": "Ammonium Hydroxide",
+        "nutrient": "Ammonium Hydroxide",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Urea",
+        "nutrient": "Urea",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Phosphoric Acid",
+        "nutrient": "Phosphoric Acid",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Potassium Hydroxide",
+        "nutrient": "Potassium Hydroxide",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Iron EDTA",
+        "nutrient": "Iron EDTA",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Zinc EDTA",
+        "nutrient": "Zinc EDTA",
         "value": null,
         "unit": null
       }

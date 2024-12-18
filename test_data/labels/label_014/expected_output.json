@@ -101,44 +101,44 @@
     },
     "ingredients_en": [
       {
-        "ingredient": "dehydrated hen manure",
+        "nutrient": "dehydrated hen manure",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "bone meal",
+        "nutrient": "bone meal",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "feather meal",
+        "nutrient": "feather meal",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "potash sulphate",
+        "nutrient": "potash sulphate",
         "value": null,
         "unit": null
       }
     ],
     "ingredients_fr": [
       {
-        "ingredient": "fumier de poule déshydraté",
+        "nutrient": "fumier de poule déshydraté",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "os moulus",
+        "nutrient": "os moulus",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "farine de plume",
+        "nutrient": "farine de plume",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "sulfate de potasse",
+        "nutrient": "sulfate de potasse",
         "value": null,
         "unit": null
       }
