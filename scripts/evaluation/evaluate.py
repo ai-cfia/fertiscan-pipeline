@@ -16,8 +16,6 @@ from pipeline_new.modules.LanguageProgram import LanguageProgram
 from pipeline_new.schemas.inspection import FertilizerInspection, GuaranteedAnalysis, NutrientValue, Value
 
 # HELPER FUNCTION TO LOAD .ENV WITH CHECKS
-
-
 def load_env_variables():
     load_dotenv()
 
@@ -55,9 +53,33 @@ EMBEDDING_MODEL = AzureOpenAI(
     azure_endpoint=AZURE_OPENAI_EMBEDDING_ENDPOINT
 )
 
+SCORES_BY_FIELD = {
+    "company_name": [],
+    "company_address": [],
+    "manufacturer_name": [],
+    "manufacturer_address": [],
+    "fertiliser_name": [],
+    "company_phone_number": [],
+    "manufacturer_phone_number": [],
+    "company_website": [],
+    "manufacturer_website": [],
+    "registration_number": [],
+    "lot_number": [],
+    "npk": [],
+    "weight": [],
+    "density": [],
+    "volume": [],
+    "guaranteed_analysis_en": [],
+    "guaranteed_analysis_fr": [],
+    "ingredients_en": [],
+    "ingredients_fr": [],
+    "cautions_en": [],
+    "cautions_fr": [],
+    "instructions_en": [],
+    "instructions_fr": [],
+}
+
 # UTILITY FUNCTIONS
-
-
 def preprocess_string(input_string):
     """
     Preprocesses a string by:
@@ -89,7 +111,6 @@ def normalize_phone_number(phone, country='CA'):
         return phone
 
 
-
 def normalize_website(url):
     if url is not None:
         try:
@@ -105,6 +126,12 @@ def normalize_website(url):
     else:
         return url
 
+
+def display_scores_by_field(scores_by_field=SCORES_BY_FIELD):
+    print("\n--Scores by field--")
+    for field, score_list in scores_by_field.items():
+        average = sum(score_list)/len(score_list)
+        print(f"{field:<30} | {average}")
 
 # COMPARATORS
 def compare_value(ex_value: Value, pred_value: Value):
@@ -212,7 +239,7 @@ def compare_list_text(ex_value: list[str], pred_value: list[str]):
 def validate_inspection(example: dspy.Example, pred: dspy.Prediction, trace=None):
     scores = []
 
-    # because example.inspection returns a dict not a FertilizerInspection
+    # because for now example.inspection returns a dict not a FertilizerInspection
     example_inspection = FertilizerInspection.model_validate(
         example.inspection)
 
@@ -230,50 +257,52 @@ def validate_inspection(example: dspy.Example, pred: dspy.Prediction, trace=None
                 # Unless both fields are None, score is 0
                 score = 1.0 if example_value == pred_value else 0.0
                 scores.append(score)
-            # if score == 0:
-            #     print(f"for {field_name}\tgot : {pred_value}\n\texpected: {example_value}")
+            SCORES_BY_FIELD[field_name].append(score)
 
         elif field_name in ["company_phone_number", "manufacturer_phone_number"]:
             score = 1.0 if normalize_phone_number(
                 example_value) == normalize_phone_number(pred_value) else 0.0
             scores.append(score)
-            # if score == 0:
-            #     print(f"for {field_name}\tgot : {pred_value}\n\texpected: {example_value}")
+            SCORES_BY_FIELD[field_name].append(score)
 
-        elif field_name in ["company_website", "manufacturer_wekbsite"]:
+        elif field_name in ["company_website", "manufacturer_website"]:
             score = 1.0 if normalize_website(
                 example_value) == normalize_website(pred_value) else 0.0
             scores.append(score)
-            # if score == 0:
-            #     print(f"for {field_name}\tgot : {pred_value}\n\texpected: {example_value}")
+            SCORES_BY_FIELD[field_name].append(score)
 
         elif field_name in ["registration_number", "lot_number", "npk"]:
             score = 1.0 if example_value == pred_value else 0.0
             scores.append(score)
-            # if score == 0:
-            #     print(f"for {field_name}\tgot : {pred_value}\n\texpected: {example_value}")
+            SCORES_BY_FIELD[field_name].append(score)
 
         elif field_name in ["weight"]:
             score = compare_weight(example_value, pred_value)
             scores.append(score)
+            SCORES_BY_FIELD[field_name].append(score)
 
         elif field_name in ["density", "volume"]:
             score = compare_value(example_value, pred_value)
             scores.append(score)
+            SCORES_BY_FIELD[field_name].append(score)
 
         elif field_name in ["guaranteed_analysis_en", "guaranteed_analysis_fr"]:
             score = compare_guaranteed_analysis(example_value, pred_value)
             scores.append(score)
+            SCORES_BY_FIELD[field_name].append(score)
 
         elif field_name in ["ingredients_en", "ingredients_fr"]:
             score = compare_ingredients(example_value, pred_value)
             scores.append(score)
+            SCORES_BY_FIELD[field_name].append(score)
 
         elif field_name in ["cautions_en", "cautions_fr", "instructions_en", "instructions_fr"]:
             score = compare_list_text(example_value, pred_value)
             scores.append(score)
+            SCORES_BY_FIELD[field_name].append(score)
 
-    # print(scores)
+            # print(f"\nfor {field_name}\n\tgot : {pred_value}\n\texpected: {example_value}")
+            # print(f"score: {score}")
 
     return sum(scores) / len(scores) if scores else 0.0
 
@@ -294,8 +323,10 @@ if __name__ == "__main__":
                        inspection=inspection).with_inputs("image_paths"))
 
     evaluate = dspy.Evaluate(
-        devset=dataset, metric=validate_inspection, display_progress=True, display_table=True)
+        devset=dataset[:35], metric=validate_inspection, display_progress=True, display_table=True)
 
     language_program = LanguageProgram(
         AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT)
     evaluate(language_program)
+    
+    display_scores_by_field()
