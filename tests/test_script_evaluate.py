@@ -1,7 +1,6 @@
 import unittest
-from phonenumbers import NumberParseException
-from pipeline_new.schemas.inspection import Value
-from scripts.evaluation.evaluate import compare_value, compare_weight, normalize_phone_number, normalize_website, preprocess_string
+from pipeline_new.schemas.inspection import NutrientValue, Value
+from scripts.evaluation.evaluate import compare_ingredients, compare_value, compare_weight, normalize_phone_number, normalize_website, preprocess_string
 
 class TestUtilityFunctions(unittest.TestCase):
 
@@ -71,6 +70,81 @@ class TestUtilityFunctions(unittest.TestCase):
         self.assertEqual(compare_weight(None, None), 1.0)
         self.assertEqual(compare_weight(list1, None), 0.0)
         self.assertEqual(compare_weight(None, list1), 0.0)
+
+
+class TestCompareIngredients(unittest.TestCase):
+    def setUp(self):
+        # Common test data
+        self.exact_match = [
+            NutrientValue(nutrient="Protein", value=10, unit="g"),
+            NutrientValue(nutrient="Carbohydrate", value=20, unit="g"),
+            NutrientValue(nutrient="Fat", value=5, unit="g"),
+        ]
+
+        self.out_of_order = [
+            NutrientValue(nutrient="Fat", value=5, unit="g"),
+            NutrientValue(nutrient="Carbohydrate", value=20, unit="g"),
+            NutrientValue(nutrient="Protein", value=10, unit="g"),
+        ]
+
+        self.partial_match = [
+            NutrientValue(nutrient="Protein", value=10, unit="g"),
+            NutrientValue(nutrient="Carbohydrate", value=15, unit="g"),  # Different value
+        ]
+
+        self.missing_nutrient = [
+            NutrientValue(nutrient="Protein", value=10, unit="g"),
+        ]
+
+        self.extra_nutrient = [
+            NutrientValue(nutrient="Protein", value=10, unit="g"),
+            NutrientValue(nutrient="Carbohydrate", value=20, unit="g"),
+            NutrientValue(nutrient="Fat", value=5, unit="g"),
+            NutrientValue(nutrient="Fiber", value=8, unit="g"),  # Extra nutrient
+        ]
+
+    def test_exact_match(self):
+        result = compare_ingredients(self.exact_match, self.exact_match)
+        self.assertEqual(result, 1.0, "Exact match should return 1.0")
+
+    def test_out_of_order(self):
+        result = compare_ingredients(self.exact_match, self.out_of_order)
+        self.assertEqual(result, 1.0, "Out-of-order nutrients should still return 1.0")
+
+    def test_partial_match(self):
+        result = compare_ingredients(self.exact_match, self.partial_match)
+        self.assertLess(result, 1.0, "Partial match should return a score less than 1.0")
+        self.assertGreater(result, 0.0, "Partial match should not result in a score of 0.0")
+
+    def test_missing_nutrient(self):
+        result = compare_ingredients(self.exact_match, self.missing_nutrient)
+        self.assertLess(result, 1.0, "A few missing nutrients should reduce the score")
+        self.assertGreater(result, 0.0, "A few missing nutrients should not result in a score of 0.")
+
+    def test_extra_nutrient(self):
+        result = compare_ingredients(self.exact_match, self.extra_nutrient)
+        self.assertLess(result, 1.0, "A few extra nutrients should reduce the score")
+        self.assertGreater(result, 0.0, "A few extra nutrients should not result in a score of 0.0")
+
+    def test_empty_lists(self):
+        result = compare_ingredients([], [])
+        self.assertEqual(result, 1.0, "Empty lists should return 1.0")
+
+    def test_one_empty_list(self):
+        result = compare_ingredients(self.exact_match, [])
+        self.assertEqual(result, 0.0, "One empty list should return 0.0")
+
+        result = compare_ingredients([], self.exact_match)
+        self.assertEqual(result, 0.0, "One empty list should return 0.0")
+
+    def test_mismatched_nutrients(self):
+        mismatched = [
+            NutrientValue(nutrient="Vitamin C", value=10, unit="mg"),
+            NutrientValue(nutrient="Calcium", value=20, unit="mg"),
+        ]
+        result = compare_ingredients(self.exact_match, mismatched)
+        self.assertEqual(result, 0.0, "Completely mismatched nutrients should return 0.0")
+
 
 if __name__ == '__main__':
     unittest.main()
