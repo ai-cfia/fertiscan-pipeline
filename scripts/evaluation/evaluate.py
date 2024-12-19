@@ -145,7 +145,7 @@ def compare_value(ex_value: Value, pred_value: Value):
 
     return (value_score + unit_score)/2
 
-
+# TODO there is a flaw here since this assumes the list of weights is ordered consistently on the prediction and the example
 def compare_weight(example_weight: list[Value], pred_weight: list[Value]):
     if not example_weight or not pred_weight:
         return 1 if example_weight == pred_weight else 0
@@ -179,18 +179,35 @@ def compare_nutrient_value(ex_nutrient_value: NutrientValue, pred_nutrient_value
     return (nutrient_score + value_score) / 2
 
 
-def compare_ingredients(ex_ingredients: list[NutrientValue], pred_ingredients: list[NutrientValue]):
+def compare_ingredients(ex_ingredients: list[NutrientValue], pred_ingredients: list[NutrientValue]) -> float:
     if not ex_ingredients and not pred_ingredients:
         return 1.0
     if not ex_ingredients or not pred_ingredients:
         return 0.0
 
+    # Create lookup dictionaries for fast comparisons
+    ex_dict = {nv.nutrient: nv for nv in ex_ingredients}
+    pred_dict = {nv.nutrient: nv for nv in pred_ingredients}
+
+    # Initialize scores
     scores = []
-    for ex_nv, pred_nv in zip(ex_ingredients, pred_ingredients):
-        score = compare_nutrient_value(ex_nv, pred_nv)
+
+    # Compare all expected nutrients
+    for nutrient, ex_nv in ex_dict.items():
+        pred_nv = pred_dict.get(nutrient)
+        if pred_nv:
+            score = compare_nutrient_value(ex_nv, pred_nv)
+        else:
+            score = 0.0  # Missing nutrient in prediction
         scores.append(score)
 
+    # Penalize for extraneous nutrients
+    extra_nutrients = set(pred_dict.keys()) - set(ex_dict.keys())
+    scores.extend([0.0] * len(extra_nutrients))  # Add one penalty per extra nutrient
+
+    # Compute average score
     return sum(scores) / len(scores) if scores else 0.0
+
 
 
 def compare_guaranteed_analysis(ex_ga: GuaranteedAnalysis, pred_ga: GuaranteedAnalysis):
