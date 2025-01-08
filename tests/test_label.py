@@ -53,8 +53,8 @@ class TestDocumentStorage(unittest.TestCase):
             self.label.add_image(file.read())
 
         doc = self.label.get_document(format='pdf')
-        # save_image_to_file(doc, self.composite_document_path)
-        # self.assertTrue(os.path.exists(self.composite_document_path))
+        save_image_to_file(doc, self.composite_document_path)
+        self.assertTrue(os.path.exists(self.composite_document_path))
 
     def test_clear(self):
         with open(self.sample_image_path_1, 'rb') as file:

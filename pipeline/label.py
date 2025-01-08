@@ -10,7 +10,7 @@ class LabelStorage:
 
     def add_image(self, image_bytes: bytes):
         try:
-            image = BytesIO(image_bytes)
+            image = Image.open(BytesIO(image_bytes))
             self.images.append(image)
         except Exception as e:
             raise ValueError(f"Invalid image data: {e}")
@@ -42,12 +42,10 @@ class LabelStorage:
         for image in self.images:
             # Convert PIL image to bytes
             img_buffer = ImageReader(image)
-            # image.save(img_buffer, format='PNG')
-            # img_buffer.seek(0)
 
             # Add image to the PDF page
             c.drawImage(image=img_buffer, x=0, y=0, width=letter[0], height=letter[1])
-            # c.showPage()  # End the current page and start a new one
+            c.showPage()  # End the current page and start a new one
 
         c.save()
         pdf_buffer.seek(0)
