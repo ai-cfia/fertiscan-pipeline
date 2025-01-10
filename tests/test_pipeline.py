@@ -166,9 +166,10 @@ class TestInspectionAnnotatedFields(unittest.TestCase):
                 copied_files.append(temp_image_path)
         return copied_files
 
-    def add_images_to_storage(self, image_paths, label_storage):
+    def add_images_to_storage(self, image_paths, label_storage: LabelStorage):
         for image_path in image_paths:
-            label_storage.add_image(image_path)
+            with open(image_path, "rb") as image_file:
+                label_storage.add_image(image_file.read())
 
     def test_label_008_phone_number_inspection(self):
         label_folder = "test_data/labels/label_008"
