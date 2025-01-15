@@ -61,24 +61,24 @@
     },
     "ingredients_en": [
       {
-        "ingredient": "Zinc Sulphate",
+        "nutrient": "Zinc Sulphate",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Zinc Oxide",
+        "nutrient": "Zinc Oxide",
         "value": null,
         "unit": null
       }
     ],
     "ingredients_fr": [
       {
-        "ingredient": "sulfate de Zinc",
+        "nutrient": "sulfate de Zinc",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Oxide de zinc",
+        "nutrient": "Oxide de zinc",
         "value": null,
         "unit": null
       }

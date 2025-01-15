@@ -65,17 +65,17 @@
     },
     "ingredients_en": [
       {
-        "ingredient": "Feather Meal",
+        "nutrient": "Feather Meal",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Bone Meal",
+        "nutrient": "Bone Meal",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Sulfate of Potash",
+        "nutrient": "Sulfate of Potash",
         "value": null,
         "unit": null
       }
