@@ -2,7 +2,10 @@
 
 ([Follow this link for the French version](README-FR.md))
 
-Ce dépôt contient le pipeline d'analyse principal pour FertiScan. Il est conçu pour être utilisé comme un package Python autonome qui peut être intégré à d'autres projets, tels que [fertiscan-backend](https://github.com/ai-cfia/fertiscan-backend).
+Ce dépôt contient le pipeline d'analyse principal pour FertiScan. Il est conçu
+pour être utilisé comme un package Python autonome qui peut être intégré à
+d'autres projets, tels que
+[fertiscan-backend](https://github.com/ai-cfia/fertiscan-backend).
 
 ## Configuration pour le développement
 
@@ -41,7 +44,8 @@ pip install git+https://github.com/ai-cfia/fertiscan-pipeline.git@main
 
 ### Variables d'environnement
 
-Créez un fichier `.env` et configurez les variables d'environnement nécessaires :
+Créez un fichier `.env` et configurez les variables d'environnement
+nécessaires :
 
 ```ini
 AZURE_API_ENDPOINT=your_azure_form_recognizer_endpoint
@@ -53,12 +57,20 @@ AZURE_OPENAI_DEPLOYMENT=your_azure_openai_deployment
 
 ## Workflow de packaging et de publication
 
-Le pipeline se déclenche sur les Pull Requests pour vérifier la qualité du code, les fichiers markdown, les normes du dépôt et s'assurer que la version dans `pyproject.toml` est mise à jour. Lorsqu'une PR est fusionnée, le workflow crée automatiquement une version basée sur la version dans `pyproject.toml`. Les dernières versions et journaux des modifications sont disponibles [ici](https://github.com/ai-cfia/fertiscan-pipeline/releases).
+Le pipeline se déclenche sur les Pull Requests pour vérifier la qualité du code,
+les fichiers markdown, les normes du dépôt et s'assurer que la version dans
+`pyproject.toml` est mise à jour. Lorsqu'une PR est fusionnée, le workflow crée
+automatiquement une version basée sur la version dans `pyproject.toml`. Les
+dernières versions et journaux des modifications sont disponibles
+[ici](https://github.com/ai-cfia/fertiscan-pipeline/releases).
 
-Pour utiliser ce package dans d'autres projets, ajoutez-le à votre `requirements.txt` (par exemple, dans [fertiscan-backend](https://github.com/ai-cfia/fertiscan-backend)) :
+Pour utiliser ce package dans d'autres projets, ajoutez-le à votre
+`requirements.txt` (par exemple, dans
+[fertiscan-backend](https://github.com/ai-cfia/fertiscan-backend)) :
 
 ```sh
 git+https://github.com/ai-cfia/fertiscan-pipeline.git@vX.X.X
 ```
 
-Où `vX.X.X` est la version provenant de la [page des versions](https://github.com/ai-cfia/fertiscan-pipeline/releases).
+Où `vX.X.X` est la version provenant de la [page des
+versions](https://github.com/ai-cfia/fertiscan-pipeline/releases).
