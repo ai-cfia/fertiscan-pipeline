@@ -1,5 +1,5 @@
 azure-ai-documentintelligence==1.0.0b3
-dspy-ai==2.5.16
+dspy-ai
 openai>=1.0
 pydantic>=2.7.1
 arize-phoenix-otel
