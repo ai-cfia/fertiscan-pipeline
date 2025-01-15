@@ -75,8 +75,6 @@ page](https://github.com/ai-cfia/fertiscan-pipeline/releases).
 ---
 ---
 
-<br>
-
 ## Français
 
 Ce dépôt contient le pipeline d'analyse principal pour FertiScan. Il est conçu
@@ -93,9 +91,9 @@ d'autres projets, tels que
 - [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html)
 - Clés API pour Azure Document Intelligence et OpenAI
 
-### Installation
+### Installation via GitHub
 
-Pour installer le package directement depuis GitHub :
+Pour installer le package directement via GitHub :
 
 #### **Installation directe avec pip**
 
@@ -105,7 +103,7 @@ Exécutez la commande suivante dans votre terminal :
 pip install git+https://github.com/ai-cfia/fertiscan-pipeline.git@main
 ```
 
-#### **Installation via requirements.txt**
+#### **Installation avec requirements.txt**
 
    Ajoutez la ligne suivante à votre fichier `requirements.txt` :
 
