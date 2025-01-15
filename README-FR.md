@@ -1,5 +1,7 @@
 # fertiscan-pipeline
 
+([Follow this link for the French version](README-FR.md))
+
 Ce dépôt contient le pipeline d'analyse principal pour FertiScan. Il est conçu pour être utilisé comme un package Python autonome qui peut être intégré à d'autres projets, tels que [fertiscan-backend](https://github.com/ai-cfia/fertiscan-backend).
 
 ## Configuration pour le développement
