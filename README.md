@@ -1,6 +1,6 @@
 # fertiscan-pipeline
 
-([Suivez ce lien pour la version en français](README.md))
+([Suivez ce lien pour la version en français](README-FR.md))
 
 This repository contains the core analysis pipeline for FertiScan. It is
 designed to be used as a standalone Python package that can be integrated with
