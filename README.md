@@ -73,7 +73,6 @@ Where `vX.X.X` is the version from the [release
 page](https://github.com/ai-cfia/fertiscan-pipeline/releases).
 
 ---
----
 
 ## Français
 
