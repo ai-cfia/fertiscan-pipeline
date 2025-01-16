@@ -1,6 +1,6 @@
-# fertiscan-pipeline
+# FertiScan Pipeline
 
-([*Le français est disponible au bas de la page*](#Français))
+([*Le français est disponible au bas de la page*](#fertiscan-pipeline-fr))
 
 This repository contains the core analysis pipeline for FertiScan. It is
 designed to be used as a standalone Python package that can be integrated with
@@ -74,7 +74,7 @@ page](https://github.com/ai-cfia/fertiscan-pipeline/releases).
 
 ---
 
-## Français
+## FertiScan Pipeline (FR)
 
 Ce dépôt contient le pipeline d'analyse principal pour FertiScan. Il est conçu
 pour être utilisé comme un package Python autonome qui peut être intégré à
