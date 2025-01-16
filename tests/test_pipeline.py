@@ -40,7 +40,9 @@ class TestPipeline(unittest.TestCase):
 
         # Initialize the objects
         self.label_storage = LabelStorage()
-        self.label_storage.add_image(self.image_path)
+        with open(self.image_path, 'rb') as file:
+            self.label_storage.add_image(file.read())
+        # self.label_storage.add_image(self.image_path)
         self.ocr = OCR(api_endpoint=self.api_endpoint_ocr, api_key=self.api_key_ocr)
         self.gpt = GPT(
             api_endpoint=self.api_endpoint_gpt,
@@ -166,9 +168,10 @@ class TestInspectionAnnotatedFields(unittest.TestCase):
                 copied_files.append(temp_image_path)
         return copied_files
 
-    def add_images_to_storage(self, image_paths, label_storage):
+    def add_images_to_storage(self, image_paths, label_storage: LabelStorage):
         for image_path in image_paths:
-            label_storage.add_image(image_path)
+            with open(image_path, "rb") as image_file:
+                label_storage.add_image(image_file.read())
 
     def test_label_008_phone_number_inspection(self):
         label_folder = "test_data/labels/label_008"
