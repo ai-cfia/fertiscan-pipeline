@@ -64,7 +64,7 @@ class MainModule(dspy.Module):
         dspy.configure(lm=lm)
         self.ocr = OCR(ocr_api_endpoint, orc_api_key)
         self.label_storage = LabelStorage()
-        self.inspector = dspy.TypedChainOfThought(Inspector)
+        self.inspector = dspy.ChainOfThought(Inspector)
 
     def forward(self, images) -> dspy.Prediction:
         for image in images:
