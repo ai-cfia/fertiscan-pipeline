@@ -3,7 +3,7 @@ import os
 
 from pipeline import save_image_to_file
 from tests import curl_file
-from pipeline.label import LabelStorage
+from pipeline.components.label import LabelStorage
 
 class TestDocumentStorage(unittest.TestCase):
     

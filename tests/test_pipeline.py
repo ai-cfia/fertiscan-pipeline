@@ -7,7 +7,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 from pipeline import GPT, OCR, LabelStorage, analyze
-from pipeline.inspection import FertilizerInspection, Value
+from pipeline.schemas.inspection import FertilizerInspection, Value
 from tests import curl_file, levenshtein_similarity
 
 
