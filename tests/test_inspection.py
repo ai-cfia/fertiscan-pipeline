@@ -1,6 +1,6 @@
 import unittest
 
-from pipeline.inspection import (
+from pipeline.schemas.inspection import (
     FertilizerInspection,
     GuaranteedAnalysis,
     NutrientValue,

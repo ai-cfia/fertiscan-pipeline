@@ -91,14 +91,14 @@
     },
     "ingredients_en": [
       {
-        "ingredient": "BONE MEAL",
+        "nutrient": "BONE MEAL",
         "value": null,
         "unit": null
       }
     ],
     "ingredients_fr": [
       {
-        "ingredient": "POUDRE D'OS",
+        "nutrient": "POUDRE D'OS",
         "value": null,
         "unit": null
       }

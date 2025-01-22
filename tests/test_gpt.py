@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from pydantic import ValidationError
 
 from pipeline.gpt import GPT
-from pipeline.inspection import FertilizerInspection
+from pipeline.schemas.inspection import FertilizerInspection
 from tests import levenshtein_similarity
 
 
