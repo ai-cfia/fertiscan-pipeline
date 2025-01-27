@@ -1,5 +1,4 @@
 import re
-from dotenv import load_dotenv
 import dspy
 import os
 import ast
@@ -15,51 +14,14 @@ from PIL import Image
 
 from pipeline.modules.MainModule import MainModule
 from pipeline.schemas.inspection import FertilizerInspection, GuaranteedAnalysis, NutrientValue, Value
+from pipeline.schemas.settings import Settings
 
-# HELPER FUNCTION TO LOAD .ENV WITH CHECKS
-def load_env_variables():
-    """
-    Load and validate required environment variables from the .env file for API integrations.
-
-    Returns:
-        Tuple containing API keys and endpoints.
-    Raises:
-        RuntimeError: If any required environment variables are missing.
-    """
-    load_dotenv()
-
-    required_vars = [
-        "AZURE_API_ENDPOINT",
-        "AZURE_API_KEY",
-        "AZURE_OPENAI_KEY",
-        "AZURE_OPENAI_DEPLOYMENT",
-        "AZURE_OPENAI_EMBEDDING_ENDPOINT",
-        "AZURE_OPENAI_EMBEDDING_KEY",
-    ]
-    missing_vars = [var for var in required_vars if not os.getenv(var)]
-    if missing_vars:
-        raise RuntimeError(f"Missing required environment variables: {
-                           ', '.join(missing_vars)}")
-
-    AZURE_API_ENDPOINT = os.getenv('AZURE_API_ENDPOINT')
-    AZURE_API_KEY = os.getenv('AZURE_API_KEY')
-    AZURE_OPENAI_ENDPOINT = os.getenv('AZURE_OPENAI_ENDPOINT')
-    AZURE_OPENAI_KEY = os.getenv('AZURE_OPENAI_KEY')
-    AZURE_OPENAI_DEPLOYMENT = os.getenv('AZURE_OPENAI_DEPLOYMENT')
-    AZURE_OPENAI_EMBEDDING_ENDPOINT = os.getenv(
-        'AZURE_OPENAI_EMBEDDING_ENDPOINT')
-    AZURE_OPENAI_EMBEDDING_KEY = os.getenv('AZURE_OPENAI_EMBEDDING_KEY')
-
-    return AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT, AZURE_OPENAI_EMBEDDING_KEY, AZURE_OPENAI_EMBEDDING_ENDPOINT
-
-
-# GLOBAL VARIABLES
-AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT, AZURE_OPENAI_EMBEDDING_KEY, AZURE_OPENAI_EMBEDDING_ENDPOINT = load_env_variables()
+SETTINGS = Settings()
 
 EMBEDDING_MODEL = AzureOpenAI(
-    api_key=AZURE_OPENAI_EMBEDDING_KEY,
     api_version="2023-05-15",
-    azure_endpoint=AZURE_OPENAI_EMBEDDING_ENDPOINT
+    azure_endpoint=SETTINGS.llm_embedding_api_endpoint,
+    api_key=SETTINGS.llm_embedding_api_key,
 )
 
 SCORES_BY_FIELD = {
@@ -361,7 +323,7 @@ if __name__ == "__main__":
         image_paths = ast.literal_eval(image_paths)
         image_list = []
         for image_path in image_paths:
-           image_list.append(Image.open(image_path)) 
+           image_list.append(Image.open(image_path))
 
         inspection = json.loads(inspection)
         dataset.append(dspy.Example(images=image_list,
@@ -370,8 +332,7 @@ if __name__ == "__main__":
     evaluate = dspy.Evaluate(
         devset=dataset[:35], metric=validate_inspection, display_progress=True, display_table=True)
 
-    main_module = MainModule(
-        AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT)
+    main_module = MainModule(settings=SETTINGS)
     evaluate(main_module)
-    
+
     display_scores_by_field()
