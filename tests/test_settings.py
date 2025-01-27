@@ -38,7 +38,7 @@ class TestSettings(unittest.TestCase):
 
     def test_env_file(self):
         try:
-            settings = Settings()
+            Settings()
         except ValidationError as e:
             self.fail(f"Settings could not be created from environment file: {e}")
 
