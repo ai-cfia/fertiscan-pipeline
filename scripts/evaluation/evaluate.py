@@ -21,7 +21,7 @@ SETTINGS = Settings()
 EMBEDDING_MODEL = AzureOpenAI(
     api_version="2023-05-15",
     azure_endpoint=SETTINGS.llm_embedding_api_endpoint,
-    api_key=SETTINGS.llm_embedding_api_key,
+    api_key=SETTINGS.llm_embedding_api_key.get_secret_value(),
 )
 
 SCORES_BY_FIELD = {
