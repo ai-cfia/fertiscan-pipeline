@@ -1,9 +1,9 @@
 import os
-from dotenv import load_dotenv
 import dspy
 from pipeline.components.label import LabelStorage
 from pipeline.components.ocr import OCR
 from pipeline.schemas.inspection import FertilizerInspection
+from pipeline.schemas.settings import Settings
 from PIL import Image
 
 # Constants
@@ -51,18 +51,18 @@ class Inspector(dspy.Signature):
 
 # Modules
 class MainModule(dspy.Module):
-    def __init__(self, llm_api_key, llm_api_endpoint, llm_deployment_id, orc_api_key, ocr_api_endpoint, useCache=True):
+    def __init__(self, settings: Settings, useCache=True):
         # initialize all the components to be used in the forward method
         lm = dspy.LM(
-            model=f"azure/{llm_deployment_id}",
-            api_base=llm_api_endpoint,
-            api_key=llm_api_key,
-            max_tokens=SUPPORTED_MODELS.get(llm_deployment_id)["max_tokens"],
-            api_version=SUPPORTED_MODELS.get(llm_deployment_id)["api_version"],
+            model=f"azure/{settings.llm_api_deployment}",
+            api_base=settings.llm_api_endpoint,
+            api_key=settings.llm_api_key,
+            max_tokens=SUPPORTED_MODELS[settings.llm_api_deployment]["max_tokens"],
+            api_version=SUPPORTED_MODELS[settings.llm_api_deployment]["api_version"],
             cache=useCache
         )
         dspy.configure(lm=lm)
-        self.ocr = OCR(ocr_api_endpoint, orc_api_key)
+        self.ocr = OCR(settings.document_api_endpoint, settings.document_api_key)
         self.label_storage = LabelStorage()
         self.inspector = dspy.ChainOfThought(Inspector)
 
@@ -81,28 +81,12 @@ class MainModule(dspy.Module):
 
 
 if __name__ == "__main__":
-    load_dotenv()    
-
-    required_vars = [
-        "AZURE_API_ENDPOINT",
-        "AZURE_API_KEY",
-        "AZURE_OPENAI_ENDPOINT",
-        "AZURE_OPENAI_KEY",
-        "AZURE_OPENAI_DEPLOYMENT",
-    ]
-    missing_vars = [var for var in required_vars if not os.getenv(var)]
-    if missing_vars:
-        raise RuntimeError(f"Missing required environment variables: {', '.join(missing_vars)}")
-
-    AZURE_API_ENDPOINT = os.getenv('AZURE_API_ENDPOINT')
-    AZURE_API_KEY = os.getenv('AZURE_API_KEY')
-    AZURE_OPENAI_ENDPOINT = os.getenv('AZURE_OPENAI_ENDPOINT')
-    AZURE_OPENAI_KEY = os.getenv('AZURE_OPENAI_KEY')
-    AZURE_OPENAI_DEPLOYMENT = os.getenv('AZURE_OPENAI_DEPLOYMENT')
+    # load_dotenv()
+    settings = Settings()
 
     test_image = Image.open(os.path.join(os.getcwd(), "test_data", "labels", "label_001", "img_001.png"))
 
-    language_program = MainModule(AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT,AZURE_API_KEY,AZURE_API_ENDPOINT)
+    language_program = MainModule(settings=settings)
 
     prediction = language_program.forward(images=[test_image]).inspection
 

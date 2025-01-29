@@ -34,7 +34,7 @@ class LabelStorage:
             y_offset += img.height
 
         return composite_image
-    
+
     def _create_pdf_document(self) -> BytesIO:
         pdf_buffer = BytesIO()
         c = canvas.Canvas(pdf_buffer, pagesize=letter)
@@ -51,7 +51,7 @@ class LabelStorage:
         pdf_buffer.seek(0)
 
         return pdf_buffer
-    
+
     def clear(self):
         self.images = []
 
@@ -59,9 +59,9 @@ class LabelStorage:
         # Ensure there are images to merge
         if not self.images:
             raise ValueError("No images to merge.")
-        
+
         output = BytesIO()
-        
+
         if format == 'pdf':
             output = self._create_pdf_document()
         elif format == 'png':
