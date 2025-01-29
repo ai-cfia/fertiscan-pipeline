@@ -70,22 +70,22 @@
     },
     "ingredients_en": [
       {
-        "ingredient": "Magnesium nitrate",
+        "nutrient": "Magnesium nitrate",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "magnesium phosphate",
+        "nutrient": "magnesium phosphate",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "monopotassium phosphate",
+        "nutrient": "monopotassium phosphate",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "potassium nitrate",
+        "nutrient": "potassium nitrate",
         "value": null,
         "unit": null
       }

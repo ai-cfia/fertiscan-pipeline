@@ -1,6 +1,6 @@
 import unittest
 
-from pipeline.inspection import (
+from pipeline.schemas.inspection import (
     FertilizerInspection,
     GuaranteedAnalysis,
     NutrientValue,
@@ -336,9 +336,6 @@ class TestFertilizerInspectionPhoneNumberFormat(unittest.TestCase):
         instance = FertilizerInspection(company_phone_number="12345")
         self.assertIsNone(instance.company_phone_number)
 
-
-if __name__ == "__main__":
-    unittest.main()
 
 if __name__ == "__main__":
     unittest.main()

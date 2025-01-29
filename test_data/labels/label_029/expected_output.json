@@ -81,14 +81,14 @@
     },
     "ingredients_en": [
       {
-        "ingredient": "The list of ingredients can be obtained from the manufacturer",
+        "nutrient": "The list of ingredients can be obtained from the manufacturer",
         "value": null,
         "unit": null
       }
     ],
     "ingredients_fr": [
       {
-        "ingredient": "La liste des ingredients du produit peut être obtenue auprès du fabriacant.",
+        "nutrient": "La liste des ingredients du produit peut être obtenue auprès du fabriacant.",
         "value": null,
         "unit": null
       }
