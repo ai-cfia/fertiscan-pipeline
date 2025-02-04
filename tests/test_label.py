@@ -6,7 +6,7 @@ from tests import curl_file
 from pipeline.components.label import LabelStorage
 
 class TestDocumentStorage(unittest.TestCase):
-
+    
     def setUp(self):
         self.log_dir_path = './test_logs'
         if not os.path.exists(self.log_dir_path):
@@ -24,35 +24,43 @@ class TestDocumentStorage(unittest.TestCase):
 
     def test_add_image_from_nonexistent_file(self):
         with self.assertRaises(FileNotFoundError):
-            self.label.add_image('fake_path')
+            with open('fake_path', 'rb') as file:
+                self.label.add_image(file.read())
 
     def test_get_document_empty(self):
         with self.assertRaises(ValueError):
-            self.label.get_document()
+            self.label.get_document()    
 
     def test_add_image(self):
-        self.label.add_image(self.sample_image_path_1)
+        with open(self.sample_image_path_1, 'rb') as file:
+            self.label.add_image(file.read())
         self.assertEqual(len(self.label.images), 1)
 
     def test_get_composite_image(self):
-        self.label.add_image(self.sample_image_path_1)
-        self.label.add_image(self.sample_image_path_2)
+        with open(self.sample_image_path_1, 'rb') as file:
+            self.label.add_image(file.read())
+        with open(self.sample_image_path_2, 'rb') as file:
+            self.label.add_image(file.read())
 
         composite_image = self.label.get_document(format='png')
         save_image_to_file(composite_image, self.composite_image_path)
         self.assertTrue(os.path.exists(self.composite_image_path))
-
+    
     def test_get_pdf_document(self):
-        self.label.add_image(self.sample_image_path_1)
-        self.label.add_image(self.sample_image_path_2)
+        with open(self.sample_image_path_1, 'rb') as file:
+            self.label.add_image(file.read())
+        with open(self.sample_image_path_2, 'rb') as file:
+            self.label.add_image(file.read())
 
         doc = self.label.get_document(format='pdf')
         save_image_to_file(doc, self.composite_document_path)
         self.assertTrue(os.path.exists(self.composite_document_path))
 
     def test_clear(self):
-        self.label.add_image(self.sample_image_path_1)
-        self.label.add_image(self.sample_image_path_2)
+        with open(self.sample_image_path_1, 'rb') as file:
+            self.label.add_image(file.read())
+        with open(self.sample_image_path_2, 'rb') as file:
+            self.label.add_image(file.read())
         self.label.clear()
 
         with self.assertRaises(ValueError):

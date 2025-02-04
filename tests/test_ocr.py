@@ -54,8 +54,12 @@ class TestOCR(unittest.TestCase):
     def test_composite_image_text_extraction(self):
         # Create a DocumentStorage instance and add images
         doc_storage = LabelStorage()
-        doc_storage.add_image(self.sample_image_path_1)
-        doc_storage.add_image(self.sample_image_path_2)
+        with open(self.sample_image_path_1, 'rb') as file:
+            doc_storage.add_image(file.read())
+        with open(self.sample_image_path_2, 'rb') as file:
+            doc_storage.add_image(file.read())
+        # doc_storage.add_image(self.sample_image_path_1)
+        # doc_storage.add_image(self.sample_image_path_2)
 
         # Get the composite image bytes
         composite_image_bytes = doc_storage.get_document()
