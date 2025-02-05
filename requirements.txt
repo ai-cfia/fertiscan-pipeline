@@ -1,7 +1,8 @@
 azure-ai-documentintelligence==1.0.0b3
-dspy-ai==2.5.16
+dspy-ai==2.6.0rc8
 openai>=1.0
 pydantic>=2.7.1
+pydantic-settings
 arize-phoenix-otel
 openinference-instrumentation-dspy
 python-dotenv
@@ -11,3 +12,5 @@ phonenumbers
 # Test dependencies
 Levenshtein
 pytest
+jellyfish
+scikit-learn

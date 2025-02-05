@@ -111,54 +111,54 @@
     },
     "ingredients_en": [
       {
-        "ingredient": "Barks",
+        "nutrient": "Barks",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Snow crab",
+        "nutrient": "Snow crab",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Whelks",
+        "nutrient": "Whelks",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Red wigglers",
+        "nutrient": "Red wigglers",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Fish",
+        "nutrient": "Fish",
         "value": null,
         "unit": null
       }
     ],
     "ingredients_fr": [
       {
-        "ingredient": "Écorces",
+        "nutrient": "Écorces",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Crabes des neiges",
+        "nutrient": "Crabes des neiges",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Bourgots",
+        "nutrient": "Bourgots",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Vers rouges",
+        "nutrient": "Vers rouges",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "Poissons",
+        "nutrient": "Poissons",
         "value": null,
         "unit": null
       }

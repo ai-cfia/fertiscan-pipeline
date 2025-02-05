@@ -76,17 +76,17 @@
     "ingredients_en": null,
     "ingredients_fr": [
       {
-        "ingredient": "Canadian sphagnum peat moss",
+        "nutrient": "Canadian sphagnum peat moss",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "compost",
+        "nutrient": "compost",
         "value": null,
         "unit": null
       },
       {
-        "ingredient": "shrimp residues",
+        "nutrient": "shrimp residues",
         "value": null,
         "unit": null
       }
