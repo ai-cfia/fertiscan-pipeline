@@ -7,8 +7,9 @@ def create_data_list(base_dir):
     for instance_dir in os.listdir(base_dir):
         instance_path = os.path.join(base_dir, instance_dir)
         if os.path.isdir(instance_path):
-            image_files = [os.path.join(instance_path, file) for file in os.listdir(instance_path) if file.endswith(('.png', '.jpg', '.jpeg'))]
+            image_files = [os.path.join(instance_path, file) for file in os.listdir(instance_path) if file.endswith(('.png', '.jpg', '.jpeg')) and os.path.isfile(os.path.join(instance_path, file))]
             json_path = os.path.join(instance_path, "expected_output.json")
+            expected_output = None
             if os.path.exists(json_path):
                 with open(json_path, "r") as json_file:
                     expected_output = json.load(json_file)
@@ -18,6 +19,7 @@ def create_data_list(base_dir):
     return rows
 
 def create_output_csv(output_csv, base_dir):
+    os.makedirs(os.path.dirname(output_csv), exist_ok=True)
     with open(output_csv, "w", newline="") as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(["image_paths", "inspection"])

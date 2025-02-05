@@ -1,4 +1,4 @@
-from pipeline.modules.MainModule import MainModule
+from pipeline.modules.main_module import MainModule
 from pipeline.schemas.inspection import FertilizerInspection  # noqa: F401
 from PIL import Image
 
@@ -27,6 +27,6 @@ def analyze(images: list[Image.Image], llm_api_key, llm_api_endpoint, llm_api_de
         llm_api_key, llm_api_endpoint, llm_api_deployment_id, ocr_api_key, ocr_api_endpoint)
 
     # Analyse all the images loaded
-    predition = predictor.forward(images)
+    prediction = predictor.forward(images)
 
-    return predition.inspection
+    return prediction.inspection

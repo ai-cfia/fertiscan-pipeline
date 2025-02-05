@@ -12,7 +12,7 @@ from openai import AzureOpenAI
 from sklearn.metrics.pairwise import cosine_similarity
 from PIL import Image
 
-from pipeline.modules.MainModule import MainModule
+from pipeline.modules.main_module import MainModule
 from pipeline.schemas.inspection import FertilizerInspection, GuaranteedAnalysis, NutrientValue, Value
 from pipeline.schemas.settings import Settings
 
@@ -113,8 +113,7 @@ def normalize_website(url):
         except Exception as e:
             print(f"Error normalizing URL '{url}': {e}")
             return url
-    else:
-        return url
+    return url
 
 
 def display_scores_by_field(scores_by_field=SCORES_BY_FIELD):
