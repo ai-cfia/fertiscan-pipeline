@@ -1,131 +1,115 @@
 {
-    "company_name": "Monty's Plant Food Co.",
-    "company_address": "4800 Strawberry Lane · Louisville, KY 40209",
-    "company_website": "http://MyPlantVantage.com",
-    "company_phone_number": "800.978.6342",
-    "manufacturer_name": null,
-    "manufacturer_address": null,
-    "manufacturer_website": null,
-    "manufacturer_phone_number": null,
-    "fertiliser_name": "Premium Growth",
-    "registration_number": null,
-    "lot_number": null,
-    "weight": [
+  "organizations": [
+    {
+      "name": "Monty's Plant Food Co.",
+      "address": "4800 Strawberry Lane · Louisville, KY 40209",
+      "website": "www.http://myplantvantage.com",
+      "phone_number": "+18009786342"
+    }
+  ],
+  "fertiliser_name": "Premium Growth",
+  "registration_number": [],
+  "weight": [
+    {
+      "value": 0.6,
+      "unit": "kg"
+    },
+    {
+      "value": 1.4,
+      "unit": "lb"
+    }
+  ],
+  "density": {},
+  "volume": {
+    "value": 16.0,
+    "unit": "oz"
+  },
+  "npk": "8-16-8",
+  "guaranteed_analysis_en": {
+    "title": "Guaranteed Analysis",
+    "nutrients": [
       {
-        "value": 0.6,
-        "unit": "kg"
+        "nutrient": "Total Nitrogen (N)",
+        "value": 0.8,
+        "unit": "%"
       },
       {
-        "value": 1.4,
-        "unit": "lb"
+        "nutrient": "Ammoniacal Nitrogen",
+        "value": 3.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Urea Nitrogen",
+        "value": 5.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Available Phosphate (P2O5)",
+        "value": 16.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Soluble Potash (K2O)",
+        "value": 8.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Iron (Fe)",
+        "value": 0.3,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Chelated Iron (Fe)",
+        "value": 0.3,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Zinc (Zn)",
+        "value": 0.05,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Chelated Zinc (Zn)",
+        "value": 0.05,
+        "unit": "%"
       }
     ],
-    "density": {
-      "value": null,
-      "unit": null
+    "is_minimal": false
+  },
+  "guaranteed_analysis_fr": {
+    "nutrients": []
+  },
+  "cautions_en": [],
+  "cautions_fr": [],
+  "instructions_en": [
+    "Mix at least 1 teaspoon in 2 gallons of water.",
+    "May be applied weekly, bi-weekly, or monthly depending on the desired results.",
+    "May be applied to the soil with a watering can, soaker hose, or drip irrigation.",
+    "May be foliar applied (misting of leaves) with a pump-up or hose-end siphon type sprayer.",
+    "Spray in the early morning or evening when the threat of evaporation is diminished.",
+    "Monty's is rainfast in 2 hours.",
+    "Monty's Premium Growth is a concentrated liquid plant food that should be diluted before using."
+  ],
+  "instructions_fr": [],
+  "ingredients_en": [
+    {
+      "nutrient": "Ammonium Hydroxide"
     },
-    "volume": {
-      "value": 16,
-      "unit": "oz"
+    {
+      "nutrient": "Urea"
     },
-    "npk": "8-16-8",
-    "guaranteed_analysis_en": {
-      "title": "Guaranteed Analysis",
-      "nutrients": [
-        {
-          "nutrient": "Total Nitrogen (N)",
-          "value": 0.8,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Ammoniacal Nitrogen",
-          "value": 3,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Urea Nitrogen",
-          "value": 5,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Available Phosphate (P2O5)",
-          "value": 16,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Soluble Potash (K2O)",
-          "value": 8,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Iron (Fe)",
-          "value": 0.3,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Chelated Iron (Fe)",
-          "value": 0.3,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Zinc (Zn)",
-          "value": 0.05,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Chelated Zinc (Zn)",
-          "value": 0.05,
-          "unit": "%"
-        }
-      ]
+    {
+      "nutrient": "Phosphoric Acid"
     },
-    "guaranteed_analysis_fr": {
-      "title": null,
-      "nutrients": null
+    {
+      "nutrient": "Potassium Hydroxide"
     },
-    "ingredients_en": [
-      {
-        "nutrient": "Ammonium Hydroxide",
-        "value": null,
-        "unit": null
-      },
-      {
-        "nutrient": "Urea",
-        "value": null,
-        "unit": null
-      },
-      {
-        "nutrient": "Phosphoric Acid",
-        "value": null,
-        "unit": null
-      },
-      {
-        "nutrient": "Potassium Hydroxide",
-        "value": null,
-        "unit": null
-      },
-      {
-        "nutrient": "Iron EDTA",
-        "value": null,
-        "unit": null
-      },
-      {
-        "nutrient": "Zinc EDTA",
-        "value": null,
-        "unit": null
-      }
-    ],
-    "ingredients_fr": null,
-    "cautions_en": null,
-    "cautions_fr": null,
-    "instructions_en": [
-      "Mix at least 1 teaspoon in 2 gallons of water.",
-      "May be applied weekly, bi-weekly, or monthly depending on the desired results.",
-      "May be applied to the soil with a watering can, soaker hose, or drip irrigation.",
-      "May be foliar applied (misting of leaves) with a pump-up or hose-end siphon type sprayer.",
-      "Spray in the early morning or evening when the threat of evaporation is diminished.",
-      "Monty's is rainfast in 2 hours.",
-      "Monty's Premium Growth is a concentrated liquid plant food that should be diluted before using."
-    ],
-    "instructions_fr": null
-  }
+    {
+      "nutrient": "Iron EDTA"
+    },
+    {
+      "nutrient": "Zinc EDTA"
+    }
+  ],
+  "ingredients_fr": []
+}

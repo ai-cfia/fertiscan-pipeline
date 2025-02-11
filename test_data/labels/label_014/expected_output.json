@@ -1,158 +1,134 @@
 {
-    "company_name": "ACTI-SOL",
-    "company_address": "3483, 10° RANG DE WENDOVER, NOTRE-DAME-DU-BON-CONSEIL (QUÉBEC) JOC 1AO CANADA",
-    "company_website": null,
-    "company_phone_number": null,
-    "manufacturer_name": null,
-    "manufacturer_address": null,
-    "manufacturer_website": null,
-    "manufacturer_phone_number": null,
-    "fertiliser_name": "Tomatoes and vegetables",
-    "registration_number": null,
-    "lot_number": null,
-    "weight": [
+  "organizations": [
+    {
+      "name": "ACTI-SOL",
+      "address": "3483, 10° RANG DE WENDOVER, NOTRE-DAME-DU-BON-CONSEIL (QUÉBEC) JOC 1AO CANADA"
+    }
+  ],
+  "fertiliser_name": "Tomatoes and vegetables",
+  "registration_number": [],
+  "weight": [
+    {
+      "value": 2.5,
+      "unit": "kg"
+    },
+    {
+      "value": 5.5,
+      "unit": "lb"
+    }
+  ],
+  "density": {},
+  "volume": {},
+  "guaranteed_analysis_en": {
+    "title": "MINIMUM GUARANTEED ANALYSIS",
+    "nutrients": [
       {
-        "value": 2.5,
-        "unit": "kg"
+        "nutrient": "Total Nitrogen",
+        "value": 4.0,
+        "unit": "%"
       },
       {
-        "value": 5.5,
-        "unit": "lb"
+        "nutrient": "Available Phosphoric Acid",
+        "value": 6.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Soluble Potash",
+        "value": 8.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Calcium",
+        "value": 6.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Organic Matter",
+        "value": 50.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Maximum Moisture",
+        "value": 10.0,
+        "unit": "%"
       }
     ],
-    "density": {
-      "value": null,
-      "unit": null
-    },
-    "volume": {
-      "value": null,
-      "unit": null
-    },
-    "npk": "4 6 8",
-    "guaranteed_analysis_en": {
-      "title": "MINIMUM GUARANTEED ANALYSIS",
-      "nutrients": [
-        {
-          "nutrient": "Total Nitrogen",
-          "value": 4,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Available Phosphoric Acid",
-          "value": 6,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Soluble Potash",
-          "value": 8,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Calcium",
-          "value": 6,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Organic Matter",
-          "value": 50,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Maximum Moisture",
-          "value": 10,
-          "unit": "%"
-        }
-      ]
-    },
-    "guaranteed_analysis_fr": {
-      "title": "ANALYSE MINIMALE GARANTIE",
-      "nutrients": [
-        {
-          "nutrient": "Azote total",
-          "value": 4,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Acide phosphorique assimilable",
-          "value": 6,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Potasse solubile",
-          "value": 8,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Calcium",
-          "value": 6,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Matière organique",
-          "value": 50,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Teneur maximale en humidité",
-          "value": 10,
-          "unit": "%"
-        }
-      ]
-    },
-    "ingredients_en": [
+    "is_minimal": true
+  },
+  "guaranteed_analysis_fr": {
+    "title": "ANALYSE MINIMALE GARANTIE",
+    "nutrients": [
       {
-        "nutrient": "dehydrated hen manure",
-        "value": null,
-        "unit": null
+        "nutrient": "Azote total",
+        "value": 4.0,
+        "unit": "%"
       },
       {
-        "nutrient": "bone meal",
-        "value": null,
-        "unit": null
+        "nutrient": "Acide phosphorique assimilable",
+        "value": 6.0,
+        "unit": "%"
       },
       {
-        "nutrient": "feather meal",
-        "value": null,
-        "unit": null
+        "nutrient": "Potasse solubile",
+        "value": 8.0,
+        "unit": "%"
       },
       {
-        "nutrient": "potash sulphate",
-        "value": null,
-        "unit": null
+        "nutrient": "Calcium",
+        "value": 6.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Matière organique",
+        "value": 50.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Teneur maximale en humidité",
+        "value": 10.0,
+        "unit": "%"
       }
     ],
-    "ingredients_fr": [
-      {
-        "nutrient": "fumier de poule déshydraté",
-        "value": null,
-        "unit": null
-      },
-      {
-        "nutrient": "os moulus",
-        "value": null,
-        "unit": null
-      },
-      {
-        "nutrient": "farine de plume",
-        "value": null,
-        "unit": null
-      },
-      {
-        "nutrient": "sulfate de potasse",
-        "value": null,
-        "unit": null
-      }
-    ],
-    "cautions_en": null,
-    "cautions_fr": null,
-    "instructions_en": [
-      "PLANTING Flats of 6-8 plants: Spread 24 g per plant. Original 10-cm pots: Spread 45 g per plant.",
-      "MAINTENANCE Tomatoes, peppers, cucumbers: Spread 135 g per m2 or 36 g per plant. Onions, lettuce, carrots, beans: Spread 60 g per m2. Berries: Spread 60 g per plant.",
-      "FREQUENCE OF APPLICATION Apply at the beginning of the season and every 4 weeks thereafter."
-    ],
-    "instructions_fr": [
-      "À LA PLANTATION Caissettes de 6 à 8 plants : Épandre 24 g par plant. Pots d'origine de 10 cm : Épandre 45 g par plant.",
-      "ENTRETIEN Tomates, piments, concombres : Épandre 135 g par m2 ou 36 g par plant. Oignons, laitues, carottes, haricots : Épandre 60 g par m2. Petits fruits : Épandre 60 g par plant.",
-      "FRÉQUENCE D'APPLICATION Appliquer en début de saison et par la suite toutes les 4 semaines."
-    ]
-  }
+    "is_minimal": true
+  },
+  "cautions_en": [],
+  "cautions_fr": [],
+  "instructions_en": [
+    "PLANTING Flats of 6-8 plants: Spread 24 g per plant. Original 10-cm pots: Spread 45 g per plant.",
+    "MAINTENANCE Tomatoes, peppers, cucumbers: Spread 135 g per m2 or 36 g per plant. Onions, lettuce, carrots, beans: Spread 60 g per m2. Berries: Spread 60 g per plant.",
+    "FREQUENCE OF APPLICATION Apply at the beginning of the season and every 4 weeks thereafter."
+  ],
+  "instructions_fr": [
+    "À LA PLANTATION Caissettes de 6 à 8 plants : Épandre 24 g par plant. Pots d'origine de 10 cm : Épandre 45 g par plant.",
+    "ENTRETIEN Tomates, piments, concombres : Épandre 135 g par m2 ou 36 g par plant. Oignons, laitues, carottes, haricots : Épandre 60 g par m2. Petits fruits : Épandre 60 g par plant.",
+    "FRÉQUENCE D'APPLICATION Appliquer en début de saison et par la suite toutes les 4 semaines."
+  ],
+  "ingredients_en": [
+    {
+      "nutrient": "dehydrated hen manure"
+    },
+    {
+      "nutrient": "bone meal"
+    },
+    {
+      "nutrient": "feather meal"
+    },
+    {
+      "nutrient": "potash sulphate"
+    }
+  ],
+  "ingredients_fr": [
+    {
+      "nutrient": "fumier de poule déshydraté"
+    },
+    {
+      "nutrient": "os moulus"
+    },
+    {
+      "nutrient": "farine de plume"
+    },
+    {
+      "nutrient": "sulfate de potasse"
+    }
+  ]
+}

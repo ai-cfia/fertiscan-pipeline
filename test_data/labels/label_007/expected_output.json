@@ -1,73 +1,74 @@
 {
-    "company_name": "Active AgriScience Inc.",
-    "company_address": "3422 Millar Avenue, Saskatoon, SK S7K 5Y7, Canada",
-    "company_website": "http://activeagriscience.com",
-    "company_phone_number": null,
-    "manufacturer_name": null,
-    "manufacturer_address": null,
-    "manufacturer_website": null,
-    "manufacturer_phone_number": null,
-    "fertiliser_name": "Active ZINC™ 9.8% Zn™",
-    "registration_number": "2016122B",
-    "lot_number": null,
-    "weight": [
+  "organizations": [
+    {
+      "name": "Active AgriScience Inc.",
+      "address": "3422 Millar Avenue, Saskatoon, SK S7K 5Y7, Canada",
+      "website": "www.http://activeagriscience.com"
+    }
+  ],
+  "fertiliser_name": "Active ZINC™ 9.8% Zn™",
+  "registration_number": [
+    {
+      "identifier": "2016122B",
+      "type": "fertilizer_product"
+    }
+  ],
+  "weight": [
+    {
+      "value": 13.6,
+      "unit": "kg"
+    },
+    {
+      "value": 30.0,
+      "unit": "lb"
+    }
+  ],
+  "density": {},
+  "volume": {
+    "value": 10.0,
+    "unit": "L"
+  },
+  "guaranteed_analysis_en": {
+    "title": "Guaranteed Analysis",
+    "nutrients": [
       {
-        "value": 13.6,
-        "unit": "kg"
+        "nutrient": "Zinc (Zn)(actual)",
+        "value": 9.8,
+        "unit": "%"
       },
       {
-        "value": 30,
-        "unit": "lb"
+        "nutrient": "Sulfur (S)",
+        "value": 4.8,
+        "unit": "%"
       }
     ],
-    "density": {
-      "value": null,
-      "unit": null
-    },
-    "volume": {
-      "value": 10,
-      "unit": "L"
-    },
-    "npk": null,
-    "guaranteed_analysis_en": {
-      "title": "Guaranteed Analysis",
-      "nutrients": [
-        {
-          "nutrient": "Zinc (Zn)(actual)",
-          "value": 9.8,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Sulfur (S)",
-          "value": 4.8,
-          "unit": "%"
-        }
-      ]
-    },
-    "guaranteed_analysis_fr": {
-      "title": "GUARANTEED MINIMUM ANALYSIS",
-      "nutrients": [
-        {
-          "nutrient": "Zinc (Zn)(actual)",
-          "value": 9.8,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Soufre (S)",
-          "value": 4.8,
-          "unit": "%"
-        }
-      ]
-    },
-    "ingredients_en": null,
-    "ingredients_fr": null,
-    "cautions_en": [
-      "CAUTION: THIS FERTILIZER CONTAINS ZINC AND SHOULD BE USED ONLY AS RECOMMENDED. IT MAY PROVE HARMFUL WHEN MISUSED. STORE IN A COOL, DRY AREA. DO NOT FREEZE."
+    "is_minimal": false
+  },
+  "guaranteed_analysis_fr": {
+    "title": "GUARANTEED MINIMUM ANALYSIS",
+    "nutrients": [
+      {
+        "nutrient": "Zinc (Zn)(actual)",
+        "value": 9.8,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Soufre (S)",
+        "value": 4.8,
+        "unit": "%"
+      }
     ],
-    "cautions_fr": null,
-    "instructions_en": [
-      "READ THE ENTIRE LABEL BEFORE USING THIS PRODUCT. Apply as a foliar treatment in a regular spray program or as a corrective spray to alleviate nutritional deficiencies. Also for use in blended fertilizers. Suitable for ground or aerial spraying.",
-      "Wheat, canola, soybean, corn, potatoes, peas, lentils and other pulse crops: apply at the rate of 0.5 L - 1L / acre (1.25 L -2.5L/ha) with a minimum of 40 L of water. Ensure sufficient water for thorough coverage. Use this product on the basis of soil and tissue analysis in accordance with recommendations of a qualified person or institution or apply according to recommendations in your approved nutrient program."
-    ],
-    "instructions_fr": null
-  }
+    "is_minimal": true
+  },
+  "cautions_en": [
+    "CAUTION: THIS FERTILIZER CONTAINS ZINC AND SHOULD BE USED ONLY AS RECOMMENDED. IT MAY PROVE HARMFUL WHEN MISUSED. STORE IN A COOL, DRY AREA. DO NOT FREEZE."
+  ],
+  "cautions_fr": [],
+  "instructions_en": [
+    "READ THE ENTIRE LABEL BEFORE USING THIS PRODUCT. Apply as a foliar treatment in a regular spray program or as a corrective spray to alleviate nutritional deficiencies. Also for use in blended fertilizers. Suitable for ground or aerial spraying.",
+    "Wheat, canola, soybean, corn, potatoes, peas, lentils and other pulse crops: apply at the rate of 0.5 L - 1L / acre (1.25 L -2.5L/ha) with a minimum of 40 L of water. Ensure sufficient water for thorough coverage. Use this product on the basis of soil and tissue analysis in accordance with recommendations of a qualified person or institution or apply according to recommendations in your approved nutrient program."
+  ],
+  "instructions_fr": [],
+  "ingredients_en": [],
+  "ingredients_fr": []
+}
