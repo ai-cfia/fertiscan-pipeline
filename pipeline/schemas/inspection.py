@@ -188,4 +188,3 @@ class FertilizerInspection(BaseModel):
         if v is None:
             v = []
         return v
-        

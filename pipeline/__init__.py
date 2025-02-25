@@ -30,4 +30,3 @@ def analyze(images: list[Image.Image], llm_api_key, llm_api_endpoint, llm_api_de
     prediction = predictor.forward(images)
 
     return prediction.inspection
-    

@@ -20,4 +20,3 @@ class OCR:
         )
         result = poller.result()
         return result
-        
