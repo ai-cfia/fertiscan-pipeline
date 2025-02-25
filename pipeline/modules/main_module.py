@@ -56,13 +56,13 @@ class MainModule(dspy.Module):
         lm = dspy.LM(
             model=f"azure/{settings.llm_api_deployment}",
             api_base=settings.llm_api_endpoint,
-            api_key=settings.llm_api_key,
+            api_key=settings.llm_api_key.get_secret_value(),
             max_tokens=SUPPORTED_MODELS[settings.llm_api_deployment]["max_tokens"],
             api_version=SUPPORTED_MODELS[settings.llm_api_deployment]["api_version"],
             cache=useCache
         )
         dspy.configure(lm=lm)
-        self.ocr = OCR(settings.document_api_endpoint, settings.document_api_key)
+        self.ocr = OCR(settings.document_api_endpoint, settings.document_api_key.get_secret_value())
         self.label_storage = LabelStorage()
         self.inspector = dspy.ChainOfThought(Inspector)
 
