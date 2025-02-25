@@ -4,7 +4,6 @@ from typing import Dict, Any
 from pipeline.schemas.inspection import (
     FertilizerInspection,
     Organization,
-    RegistrationNumber,
 )
 
 def convert_organization(data: Dict[str, Any], prefix: str) -> Organization:
