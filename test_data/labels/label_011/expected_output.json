@@ -1,22 +1,24 @@
 {
-  "company_name": "Advancing Eco Agriculture, LLC",
-  "company_address": "4551 Parks West Road, Middlefield, OH 44062 USA",
-  "company_website": "http://www.advancingecoag.com",
-  "company_phone_number": "800-495-6603",
-  "manufacturer_name": null,
-  "manufacturer_address": null,
-  "manufacturer_website": null,
-  "manufacturer_phone_number": null,
+  "organizations": [
+    {
+      "name": "Advancing Eco Agriculture, LLC",
+      "address": "4551 Parks West Road, Middlefield, OH 44062 USA",
+      "website": "www.http://www.advancingecoag.com",
+      "phone_number": "+18004956603"
+    }
+  ],
   "fertiliser_name": "Accelerate™",
-  "registration_number": "2020134A",
-  "lot_number": null,
+  "registration_number": [
+    {
+      "identifier": "2020134A",
+      "type": "fertilizer_product"
+    }
+  ],
   "weight": [
     {
-      "value": null,
       "unit": "kg"
     },
     {
-      "value": null,
       "unit": "lb"
     }
   ],
@@ -24,27 +26,24 @@
     "value": 1.12,
     "unit": "kg/L"
   },
-  "volume": {
-    "value": null,
-    "unit": null
-  },
+  "volume": {},
   "npk": "2000-01-01",
   "guaranteed_analysis_en": {
     "title": "Guaranteed Minimum Analysis",
     "nutrients": [
       {
         "nutrient": "Available Phosphate (P2O5)",
-        "value": 1,
+        "value": 1.0,
         "unit": "%"
       },
       {
         "nutrient": "Soluble Potash (K2O)",
-        "value": 1,
+        "value": 1.0,
         "unit": "%"
       },
       {
         "nutrient": "Calcium (Ca)",
-        "value": 1,
+        "value": 1.0,
         "unit": "%"
       },
       {
@@ -84,32 +83,33 @@
       },
       {
         "nutrient": "Ascophyllum nodosum",
-        "value": 2,
+        "value": 2.0,
         "unit": "%"
       },
       {
         "nutrient": "Laminaria digitata",
-        "value": 3,
+        "value": 3.0,
         "unit": "%"
       }
-    ]
+    ],
+    "is_minimal": true
   },
   "guaranteed_analysis_fr": {
     "title": "Analyse minimale garantie",
     "nutrients": [
       {
         "nutrient": "phosphate assimilable",
-        "value": 1,
+        "value": 1.0,
         "unit": "%"
       },
       {
         "nutrient": "Potasse soluble",
-        "value": 1,
+        "value": 1.0,
         "unit": "%"
       },
       {
         "nutrient": "Calcium",
-        "value": 1,
+        "value": 1.0,
         "unit": "%"
       },
       {
@@ -149,110 +149,17 @@
       },
       {
         "nutrient": "Ascophyllum nodosum",
-        "value": 2,
+        "value": 2.0,
         "unit": "%"
       },
       {
         "nutrient": "Laminaria digitata",
-        "value": 3,
+        "value": 3.0,
         "unit": "%"
       }
-    ]
+    ],
+    "is_minimal": true
   },
-  "ingredients_en": [
-    {
-      "nutrient": "Rock phosphate",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "kelp",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "calcium carbonate",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "sodium molybdate",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "manganese sulfate",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "copper sulfate",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "zinc sulfate",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "disodium octaborate",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "humates",
-      "value": null,
-      "unit": null
-    }
-  ],
-  "ingredients_fr": [
-    {
-      "nutrient": "phosphate de roche",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "varech",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "calcium de carbonate",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "molybdate de sodium",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "sulfate de manganèse",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "sulfate de cuivre",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "sulfate de zinc",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "octaborate de disodium",
-      "value": null,
-      "unit": null
-    },
-    {
-      "nutrient": "humates",
-      "value": null,
-      "unit": null
-    }
-  ],
   "cautions_en": [
     "CAUTION: product contains fish, shellfish and soy. Adverse reactions may occur in sensitive persons. If skin contact occurs, wash with soap and water. Wear dust mask and protective gloves. If allergic reaction occurs, seek medical attention.",
     "Caution: This fertilizer contains boron, copper, manganese, molybdenum and zinc and should be used only as recommended. It may prove harmful when misused."
@@ -274,5 +181,63 @@
     "Cultures en floraison continue: appliquer jusqu'à 18,7 L par ha 1-2 semaines avant la floraison et jusqu'à 9,4 L par ha toutes les deux semaines.",
     "Manutention: entreposer dans une zone sèche et fraîche à l'abri de la lumière directe du soleil. La sédimentation peut survenir en dessous de 1,7ºC ou supérieure à 35ºC. Agiter ou remuer avant utilisation. Ne pas prémélanger ou conserver sous forme diluée. Toujours utiliser le produit dans les 8 heures suivant la dilution.",
     "Quand le mélange de réservoir: un test de bocal est recommandé. L'agitation est la clé de la convivialité de ce produit. Envisagez d'utiliser une buse d'éducteur. La compatibilité et/ou les performances ne peuvent pas être garanties lorsqu'elles sont combinées avec d'autres produits."
+  ],
+  "ingredients_en": [
+    {
+      "nutrient": "Rock phosphate"
+    },
+    {
+      "nutrient": "kelp"
+    },
+    {
+      "nutrient": "calcium carbonate"
+    },
+    {
+      "nutrient": "sodium molybdate"
+    },
+    {
+      "nutrient": "manganese sulfate"
+    },
+    {
+      "nutrient": "copper sulfate"
+    },
+    {
+      "nutrient": "zinc sulfate"
+    },
+    {
+      "nutrient": "disodium octaborate"
+    },
+    {
+      "nutrient": "humates"
+    }
+  ],
+  "ingredients_fr": [
+    {
+      "nutrient": "phosphate de roche"
+    },
+    {
+      "nutrient": "varech"
+    },
+    {
+      "nutrient": "calcium de carbonate"
+    },
+    {
+      "nutrient": "molybdate de sodium"
+    },
+    {
+      "nutrient": "sulfate de manganèse"
+    },
+    {
+      "nutrient": "sulfate de cuivre"
+    },
+    {
+      "nutrient": "sulfate de zinc"
+    },
+    {
+      "nutrient": "octaborate de disodium"
+    },
+    {
+      "nutrient": "humates"
+    }
   ]
 }

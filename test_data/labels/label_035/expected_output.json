@@ -1,180 +1,157 @@
 {
-    "company_name": "Gloco",
-    "company_address": "26, route Maritime, Forestville, Quebec G0T 1E0",
-    "company_website": "http://bionik.ca",
-    "company_phone_number": null,
-    "manufacturer_name": null,
-    "manufacturer_address": null,
-    "manufacturer_website": null,
-    "manufacturer_phone_number": null,
-    "fertiliser_name": "Bionik",
-    "registration_number": null,
-    "lot_number": null,
-    "weight": [
+  "organizations": [
+    {
+      "name": "Gloco",
+      "address": "26, route Maritime, Forestville, Quebec G0T 1E0",
+      "website": "www.http://bionik.ca"
+    }
+  ],
+  "fertiliser_name": "Bionik",
+  "registration_number": [],
+  "weight": [
+    {
+      "value": 14.0,
+      "unit": "kg"
+    },
+    {
+      "value": 30.8,
+      "unit": "lb"
+    }
+  ],
+  "density": {},
+  "volume": {
+    "value": 22.0,
+    "unit": "L"
+  },
+  "npk": "0.6-1.8-0.13",
+  "guaranteed_analysis_en": {
+    "title": "GUARANTEED MINIMUM ANALYSIS",
+    "nutrients": [
       {
-        "value": 14,
-        "unit": "kg"
+        "nutrient": "Total nitrogen (N)",
+        "value": 0.6,
+        "unit": "%"
       },
       {
-        "value": 30.8,
-        "unit": "lb"
+        "nutrient": "Available phosphoric acid (P2O5)",
+        "value": 1.8,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Soluble potash (K2O)",
+        "value": 0.1,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Calcium (Ca)",
+        "value": 14.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Magnesium (Mg)",
+        "value": 0.2,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Organic matter",
+        "value": 28.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Moisture (Max)",
+        "value": 55.0,
+        "unit": "%"
       }
     ],
-    "density": {
-      "value": null,
-      "unit": null
-    },
-    "volume": {
-      "value": 22,
-      "unit": "L"
-    },
-    "npk": "0.6-1.8-0.13",
-    "guaranteed_analysis_en": {
-      "title": "GUARANTEED MINIMUM ANALYSIS",
-      "nutrients": [
-        {
-          "nutrient": "Total nitrogen (N)",
-          "value": 0.6,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Available phosphoric acid (P2O5)",
-          "value": 1.8,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Soluble potash (K2O)",
-          "value": 0.1,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Calcium (Ca)",
-          "value": 14,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Magnesium (Mg)",
-          "value": 0.2,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Organic matter",
-          "value": 28,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Moisture (Max)",
-          "value": 55,
-          "unit": "%"
-        }
-      ]
-    },
-    "guaranteed_analysis_fr": {
-      "title": "ANALYSE MINIMUM GARANTIE",
-      "nutrients": [
-        {
-          "nutrient": "Azote total (N)",
-          "value": 0.6,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Acide phosphorique (P2O5)",
-          "value": 1.8,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Potasse soluble (k2O)",
-          "value": 0.1,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Calcium (Ca)",
-          "value": 14,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Magnesium (Mg)",
-          "value": 0.2,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Matière organique",
-          "value": 28,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Moisture (Max)",
-          "value": 55,
-          "unit": "%"
-        }
-      ]
-    },
-    "ingredients_en": [
+    "is_minimal": true
+  },
+  "guaranteed_analysis_fr": {
+    "title": "ANALYSE MINIMUM GARANTIE",
+    "nutrients": [
       {
-        "nutrient": "Barks",
-        "value": null,
-        "unit": null
+        "nutrient": "Azote total (N)",
+        "value": 0.6,
+        "unit": "%"
       },
       {
-        "nutrient": "Snow crab",
-        "value": null,
-        "unit": null
+        "nutrient": "Acide phosphorique (P2O5)",
+        "value": 1.8,
+        "unit": "%"
       },
       {
-        "nutrient": "Whelks",
-        "value": null,
-        "unit": null
+        "nutrient": "Potasse soluble (k2O)",
+        "value": 0.1,
+        "unit": "%"
       },
       {
-        "nutrient": "Red wigglers",
-        "value": null,
-        "unit": null
+        "nutrient": "Calcium (Ca)",
+        "value": 14.0,
+        "unit": "%"
       },
       {
-        "nutrient": "Fish",
-        "value": null,
-        "unit": null
+        "nutrient": "Magnesium (Mg)",
+        "value": 0.2,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Matière organique",
+        "value": 28.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Moisture (Max)",
+        "value": 55.0,
+        "unit": "%"
       }
     ],
-    "ingredients_fr": [
-      {
-        "nutrient": "Écorces",
-        "value": null,
-        "unit": null
-      },
-      {
-        "nutrient": "Crabes des neiges",
-        "value": null,
-        "unit": null
-      },
-      {
-        "nutrient": "Bourgots",
-        "value": null,
-        "unit": null
-      },
-      {
-        "nutrient": "Vers rouges",
-        "value": null,
-        "unit": null
-      },
-      {
-        "nutrient": "Poissons",
-        "value": null,
-        "unit": null
-      }
-    ],
-    "cautions_en": null,
-    "cautions_fr": null,
-    "instructions_en": [
-      "Vegetable gardens and flower beds: Spread a 0.6 mm (1/4 in) layer of compost on the soil surface and quickly work into the soil.",
-      "Demanding plants: Add one to three handfuls into the planting hole and work into the soil.",
-      "Trees, shrubs, evergreens and hedges: Spread a 0.6 mm (1/4 in) layer of compost on the soil surface covered by the plants. Water as needed.",
-      "For optimal results: Apply the complete Bionik Fertilization Program."
-    ],
-    "instructions_fr": [
-      "Potager et plates-bandes: Épandre 0,6 mm (1/4 po) de compost à la surface du sol et mélanger au sol rapidement.",
-      "Plantes exigeantes: Ajouter une à trois poignées dans le trou de plantation et mélanger au sol.",
-      "Arbres, arbustes, conifères et haies: Épandre 0,6 mm (1/4 po) de compost à la surface du sol recouvert par les plants. Arroser au besoin.",
-      "Pour un résultat optimal: Utiliser le programme complet de fertilisation Bionik."
-    ]
-  }
+    "is_minimal": true
+  },
+  "cautions_en": [],
+  "cautions_fr": [],
+  "instructions_en": [
+    "Vegetable gardens and flower beds: Spread a 0.6 mm (1/4 in) layer of compost on the soil surface and quickly work into the soil.",
+    "Demanding plants: Add one to three handfuls into the planting hole and work into the soil.",
+    "Trees, shrubs, evergreens and hedges: Spread a 0.6 mm (1/4 in) layer of compost on the soil surface covered by the plants. Water as needed.",
+    "For optimal results: Apply the complete Bionik Fertilization Program."
+  ],
+  "instructions_fr": [
+    "Potager et plates-bandes: Épandre 0,6 mm (1/4 po) de compost à la surface du sol et mélanger au sol rapidement.",
+    "Plantes exigeantes: Ajouter une à trois poignées dans le trou de plantation et mélanger au sol.",
+    "Arbres, arbustes, conifères et haies: Épandre 0,6 mm (1/4 po) de compost à la surface du sol recouvert par les plants. Arroser au besoin.",
+    "Pour un résultat optimal: Utiliser le programme complet de fertilisation Bionik."
+  ],
+  "ingredients_en": [
+    {
+      "nutrient": "Barks"
+    },
+    {
+      "nutrient": "Snow crab"
+    },
+    {
+      "nutrient": "Whelks"
+    },
+    {
+      "nutrient": "Red wigglers"
+    },
+    {
+      "nutrient": "Fish"
+    }
+  ],
+  "ingredients_fr": [
+    {
+      "nutrient": "Écorces"
+    },
+    {
+      "nutrient": "Crabes des neiges"
+    },
+    {
+      "nutrient": "Bourgots"
+    },
+    {
+      "nutrient": "Vers rouges"
+    },
+    {
+      "nutrient": "Poissons"
+    }
+  ]
+}
