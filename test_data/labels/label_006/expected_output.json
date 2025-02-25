@@ -1,75 +1,76 @@
 {
-    "company_name": "ACTIVE AgriScience Inc.",
-    "company_address": "3422 Millar Avenue, Saskatoon, SK S7K 5Y7, Canada",
-    "company_website": "http://activeagriscience.com",
-    "company_phone_number": null,
-    "manufacturer_name": null,
-    "manufacturer_address": null,
-    "manufacturer_website": null,
-    "manufacturer_phone_number": null,
-    "fertiliser_name": "Active MANGANESE™ 7% Mn",
-    "registration_number": "2016123B",
-    "lot_number": null,
-    "weight": [
+  "organizations": [
+    {
+      "name": "ACTIVE AgriScience Inc.",
+      "address": "3422 Millar Avenue, Saskatoon, SK S7K 5Y7, Canada",
+      "website": "www.http://activeagriscience.com"
+    }
+  ],
+  "fertiliser_name": "Active MANGANESE™ 7% Mn",
+  "registration_number": [
+    {
+      "identifier": "2016123B",
+      "type": "fertilizer_product"
+    }
+  ],
+  "weight": [
+    {
+      "value": 12.2,
+      "unit": "kg"
+    },
+    {
+      "value": 26.9,
+      "unit": "lb"
+    }
+  ],
+  "density": {},
+  "volume": {
+    "value": 10.0,
+    "unit": "L"
+  },
+  "guaranteed_analysis_en": {
+    "title": "Guaranteed Analysis",
+    "nutrients": [
       {
-        "value": 12.2,
-        "unit": "kg"
+        "nutrient": "Manganese (Mn)(actual)",
+        "value": 7.0,
+        "unit": "%"
       },
       {
-        "value": 26.9,
-        "unit": "lb"
+        "nutrient": "Sulfur (S)",
+        "value": 4.0,
+        "unit": "%"
       }
     ],
-    "density": {
-      "value": null,
-      "unit": null
-    },
-    "volume": {
-      "value": 10,
-      "unit": "L"
-    },
-    "npk": null,
-    "guaranteed_analysis_en": {
-      "title": "Guaranteed Analysis",
-      "nutrients": [
-        {
-          "nutrient": "Manganese (Mn)(actual)",
-          "value": 7,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Sulfur (S)",
-          "value": 4,
-          "unit": "%"
-        }
-      ]
-    },
-    "guaranteed_analysis_fr": {
-      "title": "GUARANTEED MINIMUM ANALYSIS",
-      "nutrients": [
-        {
-          "nutrient": "Manganèse (Mn)(actual)",
-          "value": 7,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Soufre (S)",
-          "value": 4,
-          "unit": "%"
-        }
-      ]
-    },
-    "ingredients_en": null,
-    "ingredients_fr": null,
-    "cautions_en": [
-      "CAUTION: This fertilizer contains manganese and should be used only as recommended. It may prove harmful when misused. PRECAUTIONARY STATEMENTS: Wear protective gloves/protective clothing/eye protection/face protection. Do not breathe mists. Do not eat, drink or smoke when using this product. Wash hands and exposed skin thoroughly after handling."
+    "is_minimal": false
+  },
+  "guaranteed_analysis_fr": {
+    "title": "GUARANTEED MINIMUM ANALYSIS",
+    "nutrients": [
+      {
+        "nutrient": "Manganèse (Mn)(actual)",
+        "value": 7.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Soufre (S)",
+        "value": 4.0,
+        "unit": "%"
+      }
     ],
-    "cautions_fr": null,
-    "instructions_en": [
-      "DIRECTIONS FOR USE: READ ENTIRE LABEL BEFORE USE.",
-      "Apply as a foliar treatment in a regular spray program or as a corrective spray to alleviate nutritional deficiencies. Also for use in blended fertilizers. Suitable for ground or aerial spraying.",
-      "Wheat, Canola, soybean, corn, potatoes, peas, lentils and other pulse crops: apply at the rate of 1.25L - 2.5L/ha (0.5L-1L/ acre) with a minimum of 40 L of water. Ensure sufficient water for thorough coverage.",
-      "Use this product on the basis of soil and tissue analysis in accordance with recommendations of a qualified person or institution or apply according to recommendations in your approved nutrient program."
-    ],
-    "instructions_fr": null
-  }
+    "is_minimal": true
+  },
+  "cautions_en": [
+    "CAUTION: This fertilizer contains manganese and should be used only as recommended. It may prove harmful when misused. PRECAUTIONARY STATEMENTS: Wear protective gloves/protective clothing/eye protection/face protection. Do not breathe mists. Do not eat, drink or smoke when using this product. Wash hands and exposed skin thoroughly after handling."
+  ],
+  "cautions_fr": [],
+  "instructions_en": [
+    "DIRECTIONS FOR USE: READ ENTIRE LABEL BEFORE USE.",
+    "Apply as a foliar treatment in a regular spray program or as a corrective spray to alleviate nutritional deficiencies. Also for use in blended fertilizers. Suitable for ground or aerial spraying.",
+    "Wheat, Canola, soybean, corn, potatoes, peas, lentils and other pulse crops: apply at the rate of 1.25L - 2.5L/ha (0.5L-1L/ acre) with a minimum of 40 L of water. Ensure sufficient water for thorough coverage.",
+    "Use this product on the basis of soil and tissue analysis in accordance with recommendations of a qualified person or institution or apply according to recommendations in your approved nutrient program."
+  ],
+  "instructions_fr": [],
+  "ingredients_en": [],
+  "ingredients_fr": []
+}

@@ -1,93 +1,78 @@
 {
-    "company_name": "Easy Gardener, Inc.",
-    "company_address": "P.O. Box 21025 · Waco, Texas 76702-1025 USA",
-    "company_website": "http://www.easygardener.com",
-    "company_phone_number": "1-800-327-9462",
-    "manufacturer_name": null,
-    "manufacturer_address": null,
-    "manufacturer_website": null,
-    "manufacturer_phone_number": null,
-    "fertiliser_name": "Jobe's® Organics Fertilizer Spikes",
-    "registration_number": null,
-    "lot_number": null,
-    "weight": [
+  "organizations": [
+    {
+      "name": "Easy Gardener, Inc.",
+      "address": "P.O. Box 21025 · Waco, Texas 76702-1025 USA",
+      "website": "www.http://www.easygardener.com",
+      "phone_number": "+18003279462"
+    }
+  ],
+  "fertiliser_name": "Jobe's® Organics Fertilizer Spikes",
+  "registration_number": [],
+  "weight": [
+    {
+      "unit": "kg"
+    },
+    {
+      "unit": "lb"
+    }
+  ],
+  "density": {},
+  "volume": {},
+  "npk": "3-5-5",
+  "guaranteed_analysis_en": {
+    "title": "Guaranteed Analysis",
+    "nutrients": [
       {
-        "value": null,
-        "unit": "kg"
+        "nutrient": "Total Nitrogen (N)",
+        "value": 3.0,
+        "unit": "%"
       },
       {
-        "value": null,
-        "unit": "lb"
+        "nutrient": "Water Insoluble Nitrogen",
+        "value": 1.8,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Water Soluble Nitrogen",
+        "value": 1.2,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Available Phosphate (P2O5)",
+        "value": 5.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Soluble Potash (K2O)",
+        "value": 5.0,
+        "unit": "%"
       }
     ],
-    "density": {
-      "value": null,
-      "unit": null
+    "is_minimal": false
+  },
+  "guaranteed_analysis_fr": {
+    "nutrients": []
+  },
+  "cautions_en": [],
+  "cautions_fr": [],
+  "instructions_en": [
+    "IMPORTANT: Read directions before applying.",
+    "Store in a cool, dry place and use soon after opening.",
+    "Insert the right number of spikes into the soil based on the size of the container listed below, spacing them evenly around the edge of the pot.",
+    "For best results feed every 4-6 weeks."
+  ],
+  "instructions_fr": [],
+  "ingredients_en": [
+    {
+      "nutrient": "Feather Meal"
     },
-    "volume": {
-      "value": null,
-      "unit": null
+    {
+      "nutrient": "Bone Meal"
     },
-    "npk": "3-5-5",
-    "guaranteed_analysis_en": {
-      "title": "Guaranteed Analysis",
-      "nutrients": [
-        {
-          "nutrient": "Total Nitrogen (N)",
-          "value": 3,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Water Insoluble Nitrogen",
-          "value": 1.8,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Water Soluble Nitrogen",
-          "value": 1.2,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Available Phosphate (P2O5)",
-          "value": 5,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Soluble Potash (K2O)",
-          "value": 5,
-          "unit": "%"
-        }
-      ]
-    },
-    "guaranteed_analysis_fr": {
-      "title": null,
-      "nutrients": null
-    },
-    "ingredients_en": [
-      {
-        "ingredient": "Feather Meal",
-        "value": null,
-        "unit": null
-      },
-      {
-        "ingredient": "Bone Meal",
-        "value": null,
-        "unit": null
-      },
-      {
-        "ingredient": "Sulfate of Potash",
-        "value": null,
-        "unit": null
-      }
-    ],
-    "ingredients_fr": null,
-    "cautions_en": null,
-    "cautions_fr": null,
-    "instructions_en": [
-      "IMPORTANT: Read directions before applying.",
-      "Store in a cool, dry place and use soon after opening.",
-      "Insert the right number of spikes into the soil based on the size of the container listed below, spacing them evenly around the edge of the pot.",
-      "For best results feed every 4-6 weeks."
-    ],
-    "instructions_fr": null
-  }
+    {
+      "nutrient": "Sulfate of Potash"
+    }
+  ],
+  "ingredients_fr": []
+}
