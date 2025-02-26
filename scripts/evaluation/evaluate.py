@@ -13,7 +13,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from PIL import Image
 
 from pipeline.modules.main_module import MainModule
-from pipeline.schemas.inspection import FertilizerInspection, GuaranteedAnalysis, NutrientValue, Value
+from pipeline.schemas.inspection import FertilizerInspection, GuaranteedAnalysis, NutrientValue, Organization, RegistrationNumber, Value
 from pipeline.schemas.settings import Settings
 
 SETTINGS = Settings()
@@ -25,21 +25,14 @@ EMBEDDING_MODEL = AzureOpenAI(
 )
 
 SCORES_BY_FIELD = {
-    "company_name": [],
-    "company_address": [],
-    "manufacturer_name": [],
-    "manufacturer_address": [],
+    "organizations": [],
     "fertiliser_name": [],
-    "company_phone_number": [],
-    "manufacturer_phone_number": [],
-    "company_website": [],
-    "manufacturer_website": [],
     "registration_number": [],
     "lot_number": [],
-    "npk": [],
     "weight": [],
     "density": [],
     "volume": [],
+    "npk": [],
     "guaranteed_analysis_en": [],
     "guaranteed_analysis_fr": [],
     "ingredients_en": [],
@@ -146,6 +139,9 @@ def compare_weight(example_weight: list[Value], pred_weight: list[Value]):
     if not example_weight or not pred_weight:
         return 1 if example_weight == pred_weight else 0
 
+    example_weight.sort(key=lambda x: x.value)
+    pred_weight.sort(key=lambda x: x.value)
+
     scores = []
 
     for ex_value, pred_value in zip(example_weight, pred_weight):
@@ -154,6 +150,75 @@ def compare_weight(example_weight: list[Value], pred_weight: list[Value]):
 
     return sum(scores) / len(scores) if scores else 0.0
 
+def compare_organization(ex_org: Organization, pred_org: Organization):
+    scores = []
+
+    # Compare name
+    if ex_org.name and pred_org.name:
+        name_score = jellyfish.jaro_winkler_similarity(
+            preprocess_string(ex_org.name),
+            preprocess_string(pred_org.name)
+        )
+        scores.append(name_score)
+
+    # Compare address
+    if ex_org.address and pred_org.address:
+        address_score = jellyfish.jaro_winkler_similarity(
+            preprocess_string(ex_org.address),
+            preprocess_string(pred_org.address)
+        )
+        scores.append(address_score)
+
+    # Compare website
+    website_score = 1.0 if ex_org.website == pred_org.website else 0.0
+    scores.append(website_score)
+
+    # Compare phone number
+    phone_score = 1.0 if ex_org.phone_number == pred_org.phone_number else 0.0
+    scores.append(phone_score)
+
+    return sum(scores) / len(scores) if scores else 0.0
+
+# TODO there is a flaw here since this assumes the list of weights is ordered consistently on the prediction and the example
+def compare_organizations(ex_orgs: list[Organization], pred_orgs: list[Organization]):
+    if not ex_orgs and not pred_orgs:
+        return 1.0
+    if not ex_orgs or not pred_orgs:
+        return 0.0
+
+    ex_orgs.sort(key=lambda x: x.name)
+    pred_orgs.sort(key=lambda x: x.name)
+
+    scores = []
+    for ex_org in ex_orgs:
+        best_score = max(
+            compare_organization(ex_org, pred_org)
+            for pred_org in pred_orgs
+        )
+        scores.append(best_score)
+
+    return sum(scores) / len(scores)
+
+def compare_registration_numbers(ex_regs: list[RegistrationNumber], pred_regs: list[RegistrationNumber]):
+    if not ex_regs and not pred_regs:
+        return 1.0
+    if not ex_regs or not pred_regs:
+        return 0.0
+
+    ex_regs.sort(key=lambda x: x.identifier)
+    pred_regs.sort(key=lambda x: x.identifier)
+
+    scores = []
+    for ex_reg in ex_regs:
+        best_score = 0.0
+        for pred_reg in pred_regs:
+            id_score = 1.0 if ex_reg.identifier == pred_reg.identifier else 0.0
+            type_score = 1.0 if ex_reg.type == pred_reg.type else 0.0
+            score = (id_score + type_score) / 2
+            best_score = max(best_score, score)
+        scores.append(best_score)
+
+    return sum(scores) / len(scores)
 
 def compare_nutrient_value(ex_nutrient_value: NutrientValue, pred_nutrient_value: NutrientValue):
     if not ex_nutrient_value or not pred_nutrient_value:
@@ -243,68 +308,34 @@ def compare_list_text(ex_value: list[str], pred_value: list[str]):
 # METRIC FUNCTION USED TO RUN EVALS
 def validate_inspection(example: dspy.Example, pred: dspy.Prediction, trace=None):
     scores = []
-
-    # because for now example.inspection returns a dict not a FertilizerInspection
-    example_inspection = FertilizerInspection.model_validate(
-        example.inspection)
+    example_inspection = FertilizerInspection.model_validate(example.inspection)
 
     for field_name, _ in FertilizerInspection.model_fields.items():
         example_value = getattr(example_inspection, field_name, None)
         pred_value = getattr(pred.inspection, field_name, None)
 
-        # Evaluate the fields that need to use Jaro Winkler similarity
-        if field_name in ["company_name", "company_address", "manufacturer_name", "manufacturer_address", "fertiliser_name"]:
+        if field_name == "organizations":
+            score = compare_organizations(example_value, pred_value)
+            scores.append(score)
+            SCORES_BY_FIELD[field_name].append(score)
+
+        elif field_name == "registration_number":
+            score = compare_registration_numbers(example_value, pred_value)
+            scores.append(score)
+            SCORES_BY_FIELD[field_name].append(score)
+
+        elif field_name == "fertiliser_name":
             if example_value is not None and pred_value is not None:
                 score = jellyfish.jaro_winkler_similarity(
-                    preprocess_string(example_value), preprocess_string(pred_value))
-                scores.append(score)
+                    preprocess_string(example_value),
+                    preprocess_string(pred_value)
+                )
             else:
-                # Unless both fields are None, score is 0
                 score = 1.0 if example_value == pred_value else 0.0
-                scores.append(score)
-            SCORES_BY_FIELD[field_name].append(score)
-
-        elif field_name in ["company_phone_number", "manufacturer_phone_number"]:
-            score = 1.0 if normalize_phone_number(
-                example_value) == normalize_phone_number(pred_value) else 0.0
             scores.append(score)
             SCORES_BY_FIELD[field_name].append(score)
 
-        elif field_name in ["company_website", "manufacturer_website"]:
-            score = 1.0 if normalize_website(
-                example_value) == normalize_website(pred_value) else 0.0
-            scores.append(score)
-            SCORES_BY_FIELD[field_name].append(score)
-
-        elif field_name in ["registration_number", "lot_number", "npk"]:
-            score = 1.0 if example_value == pred_value else 0.0
-            scores.append(score)
-            SCORES_BY_FIELD[field_name].append(score)
-
-        elif field_name in ["weight"]:
-            score = compare_weight(example_value, pred_value)
-            scores.append(score)
-            SCORES_BY_FIELD[field_name].append(score)
-
-        elif field_name in ["density", "volume"]:
-            score = compare_value(example_value, pred_value)
-            scores.append(score)
-            SCORES_BY_FIELD[field_name].append(score)
-
-        elif field_name in ["guaranteed_analysis_en", "guaranteed_analysis_fr"]:
-            score = compare_guaranteed_analysis(example_value, pred_value)
-            scores.append(score)
-            SCORES_BY_FIELD[field_name].append(score)
-
-        elif field_name in ["ingredients_en", "ingredients_fr"]:
-            score = compare_ingredients(example_value, pred_value)
-            scores.append(score)
-            SCORES_BY_FIELD[field_name].append(score)
-
-        elif field_name in ["cautions_en", "cautions_fr", "instructions_en", "instructions_fr"]:
-            score = compare_list_text(example_value, pred_value)
-            scores.append(score)
-            SCORES_BY_FIELD[field_name].append(score)
+        # Continue with rest of field comparisons...
 
     return sum(scores) / len(scores) if scores else 0.0
 

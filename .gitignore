@@ -11,6 +11,9 @@ reports/
 # VS Code
 .vscode
 
+# Zed
+.zed
+
 # C extensions
 *.so
 

@@ -10,10 +10,8 @@ from pydantic import (
     model_validator,
 )
 
-
 class npkError(ValueError):
     pass
-
 
 def extract_first_number(string: str) -> Optional[str]:
     if string is not None:
@@ -24,7 +22,7 @@ def extract_first_number(string: str) -> Optional[str]:
 
 class Organization(BaseModel):
     """
-    Represents an organization such as a manufacturer, company, or any entity 
+    Represents an organization such as a manufacturer, company, or any entity
     associated with a fertilizer.
     """
     name: Optional[str] = Field(None, description="The name of the organization.")
@@ -47,7 +45,7 @@ class Organization(BaseModel):
 
         except phonenumbers.phonenumberutil.NumberParseException:
             return None
-        
+
     @field_validator("website", mode="before")
     def website_lowercase(cls, v):
         if v is not None:
@@ -72,7 +70,6 @@ class NutrientValue(BaseModel):
             return extract_first_number(v)
         return None
 
-
 class Value(BaseModel):
     value: Optional[float]
     unit: Optional[str]
@@ -86,8 +83,6 @@ class Value(BaseModel):
         elif isinstance(v, (str)):
             return extract_first_number(v)
         return None
-
-# class syntax
 
 class RegistrationNumber(BaseModel):
     identifier: Optional[str] = Field(..., description="A string composed of 7-digit number followed by an uppercase letter.")
