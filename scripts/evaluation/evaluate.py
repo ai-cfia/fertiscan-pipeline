@@ -94,38 +94,12 @@ def preprocess_string(input_string):
     """
     if input_string is None:
         return None
+    if not isinstance(input_string, str):
+        input_string = str(input_string)
     lowercased = input_string.lower()
-    cleaned = re.sub(r'[^a-z0-9\s]', '', lowercased)
+    cleaned = re.sub(r'[^\w\s]', '', lowercased, flags=re.UNICODE)
     cleaned = re.sub(r'\s+', ' ', cleaned).strip()
     return cleaned
-
-
-def normalize_phone_number(phone, country='CA'):
-    try:
-        parsed = phonenumbers.parse(phone, country)
-        if phonenumbers.is_possible_number(parsed):
-            return phonenumbers.format_number(parsed, phonenumbers.PhoneNumberFormat.E164)
-        else:
-            return phone
-    except phonenumbers.NumberParseException:
-        return phone
-
-
-def normalize_website(url):
-    if url is not None:
-        try:
-            url = url.lower().strip()
-            if not urlparse(url).scheme:
-                url = 'http://' + url
-            parsed = urlparse(url)
-            netloc = parsed.netloc.lstrip('www.')
-            return netloc.rstrip('/')
-        except Exception as e:
-            print(f"Error normalizing URL '{url}': {e}")
-            return url
-    else:
-        return url
-
 
 def display_scores_by_field(scores_by_field=SCORES_BY_FIELD):
     print("\n--Scores by field--")
@@ -145,18 +119,58 @@ def compare_value(ex_value: Value, pred_value: Value):
 
     return (value_score + unit_score)/2
 
-# TODO there is a flaw here since this assumes the list of weights is ordered consistently on the prediction and the example
-def compare_weight(example_weight: list[Value], pred_weight: list[Value]):
-    if not example_weight or not pred_weight:
-        return 1 if example_weight == pred_weight else 0
+# PHONE NUMBER
+def normalize_phone_number(phone, country='CA'):
+    try:
+        parsed = phonenumbers.parse(phone, country)
+        if phonenumbers.is_possible_number(parsed):
+            return phonenumbers.format_number(parsed, phonenumbers.PhoneNumberFormat.E164)
+        else:
+            return phone
+    except phonenumbers.NumberParseException:
+        return phone
 
-    scores = []
+# WEBSITE
+def normalize_website(url):
+    if url is not None:
+        try:
+            url = url.lower().strip()
+            if not urlparse(url).scheme:
+                url = 'http://' + url
+            parsed = urlparse(url)
+            netloc = parsed.netloc.lstrip('www.')
+            return netloc.rstrip('/')
+        except Exception as e:
+            print(f"Error normalizing URL '{url}': {e}")
+            return url
+    else:
+        return url
 
-    for ex_value, pred_value in zip(example_weight, pred_weight):
-        score = compare_value(ex_value, pred_value)
-        scores.append(score)
+def clean_weights(weights):
+    # Filter out weights with None values and clean units
+    cleaned_weights = [
+        {'value': weight['value'], 'unit': weight['unit'].lower().replace('s', '')}
+        for weight in weights
+        if weight['value'] is not None and weight['unit'] is not None
+    ]
+    
+    # Sort weights by unit
+    cleaned_weights.sort(key=lambda x: x['unit'])
+    
+    return cleaned_weights
 
-    return sum(scores) / len(scores) if scores else 0.0
+def compare_weights(dspy_output, expected_output):
+    dspy_output_cleaned = clean_weights(dspy_output)
+    expected_output_cleaned = clean_weights(expected_output)
+    if (len(dspy_output_cleaned) == 0) and (len(expected_output_cleaned) == 0):
+        return 1
+    if (len(dspy_output_cleaned) == 0) or (len(expected_output_cleaned) == 0):
+        return 0
+    correct_num = 0
+    for dspy_weight, expected_weight in zip(dspy_output_cleaned, expected_output_cleaned):
+        if (dspy_weight['value'] == expected_weight['value']) and (dspy_weight['unit'] == expected_weight['unit']):
+            correct_num += 1
+    return correct_num / len(expected_output_cleaned)
 
 
 def compare_nutrient_value(ex_nutrient_value: NutrientValue, pred_nutrient_value: NutrientValue):
