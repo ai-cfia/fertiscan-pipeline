@@ -1,6 +1,6 @@
-from modules.main_module import MainModule
-from schemas.settings import Settings
-from schemas.inspection import FertilizerInspection  # noqa: F401
+from .modules.main_module import MainModule
+from .schemas.settings import Settings
+from .schemas.inspection import FertilizerInspection  # noqa: F401
 from PIL import Image
 
 def save_text_to_file(text: str, output_path: str):  # pragma: no cover
