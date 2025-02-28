@@ -1,9 +1,9 @@
 import os
 import dspy
-from pipeline.components.label import LabelStorage
-from pipeline.components.ocr import OCR
-from pipeline.schemas.inspection import FertilizerInspection
-from pipeline.schemas.settings import Settings
+from components.label import LabelStorage
+from components.ocr import OCR
+from schemas.inspection import FertilizerInspection
+from schemas.settings import Settings
 from PIL import Image
 
 # Constants
