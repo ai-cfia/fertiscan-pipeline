@@ -7,7 +7,7 @@ name = "fertiscan_pipeline"
 version = "0.0.7"
 description = "A pipeline for the FertiScan project"
 authors = [
-    { name = "Albert Bryan Ndjeutcha", email = "albert.ndjeutcha@inspection.gc.ca" }
+    { name = "Albert Bryan Ndjeutcha", email = "albert.ndjeutcha@inspection.gc.ca" },
 ]
 readme = "README.md"
 requires-python = ">=3.11"
@@ -20,10 +20,15 @@ dynamic = ["dependencies"]
 
 license = { file = "LICENSE" }
 
-keywords = ["fertiscan","ailab"]
+keywords = ["fertiscan", "ailab"]
 
 [tool.setuptools]
-  packages = ["pipeline"]
+packages = [
+    "pipeline",
+    "pipeline.components",
+    "pipeline.modules",
+    "pipeline.schemas",
+]
 
 [tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
+dependencies = { file = ["requirements.txt"] }
