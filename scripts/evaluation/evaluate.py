@@ -107,6 +107,49 @@ def display_scores_by_field(scores_by_field=SCORES_BY_FIELD):
         average = sum(score_list)/len(score_list)
         print(f"{field:<30} | {average}")
 
+def if_array_is_empty(array):
+    if array is None:
+        return []
+    for item in array:
+        if isinstance(item, dict):
+            values = item.values()
+            if any(value is not None for value in values):
+                return array
+    return []
+
+def normalize_ingredients_array(array):
+    return sorted(
+            [
+                {
+                    'ingredient': item['ingredient'].lower() if item['ingredient'] is not None else None,
+                    'value': item['value'],
+                    'unit': item['unit'].lower().replace('s', '') if item['unit'] is not None else None
+                }
+                for item in array
+            ],
+            key=lambda x: x['ingredient']  # Sort by 'nutrient'
+        )
+    
+def is_gma_none(gma):
+    if gma is None:
+        return True
+    if ((gma.get('title') is None) and ((gma.get('nutrients') is None) or ((isinstance(gma.get('nutrients'), list) and len(gma.get('nutrients')) == 0))) and (gma.get('is_minimal') is None)):
+        return True
+    return False
+
+def normalize_gma_array(array):
+    return sorted(
+            [
+                {
+                    'nutrient': item['nutrient'].lower() if item['nutrient'] is not None else None, 
+                    'value': item['value'], 
+                    'unit': item['unit'].lower().replace('s', '') if item['unit'] is not None else None
+                }
+                for item in array
+            ],
+            key=lambda x: x['nutrient']  # Sort by 'nutrient'
+        )
+
 # COMPARATORS
 def compare_value(ex_value: Value, pred_value: Value):
 
@@ -145,7 +188,8 @@ def normalize_website(url):
             return url
     else:
         return url
-
+    
+# WEIGHT
 def clean_weights(weights):
     # Filter out weights with None values and clean units
     cleaned_weights = [
@@ -172,21 +216,21 @@ def compare_weights(dspy_output, expected_output):
             correct_num += 1
     return correct_num / len(expected_output_cleaned)
 
-
-def compare_nutrient_value(ex_nutrient_value: NutrientValue, pred_nutrient_value: NutrientValue):
+# NUTRIENT VALUE
+def compare_nutrient_value(ex_nutrient_value, pred_nutrient_value):
     if not ex_nutrient_value or not pred_nutrient_value:
         return 1.0 if ex_nutrient_value == pred_nutrient_value else 0.0
 
     # Compare nutrient names using Jaro-Winkler similarity
     nutrient_score = jellyfish.jaro_winkler_similarity(
-        preprocess_string(ex_nutrient_value.nutrient),
-        preprocess_string(pred_nutrient_value.nutrient)
+        preprocess_string(ex_nutrient_value.get('nutrient')),
+        preprocess_string(pred_nutrient_value.get('nutrient'))
     )
 
     # Compare value and unit using the existing compare_value function
     value_score = compare_value(
-        Value(value=ex_nutrient_value.value, unit=ex_nutrient_value.unit),
-        Value(value=pred_nutrient_value.value, unit=pred_nutrient_value.unit)
+        Value(value=ex_nutrient_value.get('value'), unit=ex_nutrient_value.get('unit')),
+        Value(value=pred_nutrient_value.get('value'), unit=pred_nutrient_value.get('unit'))
     )
 
     # Average the scores
@@ -194,39 +238,42 @@ def compare_nutrient_value(ex_nutrient_value: NutrientValue, pred_nutrient_value
 
 
 def compare_ingredients(ex_ingredients: list[NutrientValue], pred_ingredients: list[NutrientValue]) -> float:
-    if not ex_ingredients and not pred_ingredients:
+    cleaned_expected_output = if_array_is_empty(ex_ingredients)
+    cleaned_dspy_output = if_array_is_empty(pred_ingredients)
+    if (len(cleaned_expected_output) == 0) and (len(cleaned_dspy_output) == 0):
         return 1.0
-    if not ex_ingredients or not pred_ingredients:
+    if (len(cleaned_expected_output) == 0) or (len(cleaned_dspy_output) == 0):
         return 0.0
-
-    # Create lookup dictionaries for fast comparisons
-    ex_dict = {nv.nutrient: nv for nv in ex_ingredients}
-    pred_dict = {nv.nutrient: nv for nv in pred_ingredients}
+    
+    #TODO: should change the labelled data instead of this step
+    for nutrient in ex_ingredients:
+        if 'ingredient' in nutrient:
+            nutrient['nutrient'] = nutrient.pop('ingredient')
+    
+    sorted_pred_ingredients = normalize_ingredients_array(pred_ingredients)
+    sorted_ex_ingredients = normalize_ingredients_array(ex_ingredients)
 
     # Initialize scores
     scores = []
 
     # Compare all expected nutrients
-    for nutrient, ex_nv in ex_dict.items():
-        pred_nv = pred_dict.get(nutrient)
-        if pred_nv:
-            score = compare_nutrient_value(ex_nv, pred_nv)
-        else:
-            score = 0.0  # Missing nutrient in prediction
+    for ex_ingredient, pred_ingredient in zip(sorted_ex_ingredients, sorted_pred_ingredients):
+        score = compare_nutrient_value(ex_ingredient, pred_ingredient)
         scores.append(score)
 
     # Penalize for extraneous nutrients
-    extra_nutrients = set(pred_dict.keys()) - set(ex_dict.keys())
+    extra_nutrients = len(sorted_pred_ingredients) - set(sorted_ex_ingredients)
     scores.extend([0.0] * len(extra_nutrients))  # Add one penalty per extra nutrient
 
     # Compute average score
     return sum(scores) / len(scores) if scores else 0.0
 
-
-
+# GUARANTEED ANALYSIS
 def compare_guaranteed_analysis(ex_ga: GuaranteedAnalysis, pred_ga: GuaranteedAnalysis):
-    if not ex_ga or not pred_ga:
-        return 1.0 if ex_ga == pred_ga else 0.0
+    if is_gma_none(ex_ga) and is_gma_none(pred_ga):
+        return 1
+    if is_gma_none(ex_ga) or is_gma_none(pred_ga):
+        return 0
 
     scores = []
 
@@ -239,11 +286,24 @@ def compare_guaranteed_analysis(ex_ga: GuaranteedAnalysis, pred_ga: GuaranteedAn
     else:
         title_score = 1.0 if ex_ga.title == pred_ga.title else 0.0
     scores.append(title_score)
+    
+    if (pred_ga.get('is_minimal') == ex_ga.get('is_minimal')):
+        scores.append(1.0)
+    else:
+        scores.append(0.0)
 
-    # Compare nutrients
-    nutrients_score = compare_ingredients(ex_ga.nutrients, pred_ga.nutrients)
-    scores.append(nutrients_score)
+    sorted_ex_ga_nutrients = normalize_gma_array(ex_ga.nutrients)
+    sorted_pred_ga_nutrients = normalize_gma_array(pred_ga.nutrients)
+    
+    for ex_ingredient, pred_ingredient in zip(sorted_ex_ga_nutrients, sorted_pred_ga_nutrients):
+        score = compare_nutrient_value(ex_ingredient, pred_ingredient)
+        scores.append(score)
 
+    # Penalize for extraneous nutrients
+    extra_nutrients = len(sorted_pred_ga_nutrients) - set(sorted_ex_ga_nutrients)
+    scores.extend([0.0] * len(extra_nutrients))  # Add one penalty per extra nutrient
+
+    # Compute average score
     return sum(scores) / len(scores) if scores else 0.0
 
 
