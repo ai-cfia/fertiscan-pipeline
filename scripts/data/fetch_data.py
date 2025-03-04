@@ -62,30 +62,43 @@ class DataFetcher:
             data = response.json()
 
             # Create new label directory
-            picture_set_id = data.get('picture_set_id', None)[0]
+            picture_set_id = data.get('picture_set_id')
+            if not picture_set_id:
+                logger.error(f"No picture set ID found for inspection {inspection_id}")
+                return None
+
             label_dir = self.create_label_directory(picture_set_id)
-            logger.info(f"Created directory: {label_dir}")
 
             # Download images and store data
             image_count = self.fetch_picture_set(picture_set_id, label_dir)
             if image_count:
-                logger.info(f"Downloaded {image_count} images in: {label_dir}")
+                logger.info(f"Downloaded {image_count} images for inspection {inspection_id}")
 
-            # Create expected output JSON
-            expected_output = data
-
-            # Save expected output
-            with open(label_dir / 'expected_output.json', 'w') as f:
-                json.dump(expected_output, f, indent=2)
+            # Save inspection data as expected_output.json
+            output_path = label_dir / 'expected_output.json'
+            with open(output_path, 'w') as f:
+                json.dump(data, f, indent=2)
 
             logger.info(f"Saved expected_output.json in {label_dir}")
 
         except Exception as e:
-            logger.error(f"Error fetching data: {str(e)}")
+            logger.error(f"Error fetching inspection data: {str(e)}")
 
-    def fetch_inspection_set(self):
-        """Fetches a set of inspections"""
-        pass
+    def fetch_inspection_set(self, limit=50):
+        """Fetches a set of inspections from the API"""
+        try:
+            response = requests.get(f"{self.api_endpoint}/inspections?limit={limit}")
+            response.raise_for_status()
+            inspections = response.json()
+
+            for inspection in inspections:
+                inspection_id = inspection.get('id')
+                if inspection_id:
+                    logger.info(f"Fetching inspection {inspection_id}")
+                    self.fetch_inspection_data(inspection_id)
+
+        except Exception as e:
+            logger.error(f"Error fetching inspection set: {str(e)}")
 
 def main():
     try:

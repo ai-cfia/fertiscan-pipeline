@@ -1,9 +1,5 @@
-import os
-import PIL
 import unittest
 
-from pipeline import save_image_to_file
-from pipeline.schemas.inspection import Value
 from tests import curl_file
 from pipeline.components.label import LabelStorage
 
