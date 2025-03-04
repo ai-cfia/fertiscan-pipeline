@@ -13,7 +13,7 @@ from openai import AzureOpenAI
 from sklearn.metrics.pairwise import cosine_similarity
 
 from pipeline_new.modules.LanguageProgram import LanguageProgram
-from pipeline_new.schemas.inspection import FertilizerInspection, GuaranteedAnalysis, NutrientValue, Value
+from pipeline_new.schemas.inspection import FertilizerInspection, GuaranteedAnalysis, NutrientValue, Organization, Value
 
 # HELPER FUNCTION TO LOAD .ENV WITH CHECKS
 def load_env_variables():
@@ -152,6 +152,20 @@ def normalize_gma_array(array):
     
 def if_dictionary_values_are_none(dictionary):
     return all(value is None for value in dictionary.values())
+
+def sort_and_preprocess_organization_array(array: list[Organization]):
+    return sorted(
+            [
+                {
+                    'name': preprocess_string(item['name']),
+                    'address': preprocess_string(item['address']),
+                    'website': normalize_website(item['website']) if item['website'] is not None else None,
+                    'phone_number': normalize_phone_number(item['phone_number']) if item['phone_number'] is not None else None
+                }
+                for item in array
+            ],
+            key=lambda x: x['name']  # Sort by 'name'
+        )
 
 # COMPARATORS
 def compare_value(ex_value: Value, pred_value: Value):
@@ -341,10 +355,37 @@ def compare_list_text(ex_value: list[str], pred_value: list[str]):
     return cosine_similarity(ex_value_embeddings, pred_value_embeddings)[0][0]
 
 def compare_organizations(ex_organization: Organization, pred_organization: Organization):
-    if not ex_organization or not pred_organization:
-        return 1.0 if ex_organization == pred_organization else 0.0
-
-    return compare_list_text(ex_organization.name, pred_organization.name)
+    cleaned_ex_organizationt = if_array_is_empty(ex_organization)
+    cleaned_pred_organization = if_array_is_empty(pred_organization)
+    if (len(cleaned_ex_organizationt) == 0) and (len(cleaned_pred_organization) == 0):
+        return 1.0
+    if (len(cleaned_ex_organizationt) == 0) or (len(cleaned_pred_organization) == 0):
+        return 0.0
+        
+    sorted_ex_organization = sort_and_preprocess_organization_array(cleaned_ex_organizationt)
+    sorted_pred_organization = sort_and_preprocess_organization_array(cleaned_pred_organization)
+    
+    scores = []
+    
+    for ex_organization, pred_organization in zip(sorted_ex_organization, sorted_pred_organization):
+        # Compare title using Jaro-Winkler similarity
+        if ex_organization.name and pred_organization.name:
+            name_score = jellyfish.jaro_winkler_similarity(ex_organization.name, pred_organization.name)
+        else:
+            name_score = 1.0 if ex_organization.name == pred_organization.name else 0.0        
+        
+        if ex_organization.address and pred_organization.address:
+            address_score = jellyfish.jaro_winkler_similarity(ex_organization.address, pred_organization.address)
+        else:
+            address_score = 1.0 if ex_organization.address == pred_organization.address else 0.0
+        
+        website_score = 1.0 if ex_organization.website == pred_organization.website else 0.0
+            
+        phone_score = 1.0 if ex_organization.phone_number == pred_organization.phone_number else 0.0
+    
+        scores.append((name_score + address_score + website_score + phone_score) / 4)
+        
+    return sum(scores) / len(scores) if scores else 0.0
 
 
 # METRIC FUNCTION USED TO RUN EVALS
