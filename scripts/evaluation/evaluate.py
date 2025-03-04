@@ -149,6 +149,9 @@ def normalize_gma_array(array):
             ],
             key=lambda x: x['nutrient']  # Sort by 'nutrient'
         )
+    
+def if_dictionary_values_are_none(dictionary):
+    return all(value is None for value in dictionary.values())
 
 # COMPARATORS
 def compare_value(ex_value: Value, pred_value: Value):
@@ -188,6 +191,15 @@ def normalize_website(url):
             return url
     else:
         return url
+    
+def compare_density_or_volume(dspy_output, expected_output):
+    if (((expected_output is None) or if_dictionary_values_are_none(expected_output)) and ((dspy_output is None) or if_dictionary_values_are_none(dspy_output))):
+        return 1
+    if (((expected_output is None) or if_dictionary_values_are_none(expected_output)) or ((dspy_output is None) or if_dictionary_values_are_none(dspy_output))):
+        return 0
+    if (dspy_output['value'] == expected_output['value']) and (dspy_output['unit'].lower() == expected_output['unit'].lower()):
+        return 1
+    return 0
     
 # WEIGHT
 def clean_weights(weights):
@@ -317,13 +329,22 @@ def compare_list_text(ex_value: list[str], pred_value: list[str]):
 
     ex_value_string = "".join(ex_value)
     pred_value_string = "".join(pred_value)
+    
+    preprocessed_ex_value_string = preprocess_string(ex_value_string)
+    preprocessed_pred_value_string = preprocess_string(pred_value_string)
 
     ex_value_embeddings = np.array(
-        generate_embeddings(ex_value_string)).reshape(1, -1)
+        generate_embeddings(preprocessed_ex_value_string)).reshape(1, -1)
     pred_value_embeddings = np.array(
-        generate_embeddings(pred_value_string)).reshape(1, -1)
+        generate_embeddings(preprocessed_pred_value_string)).reshape(1, -1)
 
     return cosine_similarity(ex_value_embeddings, pred_value_embeddings)[0][0]
+
+def compare_organizations(ex_organization: Organization, pred_organization: Organization):
+    if not ex_organization or not pred_organization:
+        return 1.0 if ex_organization == pred_organization else 0.0
+
+    return compare_list_text(ex_organization.name, pred_organization.name)
 
 
 # METRIC FUNCTION USED TO RUN EVALS
@@ -368,7 +389,7 @@ def validate_inspection(example: dspy.Example, pred: dspy.Prediction, trace=None
             SCORES_BY_FIELD[field_name].append(score)
 
         elif field_name in ["weight"]:
-            score = compare_weight(example_value, pred_value)
+            score = compare_weights(example_value, pred_value)
             scores.append(score)
             SCORES_BY_FIELD[field_name].append(score)
 
