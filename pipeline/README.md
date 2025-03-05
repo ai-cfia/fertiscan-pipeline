@@ -66,7 +66,7 @@ This structure ensures:
 #### The Signature
 
 We defined an `Inspector` signature in
-[main_module.py](pipeline/modules/main_module.py) that establishes the contract
+[main_module.py](./pipeline/modules/main_module.py) that establishes the contract
 between inputs and outputs. This signature:
 
 - Creates a clear contract for what inputs are required (OCR text and requirements)
