@@ -29,7 +29,7 @@ This documentation addresses issue #94, providing a comprehensive resource to un
 
 We've established a modular project structure that ensures clean separation of concerns:
 
-```
+```plaintext
 └── Pipeline                    <- Source code available when importing the package
     │
     ├── __init__.py             <- Module interface for communications
@@ -48,6 +48,7 @@ We've established a modular project structure that ensures clean separation of c
 ```
 
 This structure ensures:
+
 - Clear separation between data schemas, external services, and LLM logic
 - Modularity for easy testing and component replacement
 - Consistent interfaces for pipeline integration
@@ -68,6 +69,7 @@ The signature defines OCR text and requirements as input fields, while specifyin
 
 The pipeline follows these key steps:
 
+```mermaid
 flowchart LR
     A[Images] --> B[LabelStorage]
     B --> C[Document Creation]
@@ -77,6 +79,7 @@ flowchart LR
     F --> G[FertilizerInspection Schema]
     G --> H[Validation]
     H --> I[Return Validated Inspection]
+```
 
 ### Defining the Metric Function
 
@@ -91,10 +94,12 @@ This schema-based approach provides immediate feedback on extraction quality and
 ### Optimization
 
 Our current optimization work is in the early stages due to data limitations:
+
 - The existing dataset includes approximately 35 examples
 - With a typical 20/80 train/test split, this leaves only ~7 training examples
 
 Given this constraint, we've focused on:
+
 - Building the DSPy infrastructure with optimization in mind
 - Using `ChainOfThought` reasoning to improve extraction quality
 - Setting up a caching system to make iterations faster during development
@@ -115,7 +120,7 @@ Our initial DSPy implementation has identified several areas for improvement:
 
 Our current implementation uses a single monolithic DSPy module. A possible improvement for the future would be to break this down into specialized modules:
 
-```
+```plaintext
 Inspector (Main Module)
 ├── OrganizationExtractor
 ├── ProductInfoExtractor
@@ -125,6 +130,7 @@ Inspector (Main Module)
 ```
 
 This modular approach would potentially allow:
+
 - More focused training and optimization for each subtask
 - Shorter, more specific prompts
 - Better handling of specialized extraction needs (e.g., nutrient values vs. safety instructions)
@@ -166,6 +172,7 @@ This approach will create a virtuous cycle where user interactions continuously 
 #### LabelStorage
 
 Handles image processing and document creation:
+
 - Stores and manages multiple images of a fertilizer label
 - Creates composite documents (PDF/PNG) for OCR processing
 - Provides clear memory management (clearing images after processing)
@@ -173,6 +180,7 @@ Handles image processing and document creation:
 #### OCR Integration
 
 Connects with Azure Document Intelligence:
+
 - Extracts text from label images with high accuracy
 - Preserves document structure for better context
 - Returns markdown-formatted text for easier processing
@@ -180,6 +188,7 @@ Connects with Azure Document Intelligence:
 #### DSPy Module Implementation
 
 The `MainModule` class implements the core DSPy functionality:
+
 - Configures the Azure OpenAI connection with appropriate parameters
 - Implements the `forward()` method that processes images through the pipeline
 - Uses `ChainOfThought` reasoning for improved extraction quality
@@ -187,6 +196,7 @@ The `MainModule` class implements the core DSPy functionality:
 #### Schema System
 
 Our extensive Pydantic schema system:
+
 - Defines valid data structures for all extracted information
 - Implements validation rules and data normalization
 - Provides automatic type conversion and formatting
@@ -195,6 +205,7 @@ Our extensive Pydantic schema system:
 ### Integration With External Services
 
 The pipeline integrates with:
+
 1. **Azure Document Intelligence** for OCR processing
 2. **Azure OpenAI** for LLM-based extraction
 3. **OpenTelemetry** (optional) for observability
@@ -204,6 +215,7 @@ The pipeline integrates with:
 ### Schema-First Design
 
 We found that starting with a well-defined schema provided several benefits:
+
 - Clearer communication about expected outputs
 - Built-in validation reducing post-processing
 - Natural structure for DSPy signatures
@@ -211,6 +223,7 @@ We found that starting with a well-defined schema provided several benefits:
 ### Modular Component Design
 
 Our component-based approach allowed:
+
 - Easier testing of individual pipeline elements
 - Simplified integration with external services
 - Better separation of concerns
@@ -218,6 +231,7 @@ Our component-based approach allowed:
 ### Challenges With DSPy Integration
 
 Some challenges we encountered:
+
 - Adapting to DSPy's structured approach requires rethinking direct LLM calls
 - Limited documentation for some advanced DSPy features
 - Initial overhead of setting up the DSPy infrastructure
