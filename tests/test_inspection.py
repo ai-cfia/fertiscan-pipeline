@@ -3,8 +3,10 @@ import unittest
 from pipeline.schemas.inspection import (
     FertilizerInspection,
     GuaranteedAnalysis,
+    RegistrationNumber,
     NutrientValue,
     Specification,
+    Organization,
     Value,
 )
 
@@ -131,7 +133,34 @@ class TestSpecification(unittest.TestCase):
                 self.assertIsNone(specification.ph)
                 self.assertIsNone(specification.solubility)
 
+class TestOrganizations(unittest.TestCase):
+    def setUp(self):
+        self.valid_organization_data = [
+            {"name": "Test Company", "address": "123 Test St", "website": "https://test.com", "phone_number": "800 640 9605"},
+            {"name": "Test Manufacturer", "address": "456 Test Blvd", "website": "https://manufacturer.com", "phone_number": "800-765-4321"},
+        ]
 
+        self.invalid_organization_data = [
+            {"name": "Test Company", "address": "123 Test St", "website": "https://test.com", "phone_number": "123-456-7890"},
+            {"name": "Test Manufacturer", "address": "456 Test Blvd", "website": "https://manufacturer.com", "phone_number": "098-765-4321"},
+        ]
+
+    def test_valid_organization(self):
+        for data in self.valid_organization_data:
+            with self.subTest(data=data):
+                organization = Organization(**data)
+                self.assertIsNotNone(organization.name, data["name"])
+                self.assertIsNotNone(organization.address, data["address"])
+                self.assertIsNotNone(organization.website, data["website"])
+                self.assertIsNotNone(organization.phone_number, data["phone_number"])
+
+    def test_invalid_organization(self):
+        for data in self.invalid_organization_data:
+            with self.subTest(data=data):
+                organization = Organization(**data)
+                self.assertIsNone(
+                    organization.phone_number, f"Expected None for phone_number with input {data['phone_number']}"
+                )
 class TestNPKValidation(unittest.TestCase):
     def setUp(self):
         self.valid_npk_data = ["10-5-20", "0-0-0", "100-200-300", "10.2-5.5-20.3"]
@@ -170,6 +199,71 @@ class TestNPKValidation(unittest.TestCase):
                 inspection = FertilizerInspection(npk=npk)
                 self.assertIsNone(inspection.npk)
 
+class TestRegistrationNumber(unittest.TestCase):
+    def setUp(self):
+        self.valid_registration_number_data = [
+            "1234567A",
+            "1234567B",
+            "1234567C",
+            "1234567D",
+            "1234567E",
+            "1234567F",
+            "1234567G",
+            "1234567H",
+            "1234567I",
+            "1234567J",
+            "1234567K",
+            "1234567L",
+            "1234567M",
+            "1234567N",
+            "1234567O",
+            "1234567P",
+            "1234567Q",
+            "1234567R",
+            "1234567S",
+            "1234567T",
+            "1234567U",
+            "1234567V",
+            "1234567W",
+            "1234567X",
+            "1234567Y",
+            "1234567Z",
+        ]
+
+        self.invalid_registration_number_data = [
+            "1234567",
+            "1234567AA",
+            "1234567A1",
+            "1234567A ",
+            "1234567 A",
+            "1234567A-",
+            "1234567A.",
+            "1234567A,",
+        ]
+
+        self.invalid_registration_type_data = [
+            "FERTILIZER",
+            "INGREDIENT",
+            "PRODUCT",
+            "COMPONENT",
+        ]
+
+    def test_valid_registration_number(self):
+        for registration_number in self.valid_registration_number_data:
+            with self.subTest(registration_number=registration_number):
+                registration = RegistrationNumber(identifier=registration_number)
+                self.assertEqual(registration.identifier, registration_number)
+            
+    def test_invalid_registration_number(self):
+        for registration_number in self.invalid_registration_number_data:
+            with self.subTest(registration_number=registration_number):
+                self.assertIsNone(RegistrationNumber(identifier=registration_number, type="fertilizer_product").identifier)
+
+    def test_invalid_registration_type(self):
+        for registration_type in self.invalid_registration_type_data:
+            with self.subTest(registration_type=registration_type):
+                self.assertIsNone(RegistrationNumber(identifier="1234567A", type=registration_type).type)
+    
 
 class TestGuaranteedAnalysis(unittest.TestCase):
     def setUp(self):
@@ -256,7 +350,7 @@ class TestFertilizerInspectionRegistrationNumber(unittest.TestCase):
         self.assertIsNone(instance.registration_number[0].identifier)
 
 
-class TestFertilizerInspectionPhoneNumberFormat(unittest.TestCase):
+class TestOrganizationPhoneNumberFormat(unittest.TestCase):
     def test_valid_phone_number_with_country_code(self):
         instance = FertilizerInspection(organizations=[{"phone_number": "+1 800 640 9605"}])
         self.assertEqual(instance.organizations[0].phone_number, "+18006409605")

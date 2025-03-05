@@ -1,8 +1,10 @@
-from PIL import Image
 from io import BytesIO
-from reportlab.pdfgen import canvas
+
+from PIL import Image
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.utils import ImageReader
+from reportlab.pdfgen import canvas
+
 
 class LabelStorage:
     def __init__(self):
@@ -26,7 +28,7 @@ class LabelStorage:
         max_width = max(widths)
 
         # Create a new blank image with the appropriate size
-        composite_image = Image.new('RGB', (max_width, total_height))
+        composite_image = Image.new("RGB", (max_width, total_height))
 
         y_offset = 0
         for img in self.images:
@@ -55,18 +57,18 @@ class LabelStorage:
     def clear(self):
         self.images = []
 
-    def get_document(self, format='pdf') -> bytes:
+    def get_document(self, format="pdf") -> bytes:
         # Ensure there are images to merge
         if not self.images:
             raise ValueError("No images to merge.")
 
         output = BytesIO()
 
-        if format == 'pdf':
+        if format == "pdf":
             output = self._create_pdf_document()
-        elif format == 'png':
+        elif format == "png":
             composite_image = self._create_composite_image()
-            composite_image.save(output, format='PNG')
+            composite_image.save(output, format="PNG")
         else:
             raise ValueError("Unknown document format output.")
 
