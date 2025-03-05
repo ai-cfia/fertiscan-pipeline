@@ -1,15 +1,22 @@
 # Transitioning from Direct LLM Calls to DSPy in FertiScan Pipeline
 
-This documentation addresses issue #94, providing a comprehensive resource to understand the work done to transition the FertiScan pipeline from direct LLM calls to DSPy.
+This documentation addresses issue #94, providing a comprehensive resource to
+understand the work done to transition the FertiScan pipeline from direct LLM calls
+to DSPy.
 
 ## 1. Contextualizing DSPy
 
-[DSPy](https://github.com/stanfordnlp/dspy) is a framework developed by Stanford NLP that enables programmatic prompt engineering and LLM optimization. It provides a structured approach to building LLM-powered applications that moves beyond ad-hoc prompt engineering.
+[DSPy](https://github.com/stanfordnlp/dspy) is a framework developed by Stanford
+NLP that enables programmatic prompt engineering and LLM optimization. It provides
+a structured approach to building LLM-powered applications that moves beyond ad-hoc
+prompt engineering.
 
 ### The Main Moving Parts of a DSPy Program
 
-1. **Signature**: Defines input → output behavior, creating a contract for what goes in and what comes out
-2. **Predictor/Built-in Modules**: The strategy used to solve the task (e.g., ChainOfThought, RAG)
+1. **Signature**: Defines input → output behavior, creating a contract for what
+   goes in and what comes out
+2. **Predictor/Built-in Modules**: The strategy used to solve the task (e.g.,
+   ChainOfThought, RAG)
 3. **Metrics**: A numerical representation of the quality of the output
 4. **Optimizers**: Built-in tools to optimize the model toward a specific behavior
 
@@ -27,7 +34,8 @@ This documentation addresses issue #94, providing a comprehensive resource to un
 
 ### Setting Up a Project Structure
 
-We've established a modular project structure that ensures clean separation of concerns:
+We've established a modular project structure that ensures clean separation of
+concerns:
 
 ```plaintext
 └── Pipeline                    <- Source code available when importing the package
@@ -57,13 +65,19 @@ This structure ensures:
 
 #### The Signature
 
-We defined an `Inspector` signature in [main_module.py](pipeline/modules/main_module.py) that establishes the contract between inputs and outputs. This signature:
+We defined an `Inspector` signature in
+[main_module.py](pipeline/modules/main_module.py) that establishes the contract
+between inputs and outputs. This signature:
 
 - Creates a clear contract for what inputs are required (OCR text and requirements)
 - Defines the expected output (a structured `FertilizerInspection` object)
 - Provides context through a docstring that guides the LLM's behavior
 
-The signature defines OCR text and requirements as input fields, while specifying a `FertilizerInspection` object as the output field. The docstring informs the model of its role as a fertilizer label inspector working for the Canadian Food Inspection Agency, tasking it with classifying information from the provided text accurately and comprehensively.
+The signature defines OCR text and requirements as input fields, while specifying
+a `FertilizerInspection` object as the output field. The docstring informs the
+model of its role as a fertilizer label inspector working for the Canadian Food
+Inspection Agency, tasking it with classifying information from the provided text
+accurately and comprehensively.
 
 #### The Pipeline Flow
 
@@ -85,11 +99,14 @@ flowchart LR
 
 We've implemented a Pydantic-based schema system that serves as an implicit metric:
 
-- The `FertilizerInspection` schema and its sub-models define what a correct extraction looks like
-- Field validators enforce data quality (e.g., phone number formatting, NPK ratio validation)
+- The `FertilizerInspection` schema and its sub-models define what a correct
+  extraction looks like
+- Field validators enforce data quality (e.g., phone number formatting, NPK ratio
+  validation)
 - Missing or malformed data is automatically handled through validation
 
-This schema-based approach provides immediate feedback on extraction quality and identifies specific fields where the model struggles.
+This schema-based approach provides immediate feedback on extraction quality and
+identifies specific fields where the model struggles.
 
 ### Optimization
 
@@ -110,15 +127,19 @@ Given this constraint, we've focused on:
 
 Our initial DSPy implementation has identified several areas for improvement:
 
-1. **Bilingual Extraction**: Challenges in correctly separating English and French content
-2. **Complex Structured Data**: Difficulties in consistently extracting nested information (e.g., guaranteed analysis)
-3. **Formatting Inconsistencies**: Struggles with variations in how information is presented across different labels
+1. **Bilingual Extraction**: Challenges in correctly separating English and French
+   content
+2. **Complex Structured Data**: Difficulties in consistently extracting nested
+   information (e.g., guaranteed analysis)
+3. **Formatting Inconsistencies**: Struggles with variations in how information is
+   presented across different labels
 
 ### Vectors of Improvement
 
 #### Breaking Down the Monolithic Module
 
-Our current implementation uses a single monolithic DSPy module. A possible improvement for the future would be to break this down into specialized modules:
+Our current implementation uses a single monolithic DSPy module. A possible
+improvement for the future would be to break this down into specialized modules:
 
 ```plaintext
 Inspector (Main Module)
@@ -133,25 +154,31 @@ This modular approach would potentially allow:
 
 - More focused training and optimization for each subtask
 - Shorter, more specific prompts
-- Better handling of specialized extraction needs (e.g., nutrient values vs. safety instructions)
+- Better handling of specialized extraction needs (e.g., nutrient values vs. safety
+  instructions)
 
-However, given our current time constraints, we'll continue with the monolithic approach while noting this architectural improvement for future iterations.
+However, given our current time constraints, we'll continue with the monolithic
+approach while noting this architectural improvement for future iterations.
 
 #### Optimizing Modules
 
-DSPy offers several optimization strategies that could be considered for future improvements as our dataset grows:
+DSPy offers several optimization strategies that could be considered for future
+improvements as our dataset grows:
 
 1. **Demonstration Tuning**
    - Carefully selected few-shot examples could be added to each module
    - Targeted demonstrations could help with challenging extraction scenarios
 
 2. **Holistic Tuning (Prompt + Demonstration)**
-   - DSPy's MIPROv2 optimizer could be valuable once a larger dataset (~200 training examples) is available
-   - This approach could optimize prompts and demonstrations simultaneously for better performance
+   - DSPy's MIPROv2 optimizer could be valuable once a larger dataset (~200
+     training examples) is available
+   - This approach could optimize prompts and demonstrations simultaneously for
+     better performance
 
 3. **Metric Refinement**
    - More sophisticated metrics beyond schema validation could be developed
-   - Domain-specific evaluation criteria for fertilizer information could enhance quality assessment
+   - Domain-specific evaluation criteria for fertilizer information could enhance
+     quality assessment
 
 #### Data Flywheel Implementation
 
@@ -163,7 +190,8 @@ To address our data limitations, we're designing a data flywheel:
 4. Periodically retrain and optimize the DSPy modules
 5. Deploy improved models back to production
 
-This approach will create a virtuous cycle where user interactions continuously improve the system.
+This approach will create a virtuous cycle where user interactions continuously
+improve the system.
 
 ## 4. Architecture and Implementation Details
 
@@ -238,14 +266,22 @@ Some challenges we encountered:
 
 ## 6. Conclusion
 
-Our transition from direct LLM calls to DSPy has created a more structured, maintainable, and optimizable pipeline for fertilizer label analysis. The key advantages of this approach include:
+Our transition from direct LLM calls to DSPy has created a more structured,
+maintainable, and optimizable pipeline for fertilizer label analysis. The key
+advantages of this approach include:
 
-1. **Structured Development**: Clear separation between signature definition, module implementation, and optimization
+1. **Structured Development**: Clear separation between signature definition,
+   module implementation, and optimization
 2. **Schema Validation**: Automatic validation and normalization of extracted data
-3. **Optimization Potential**: Foundation for systematic improvement through DSPy's optimization tools
+3. **Optimization Potential**: Foundation for systematic improvement through DSPy's
+   optimization tools
 4. **Modularity**: Clean component interfaces that simplify testing and maintenance
 
-While we're still in the early stages of optimization due to data limitations, the infrastructure is now in place to systematically improve extraction quality as our dataset grows. The next major focus will be breaking down the monolithic module into specialized components and implementing a data flywheel to continuously improve performance.
+While we're still in the early stages of optimization due to data limitations, the
+infrastructure is now in place to systematically improve extraction quality as our
+dataset grows. The next major focus will be breaking down the monolithic module
+into specialized components and implementing a data flywheel to continuously
+improve performance.
 
 ## 7. Resources and References
 
