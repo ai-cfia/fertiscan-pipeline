@@ -13,7 +13,7 @@ from openai import AzureOpenAI
 from sklearn.metrics.pairwise import cosine_similarity
 
 from pipeline_new.modules.LanguageProgram import LanguageProgram
-from pipeline_new.schemas.inspection import FertilizerInspection, GuaranteedAnalysis, NutrientValue, Organization, Value
+from pipeline_new.schemas.inspection import FertilizerInspection, GuaranteedAnalysis, NutrientValue, Organization, RegistrationNumber, Value
 
 # HELPER FUNCTION TO LOAD .ENV WITH CHECKS
 def load_env_variables():
@@ -387,6 +387,14 @@ def compare_organizations(ex_organization: Organization, pred_organization: Orga
         
     return sum(scores) / len(scores) if scores else 0.0
 
+def compare_registration_number(ex_registration_number: RegistrationNumber, pred_registration_number: RegistrationNumber):
+    if ((ex_registration_number.identifier is None) and (ex_registration_number.type is None)) and ((pred_registration_number.identifier is None) and (pred_registration_number.type is None)):
+        return 1.0
+    if ((ex_registration_number.identifier is None) and (ex_registration_number.type is None)) or ((pred_registration_number.identifier is None) and (pred_registration_number.type is None)):
+        return 0.0
+    if ex_registration_number.identifier == pred_registration_number.identifier and ex_registration_number.type == pred_registration_number.type:
+        return 1.0
+    return 0.0
 
 # METRIC FUNCTION USED TO RUN EVALS
 def validate_inspection(example: dspy.Example, pred: dspy.Prediction, trace=None):
@@ -401,7 +409,7 @@ def validate_inspection(example: dspy.Example, pred: dspy.Prediction, trace=None
         pred_value = getattr(pred.inspection, field_name, None)
 
         # Evaluate the fields that need to use Jaro Winkler similarity
-        if field_name in ["company_name", "company_address", "manufacturer_name", "manufacturer_address", "fertiliser_name"]:
+        if field_name in ["fertiliser_name"]:
             if example_value is not None and pred_value is not None:
                 score = jellyfish.jaro_winkler_similarity(
                     preprocess_string(example_value), preprocess_string(pred_value))
@@ -412,19 +420,17 @@ def validate_inspection(example: dspy.Example, pred: dspy.Prediction, trace=None
                 scores.append(score)
             SCORES_BY_FIELD[field_name].append(score)
 
-        elif field_name in ["company_phone_number", "manufacturer_phone_number"]:
-            score = 1.0 if normalize_phone_number(
-                example_value) == normalize_phone_number(pred_value) else 0.0
+        elif field_name in ["organizations"]:
+            score = compare_organizations(example_value, pred_value)
+            scores.append(score)
+            SCORES_BY_FIELD[field_name].append(score)
+            
+        elif field_name in ["registration_number"]:
+            score = compare_registration_number(example_value, pred_value)
             scores.append(score)
             SCORES_BY_FIELD[field_name].append(score)
 
-        elif field_name in ["company_website", "manufacturer_website"]:
-            score = 1.0 if normalize_website(
-                example_value) == normalize_website(pred_value) else 0.0
-            scores.append(score)
-            SCORES_BY_FIELD[field_name].append(score)
-
-        elif field_name in ["registration_number", "lot_number", "npk"]:
+        elif field_name in ["lot_number", "npk"]:
             score = 1.0 if example_value == pred_value else 0.0
             scores.append(score)
             SCORES_BY_FIELD[field_name].append(score)
