@@ -5,6 +5,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 import logging
 
+USERNAME = "pipeline-fetch-tool"
+
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -18,8 +20,17 @@ class DataFetcher:
         if not self.api_endpoint:
             raise ValueError("API_ENDPOINT environment variable is not set")
 
+        self.auth = (USERNAME, '')  # Username with no password
         self.base_path = Path('test_data/labels')
         self.base_path.mkdir(parents=True, exist_ok=True)
+
+        self.signup()
+
+    def signup(self):
+        """Sign up for the API"""
+        response = requests.post(f"{self.api_endpoint}/signup", auth=self.auth)
+        response.raise_for_status()
+        return response.json()
 
     def create_label_directory(self, picture_set_id):
         """Create a new label directory for a picture set"""
@@ -30,7 +41,7 @@ class DataFetcher:
     def fetch_picture_set(self, picture_set_id):
         """Fetch a picture set"""
         try:
-            response = requests.get(f"{self.api_endpoint}/files/{picture_set_id}", stream=True)
+            response = requests.get(f"{self.api_endpoint}/files/{picture_set_id}", stream=True, auth=self.auth)
             response.raise_for_status()
             file_ids = response.json().get('file_ids', [])
 
@@ -38,7 +49,7 @@ class DataFetcher:
 
             for file_id in file_ids:
                 file_url = f"{self.api_endpoint}/files/{picture_set_id}/{file_id}"
-                file_response = requests.get(file_url, stream=True)
+                file_response = requests.get(file_url, stream=True, auth=self.auth)
                 file_response.raise_for_status()
 
                 file_name = f"{file_id}.jpg"
@@ -57,7 +68,7 @@ class DataFetcher:
         """Fetches inspection data, images and output for a given inspection ID and stores them in a label directory"""
         try:
             # Fetch data from API
-            response = requests.get(f"{self.api_endpoint}/inspections/{inspection_id}")
+            response = requests.get(f"{self.api_endpoint}/inspections/{inspection_id}", auth=self.auth)
             response.raise_for_status()
             data = response.json()
 
@@ -87,7 +98,8 @@ class DataFetcher:
     def fetch_inspection_set(self, limit=50):
         """Fetches a set of inspections from the API"""
         try:
-            response = requests.get(f"{self.api_endpoint}/inspections?limit={limit}")
+            # We will just assume the account has inspections
+            response = requests.get(f"{self.api_endpoint}/inspections", auth=self.auth)
             response.raise_for_status()
             inspections = response.json()
 

@@ -111,6 +111,11 @@ The data pipeline is designed as a flywheel that:
    ensure generalizability.
 3. **Automated Retraining**: Future work should include automated pipelines to
    retrain models as the database grows past certain thresholds.
+4. **Backend API**: The application's backend API currently does not support
+   complete search functionality. It currently only supports basic search queries
+   like by user ID and inspection ID. However, future enhancements will include
+   advanced search capabilities. The groundwork for this feature is already laid
+   out in the project's architecture.
 
 ## Project Context
 
