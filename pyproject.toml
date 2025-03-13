@@ -26,8 +26,8 @@ keywords = ["fertiscan", "ailab"]
 packages = [
     "pipeline",
     "pipeline.components",
-    "pipeline.modules",
     "pipeline.schemas",
+    "pipeline.modules",
 ]
 
 [tool.setuptools.dynamic]
