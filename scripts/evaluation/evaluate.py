@@ -11,6 +11,10 @@ import phonenumbers
 import pandas as pd
 from openai import AzureOpenAI
 from sklearn.metrics.pairwise import cosine_similarity
+import openai
+import sys 
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 
 from pipeline_new.modules.LanguageProgram import LanguageProgram
 from pipeline_new.schemas.inspection import FertilizerInspection, GuaranteedAnalysis, NutrientValue, Organization, RegistrationNumber, Value
@@ -24,34 +28,33 @@ def load_env_variables():
         "AZURE_API_KEY",
         "AZURE_OPENAI_KEY",
         "AZURE_OPENAI_DEPLOYMENT",
-        "AZURE_OPENAI_EMBEDDING_ENDPOINT",
-        "AZURE_OPENAI_EMBEDDING_KEY",
+        # "AZURE_OPENAI_EMBEDDING_ENDPOINT",
+        # "AZURE_OPENAI_EMBEDDING_KEY",
     ]
     missing_vars = [var for var in required_vars if not os.getenv(var)]
     if missing_vars:
-        raise RuntimeError(f"Missing required environment variables: {
-                           ', '.join(missing_vars)}")
+        raise RuntimeError(f"Missing required environment variables: {', '.join(missing_vars)}")
 
     AZURE_API_ENDPOINT = os.getenv('AZURE_API_ENDPOINT')
     AZURE_API_KEY = os.getenv('AZURE_API_KEY')
     AZURE_OPENAI_ENDPOINT = os.getenv('AZURE_OPENAI_ENDPOINT')
     AZURE_OPENAI_KEY = os.getenv('AZURE_OPENAI_KEY')
     AZURE_OPENAI_DEPLOYMENT = os.getenv('AZURE_OPENAI_DEPLOYMENT')
-    AZURE_OPENAI_EMBEDDING_ENDPOINT = os.getenv(
-        'AZURE_OPENAI_EMBEDDING_ENDPOINT')
-    AZURE_OPENAI_EMBEDDING_KEY = os.getenv('AZURE_OPENAI_EMBEDDING_KEY')
+    # AZURE_OPENAI_EMBEDDING_ENDPOINT = os.getenv(
+    #     'AZURE_OPENAI_EMBEDDING_ENDPOINT')
+    # AZURE_OPENAI_EMBEDDING_KEY = os.getenv('AZURE_OPENAI_EMBEDDING_KEY')
 
-    return AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT, AZURE_OPENAI_EMBEDDING_KEY, AZURE_OPENAI_EMBEDDING_ENDPOINT
+    return AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT #, AZURE_OPENAI_EMBEDDING_KEY, AZURE_OPENAI_EMBEDDING_ENDPOINT
 
 
 # GLOBAL VARIABLES
-AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT, AZURE_OPENAI_EMBEDDING_KEY, AZURE_OPENAI_EMBEDDING_ENDPOINT = load_env_variables()
+AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT = load_env_variables() #, AZURE_OPENAI_EMBEDDING_KEY, AZURE_OPENAI_EMBEDDING_ENDPOINT 
 
-EMBEDDING_MODEL = AzureOpenAI(
-    api_key=AZURE_OPENAI_EMBEDDING_KEY,
-    api_version="2023-05-15",
-    azure_endpoint=AZURE_OPENAI_EMBEDDING_ENDPOINT
-)
+# EMBEDDING_MODEL = AzureOpenAI(
+#     api_key=AZURE_OPENAI_EMBEDDING_KEY,
+#     api_version="2023-05-15",
+#     azure_endpoint=AZURE_OPENAI_EMBEDDING_ENDPOINT
+# )
 
 SCORES_BY_FIELD = {
     "company_name": [],
@@ -334,7 +337,11 @@ def compare_guaranteed_analysis(ex_ga: GuaranteedAnalysis, pred_ga: GuaranteedAn
 
 
 def generate_embeddings(text, model="ada"):
-    return EMBEDDING_MODEL.embeddings.create(input=[text], model=model).data[0].embedding
+    # return EMBEDDING_MODEL.embeddings.create(input=[text], model=model).data[0].embedding
+    return openai.Embedding.create(
+        model="text-embedding-ada-002",
+        input=[text]
+    ).data[0].embedding
 
 
 def compare_list_text(ex_value: list[str], pred_value: list[str]):
@@ -467,7 +474,11 @@ def validate_inspection(example: dspy.Example, pred: dspy.Prediction, trace=None
 
 
 if __name__ == "__main__":
-    dataset_path = 'data/processed/dataset.csv'
+    # dataset_path = '/../data/output.csv'
+    image_dir = os.path.join(os.path.dirname(__file__), '..', '..', 'test_data', 'labels')
+
+    dataset_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'output.csv')
+
     if not os.path.exists(dataset_path):
         raise FileNotFoundError(f"Dataset not found at {dataset_path}")
 
@@ -475,10 +486,13 @@ if __name__ == "__main__":
 
     dataset = []
 
-    for image_paths, inspection in df.values:
-        image_paths = ast.literal_eval(image_paths)
-        inspection = json.loads(inspection)
-        dataset.append(dspy.Example(image_paths=image_paths,
+    # for image_paths, inspection in df.values:
+    for index, row in df.iterrows():
+        image_paths = ast.literal_eval(row['image_files'])
+        full_image_paths = os.path.join(image_dir, row['instance_path'])
+        full_image_paths = [os.path.join(full_image_paths, img_path) for img_path in image_paths]
+        inspection = json.loads(row['new_dspy_output'])
+        dataset.append(dspy.Example(image_paths=full_image_paths,
                        inspection=inspection).with_inputs("image_paths"))
 
     evaluate = dspy.Evaluate(
