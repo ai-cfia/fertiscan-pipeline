@@ -11,7 +11,7 @@ import phonenumbers
 import pandas as pd
 from openai import AzureOpenAI
 from sklearn.metrics.pairwise import cosine_similarity
-import openai
+
 import sys 
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -28,8 +28,8 @@ def load_env_variables():
         "AZURE_API_KEY",
         "AZURE_OPENAI_KEY",
         "AZURE_OPENAI_DEPLOYMENT",
-        # "AZURE_OPENAI_EMBEDDING_ENDPOINT",
-        # "AZURE_OPENAI_EMBEDDING_KEY",
+        "AZURE_OPENAI_EMBEDDING_ENDPOINT",
+        "AZURE_OPENAI_EMBEDDING_KEY",
     ]
     missing_vars = [var for var in required_vars if not os.getenv(var)]
     if missing_vars:
@@ -40,32 +40,26 @@ def load_env_variables():
     AZURE_OPENAI_ENDPOINT = os.getenv('AZURE_OPENAI_ENDPOINT')
     AZURE_OPENAI_KEY = os.getenv('AZURE_OPENAI_KEY')
     AZURE_OPENAI_DEPLOYMENT = os.getenv('AZURE_OPENAI_DEPLOYMENT')
-    # AZURE_OPENAI_EMBEDDING_ENDPOINT = os.getenv(
-    #     'AZURE_OPENAI_EMBEDDING_ENDPOINT')
-    # AZURE_OPENAI_EMBEDDING_KEY = os.getenv('AZURE_OPENAI_EMBEDDING_KEY')
+    AZURE_OPENAI_EMBEDDING_ENDPOINT = os.getenv(
+        'AZURE_OPENAI_EMBEDDING_ENDPOINT')
+    AZURE_OPENAI_EMBEDDING_KEY = os.getenv('AZURE_OPENAI_EMBEDDING_KEY')
 
-    return AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT #, AZURE_OPENAI_EMBEDDING_KEY, AZURE_OPENAI_EMBEDDING_ENDPOINT
+    return AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT, AZURE_OPENAI_EMBEDDING_KEY, AZURE_OPENAI_EMBEDDING_ENDPOINT
 
 
 # GLOBAL VARIABLES
-AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT = load_env_variables() #, AZURE_OPENAI_EMBEDDING_KEY, AZURE_OPENAI_EMBEDDING_ENDPOINT 
+AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT, AZURE_OPENAI_EMBEDDING_KEY, AZURE_OPENAI_EMBEDDING_ENDPOINT = load_env_variables()
 
-# EMBEDDING_MODEL = AzureOpenAI(
-#     api_key=AZURE_OPENAI_EMBEDDING_KEY,
-#     api_version="2023-05-15",
-#     azure_endpoint=AZURE_OPENAI_EMBEDDING_ENDPOINT
-# )
+
+EMBEDDING_MODEL = AzureOpenAI(
+    api_key=AZURE_OPENAI_EMBEDDING_KEY,
+    api_version="2023-05-15",
+    azure_endpoint=AZURE_OPENAI_EMBEDDING_ENDPOINT
+)
 
 SCORES_BY_FIELD = {
-    "company_name": [],
-    "company_address": [],
-    "manufacturer_name": [],
-    "manufacturer_address": [],
+    "organizations": [],
     "fertiliser_name": [],
-    "company_phone_number": [],
-    "manufacturer_phone_number": [],
-    "company_website": [],
-    "manufacturer_website": [],
     "registration_number": [],
     "lot_number": [],
     "npk": [],
@@ -124,19 +118,19 @@ def normalize_ingredients_array(array):
     return sorted(
             [
                 {
-                    'ingredient': item['ingredient'].lower() if item['ingredient'] is not None else None,
-                    'value': item['value'],
-                    'unit': item['unit'].lower().replace('s', '') if item['unit'] is not None else None
+                    'ingredient': item.ingredient.lower() if item.ingredient is not None else None,
+                    'value': item.value,
+                    'unit': item.unit.lower().replace('s', '') if item.unit is not None else None
                 }
                 for item in array
             ],
             key=lambda x: x['ingredient']  # Sort by 'nutrient'
         )
-    
+
 def is_gma_none(gma):
     if gma is None:
         return True
-    if ((gma.get('title') is None) and ((gma.get('nutrients') is None) or ((isinstance(gma.get('nutrients'), list) and len(gma.get('nutrients')) == 0))) and (gma.get('is_minimal') is None)):
+    if ((gma.title is None) and ((gma.nutrients is None) or ((isinstance(gma.nutrients, list) and len(gma.nutrients) == 0))) and (gma.is_minimal is None)):
         return True
     return False
 
@@ -144,15 +138,15 @@ def normalize_gma_array(array):
     return sorted(
             [
                 {
-                    'nutrient': item['nutrient'].lower() if item['nutrient'] is not None else None, 
-                    'value': item['value'], 
-                    'unit': item['unit'].lower().replace('s', '') if item['unit'] is not None else None
+                    'nutrient': item.nutrient.lower() if item.nutrient is not None else None, 
+                    'value': item.value, 
+                    'unit': item.unit.lower().replace('s', '') if item.unit is not None else None
                 }
                 for item in array
             ],
             key=lambda x: x['nutrient']  # Sort by 'nutrient'
         )
-    
+
 def if_dictionary_values_are_none(dictionary):
     return all(value is None for value in dictionary.values())
 
@@ -160,14 +154,26 @@ def sort_and_preprocess_organization_array(array: list[Organization]):
     return sorted(
             [
                 {
-                    'name': preprocess_string(item['name']),
-                    'address': preprocess_string(item['address']),
-                    'website': normalize_website(item['website']) if item['website'] is not None else None,
-                    'phone_number': normalize_phone_number(item['phone_number']) if item['phone_number'] is not None else None
+                    'name': preprocess_string(item.name) if item.name is not None else None,
+                    'address': preprocess_string(item.address) if item.address is not None else None,
+                    'website': normalize_website(item.website) if item.website is not None else None,
+                    'phone_number': normalize_phone_number(item.phone_number) if item.phone_number is not None else None
                 }
                 for item in array
             ],
             key=lambda x: x['name']  # Sort by 'name'
+        )
+
+def sort_and_preprocess_registration_numbers_array(array: list[RegistrationNumber]):
+    return sorted(
+            [
+                {
+                    'identifier': item.identifier,
+                    'type': item.type,
+                }
+                for item in array
+            ],
+            key=lambda x: x['type']  # Sort by 'type'
         )
 
 # COMPARATORS
@@ -208,7 +214,7 @@ def normalize_website(url):
             return url
     else:
         return url
-    
+
 def compare_density_or_volume(dspy_output, expected_output):
     if (((expected_output is None) or if_dictionary_values_are_none(expected_output)) and ((dspy_output is None) or if_dictionary_values_are_none(dspy_output))):
         return 1
@@ -217,19 +223,19 @@ def compare_density_or_volume(dspy_output, expected_output):
     if (dspy_output['value'] == expected_output['value']) and (dspy_output['unit'].lower() == expected_output['unit'].lower()):
         return 1
     return 0
-    
+
 # WEIGHT
 def clean_weights(weights):
     # Filter out weights with None values and clean units
     cleaned_weights = [
-        {'value': weight['value'], 'unit': weight['unit'].lower().replace('s', '')}
+        {'value': weight.value, 'unit': weight.unit.lower().replace('s', '')}
         for weight in weights
-        if weight['value'] is not None and weight['unit'] is not None
+        if weight.value is not None and weight.unit is not None
     ]
-    
+
     # Sort weights by unit
     cleaned_weights.sort(key=lambda x: x['unit'])
-    
+
     return cleaned_weights
 
 def compare_weights(dspy_output, expected_output):
@@ -273,12 +279,12 @@ def compare_ingredients(ex_ingredients: list[NutrientValue], pred_ingredients: l
         return 1.0
     if (len(cleaned_expected_output) == 0) or (len(cleaned_dspy_output) == 0):
         return 0.0
-    
+
     #TODO: should change the labelled data instead of this step
     for nutrient in ex_ingredients:
         if 'ingredient' in nutrient:
             nutrient['nutrient'] = nutrient.pop('ingredient')
-    
+
     sorted_pred_ingredients = normalize_ingredients_array(pred_ingredients)
     sorted_ex_ingredients = normalize_ingredients_array(ex_ingredients)
 
@@ -315,33 +321,31 @@ def compare_guaranteed_analysis(ex_ga: GuaranteedAnalysis, pred_ga: GuaranteedAn
     else:
         title_score = 1.0 if ex_ga.title == pred_ga.title else 0.0
     scores.append(title_score)
-    
-    if (pred_ga.get('is_minimal') == ex_ga.get('is_minimal')):
+
+    if (pred_ga.is_minimal == ex_ga.is_minimal):
         scores.append(1.0)
     else:
         scores.append(0.0)
 
     sorted_ex_ga_nutrients = normalize_gma_array(ex_ga.nutrients)
     sorted_pred_ga_nutrients = normalize_gma_array(pred_ga.nutrients)
-    
+
     for ex_ingredient, pred_ingredient in zip(sorted_ex_ga_nutrients, sorted_pred_ga_nutrients):
         score = compare_nutrient_value(ex_ingredient, pred_ingredient)
         scores.append(score)
 
     # Penalize for extraneous nutrients
-    extra_nutrients = len(sorted_pred_ga_nutrients) - set(sorted_ex_ga_nutrients)
-    scores.extend([0.0] * len(extra_nutrients))  # Add one penalty per extra nutrient
+    extra_nutrients = len(sorted_pred_ga_nutrients) - len(sorted_ex_ga_nutrients)
+    scores.extend([0.0] * (extra_nutrients))  # Add one penalty per extra nutrient
 
     # Compute average score
     return sum(scores) / len(scores) if scores else 0.0
 
 
-def generate_embeddings(text, model="ada"):
-    # return EMBEDDING_MODEL.embeddings.create(input=[text], model=model).data[0].embedding
-    return openai.Embedding.create(
-        model="text-embedding-ada-002",
-        input=[text]
-    ).data[0].embedding
+def generate_embeddings(text, model="3-large"):
+    return EMBEDDING_MODEL.embeddings.create(input=[text], model=model).data[0].embedding
+    # return client.embeddings.create(model="text-embedding-ada-002",
+    # input=[text]).data[0].embedding
 
 
 def compare_list_text(ex_value: list[str], pred_value: list[str]):
@@ -350,7 +354,7 @@ def compare_list_text(ex_value: list[str], pred_value: list[str]):
 
     ex_value_string = "".join(ex_value)
     pred_value_string = "".join(pred_value)
-    
+
     preprocessed_ex_value_string = preprocess_string(ex_value_string)
     preprocessed_pred_value_string = preprocess_string(pred_value_string)
 
@@ -361,47 +365,60 @@ def compare_list_text(ex_value: list[str], pred_value: list[str]):
 
     return cosine_similarity(ex_value_embeddings, pred_value_embeddings)[0][0]
 
-def compare_organizations(ex_organization: Organization, pred_organization: Organization):
-    cleaned_ex_organizationt = if_array_is_empty(ex_organization)
+def compare_organizations(ex_organization: list[Organization], pred_organization: list[Organization]):
+    cleaned_ex_organization = if_array_is_empty(ex_organization)
     cleaned_pred_organization = if_array_is_empty(pred_organization)
-    if (len(cleaned_ex_organizationt) == 0) and (len(cleaned_pred_organization) == 0):
+    if (len(cleaned_ex_organization) == 0) and (len(cleaned_pred_organization) == 0):
         return 1.0
-    if (len(cleaned_ex_organizationt) == 0) or (len(cleaned_pred_organization) == 0):
+    if (len(cleaned_ex_organization) == 0) or (len(cleaned_pred_organization) == 0):
         return 0.0
-        
-    sorted_ex_organization = sort_and_preprocess_organization_array(cleaned_ex_organizationt)
+
+    sorted_ex_organization = sort_and_preprocess_organization_array(cleaned_ex_organization)
     sorted_pred_organization = sort_and_preprocess_organization_array(cleaned_pred_organization)
-    
+
     scores = []
-    
+
     for ex_organization, pred_organization in zip(sorted_ex_organization, sorted_pred_organization):
         # Compare title using Jaro-Winkler similarity
         if ex_organization.name and pred_organization.name:
             name_score = jellyfish.jaro_winkler_similarity(ex_organization.name, pred_organization.name)
         else:
             name_score = 1.0 if ex_organization.name == pred_organization.name else 0.0        
-        
+
         if ex_organization.address and pred_organization.address:
             address_score = jellyfish.jaro_winkler_similarity(ex_organization.address, pred_organization.address)
         else:
             address_score = 1.0 if ex_organization.address == pred_organization.address else 0.0
-        
+
         website_score = 1.0 if ex_organization.website == pred_organization.website else 0.0
-            
+
         phone_score = 1.0 if ex_organization.phone_number == pred_organization.phone_number else 0.0
-    
+
         scores.append((name_score + address_score + website_score + phone_score) / 4)
-        
+
     return sum(scores) / len(scores) if scores else 0.0
 
-def compare_registration_number(ex_registration_number: RegistrationNumber, pred_registration_number: RegistrationNumber):
-    if ((ex_registration_number.identifier is None) and (ex_registration_number.type is None)) and ((pred_registration_number.identifier is None) and (pred_registration_number.type is None)):
+def compare_registration_number(ex_registration_number: list[RegistrationNumber], pred_registration_number: list[RegistrationNumber]):
+    cleaned_ex_registration_number = if_array_is_empty(ex_registration_number)
+    cleaned_pred_registration_number = if_array_is_empty(pred_registration_number)
+    if (len(cleaned_ex_registration_number) == 0) and (len(cleaned_pred_registration_number) == 0):
         return 1.0
-    if ((ex_registration_number.identifier is None) and (ex_registration_number.type is None)) or ((pred_registration_number.identifier is None) and (pred_registration_number.type is None)):
+    if (len(cleaned_ex_registration_number) == 0) or (len(cleaned_pred_registration_number) == 0):
         return 0.0
-    if ex_registration_number.identifier == pred_registration_number.identifier and ex_registration_number.type == pred_registration_number.type:
-        return 1.0
-    return 0.0
+
+        # sort_and_preprocess_registration_numbers_array
+    sorted_ex_registration_number = sort_and_preprocess_registration_numbers_array(cleaned_ex_registration_number)
+    sorted_pred_registration_number = sort_and_preprocess_registration_numbers_array(cleaned_pred_registration_number)
+
+    scores = []
+
+    for ex_registration_number, pred_registration_number in zip(sorted_ex_registration_number, sorted_pred_registration_number):
+        if ex_registration_number.identifier == pred_registration_number.identifier:
+            scores.append(1.0)
+        if ex_registration_number.type == pred_registration_number.type:
+            scores.append(1.0)
+
+    return sum(scores) / len(scores) if scores else 0.0
 
 # METRIC FUNCTION USED TO RUN EVALS
 def validate_inspection(example: dspy.Example, pred: dspy.Prediction, trace=None):
@@ -431,7 +448,7 @@ def validate_inspection(example: dspy.Example, pred: dspy.Prediction, trace=None
             score = compare_organizations(example_value, pred_value)
             scores.append(score)
             SCORES_BY_FIELD[field_name].append(score)
-            
+
         elif field_name in ["registration_number"]:
             score = compare_registration_number(example_value, pred_value)
             scores.append(score)
@@ -496,10 +513,11 @@ if __name__ == "__main__":
                        inspection=inspection).with_inputs("image_paths"))
 
     evaluate = dspy.Evaluate(
-        devset=dataset[:35], metric=validate_inspection, display_progress=True, display_table=True)
+        devset=dataset[:35], metric=validate_inspection, display_progress=True, display_table=True, provide_traceback=True)
 
     language_program = LanguageProgram(
-        AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT)
+        AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT, AZURE_OPENAI_EMBEDDING_ENDPOINT,
+        AZURE_OPENAI_EMBEDDING_KEY)
     evaluate(language_program)
-    
+
     display_scores_by_field()
