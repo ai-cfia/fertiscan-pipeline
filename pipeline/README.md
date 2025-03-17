@@ -1,6 +1,6 @@
 # Transitioning from Direct LLM Calls to DSPy in FertiScan Pipeline
 
-This documentation addresses issue #94, providing a comprehensive resource to
+This documentation addresses provides a comprehensive resource to
 understand the work done to transition the FertiScan pipeline from direct LLM calls
 to DSPy.
 
