@@ -2,11 +2,17 @@
 __pycache__/
 *.py[cod]
 *$py.class
+/bin
+/include
+/lib
+lib64
+*.cfg
 
 # tests
 logs/
 test_logs/
 reports/
+analyze_label.py
 
 # VS Code
 .vscode
