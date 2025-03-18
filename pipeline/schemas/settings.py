@@ -3,6 +3,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
 
 class Settings(BaseSettings):
+    """Configuration settings for the Fertiscan pipeline."""
+
     # Document Intelligence
     document_api_endpoint: str = Field(..., alias="AZURE_API_ENDPOINT")
     document_api_key: SecretStr = Field(..., alias="AZURE_API_KEY")

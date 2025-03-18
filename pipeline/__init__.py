@@ -22,7 +22,7 @@ def save_image_to_file(image_bytes: bytes, output_path: str):  # pragma: no cove
 def analyze(images: list[Image.Image], settings: Settings) -> FertilizerInspection:
     """
     Analyze a fertiliser label using our pipeline module(s).
-    It returns the data extracted from the label in a FertiliserForm.
+    It returns the data extracted from the label in a FertilizerInspection.
     """
     predictor = MainModule(settings)
 

@@ -12,6 +12,7 @@ from pydantic import (
 
 
 class npkError(ValueError):
+    """Custom error class for an invalid NPK value."""
     pass
 
 
@@ -24,7 +25,7 @@ def extract_first_number(string: str) -> Optional[str]:
 
 class Organization(BaseModel):
     """
-    Represents an organization such as a manufacturer, company, or any entity 
+    Represents an organization such as a manufacturer, company, or any entity
     associated with a fertilizer.
     """
     name: Optional[str] = Field(None, description="The name of the organization.")
@@ -47,7 +48,7 @@ class Organization(BaseModel):
 
         except phonenumbers.phonenumberutil.NumberParseException:
             return None
-        
+
     @field_validator("website", mode="before")
     def website_lowercase(cls, v):
         if v is not None:
@@ -110,7 +111,7 @@ class RegistrationNumber(BaseModel):
 class GuaranteedAnalysis(BaseModel):
     title: Optional[str] = None
     nutrients: List[NutrientValue] = []
-    is_minimal: bool | None = None
+    is_minimal: Optional[bool] = Field(None, description="Indicates if the guaranteed analysis is minimal.")
 
     @field_validator(
         "nutrients",
@@ -146,6 +147,8 @@ class Specification(BaseModel):
 
 
 class FertilizerInspection(BaseModel):
+    """Inspection details for a fertilizer product."""
+
     organizations: List[Organization] = []
     fertiliser_name: Optional[str] = None
     registration_number: List[RegistrationNumber] = []
