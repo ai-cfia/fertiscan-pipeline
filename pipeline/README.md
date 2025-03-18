@@ -263,6 +263,7 @@ Some challenges we encountered:
 - Adapting to DSPy's structured approach requires rethinking direct LLM calls
 - Limited documentation for some advanced DSPy features
 - Initial overhead of setting up the DSPy infrastructure
+- Setting up the evaluation pipeline for performance and accuracy monitoring.
 
 ## 6. Conclusion
 
