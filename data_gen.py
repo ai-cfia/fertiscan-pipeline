@@ -37,10 +37,10 @@ def transform_json(json_str):
 
         # Transform registration_number
         if data.get("registration_number"):
-            data["registration_number"] = {
+            data["registration_number"] = [{
                 "identifier": data["registration_number"],
                 "type": "fertilizer_product"
-            }
+            }]
 
         return json.dumps(data, ensure_ascii=False)
     

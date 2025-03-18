@@ -516,8 +516,7 @@ if __name__ == "__main__":
         devset=dataset[:35], metric=validate_inspection, display_progress=True, display_table=True, provide_traceback=True)
 
     language_program = LanguageProgram(
-        AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT, AZURE_OPENAI_EMBEDDING_ENDPOINT,
-        AZURE_OPENAI_EMBEDDING_KEY)
+        AZURE_OPENAI_KEY, AZURE_OPENAI_ENDPOINT, AZURE_OPENAI_DEPLOYMENT, AZURE_API_KEY, AZURE_API_ENDPOINT)
     evaluate(language_program)
 
     display_scores_by_field()
