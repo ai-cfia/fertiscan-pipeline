@@ -17,6 +17,9 @@ analyze_label.py
 # VS Code
 .vscode
 
+# Zed
+.zed
+
 # C extensions
 *.so
 
