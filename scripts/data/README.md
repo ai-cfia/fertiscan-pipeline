@@ -6,14 +6,7 @@ and their corresponding inspection data.
 
 ## Dataset Structure
 
-The dataset is organized as follows:
-
-- `test_data/labels/` - Raw data organized by picture set ID
-  - `{picture_set_id}/` - Directory for each picture set
-    - `{file_id}.jpg` - Image files of fertilizer labels
-    - `expected_output.json` - Labeled inspection data for evaluation
-- `data/processed/` - Processed data ready for model training and evaluation
-  - `dataset.csv` - CSV file containing image paths and inspection data
+The dataset structure is documented in [test_data/README.md](test_data/README.md).
 
 ## Purpose
 
