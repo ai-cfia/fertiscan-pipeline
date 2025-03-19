@@ -1,114 +1,102 @@
 {
-    "company_name": "La Coop fédérée",
-    "company_address": "4225, rue Saint-Joseph, Trois-Rivières (Québec) G9A 5L9",
-    "company_website": null,
-    "company_phone_number": null,
-    "manufacturer_name": null,
-    "manufacturer_address": null,
-    "manufacturer_website": null,
-    "manufacturer_phone_number": null,
-    "fertiliser_name": "Unijardin",
-    "registration_number": null,
-    "lot_number": null,
-    "weight": [
+  "organizations": [
+    {
+      "name": "La Coop fédérée",
+      "address": "4225, rue Saint-Joseph, Trois-Rivières (Québec) G9A 5L9"
+    }
+  ],
+  "fertiliser_name": "Unijardin",
+  "registration_number": [],
+  "weight": [
+    {
+      "value": 2.0,
+      "unit": "kg"
+    },
+    {
+      "unit": "lb"
+    }
+  ],
+  "density": {},
+  "volume": {},
+  "npk": "2-14-0",
+  "guaranteed_analysis_en": {
+    "title": "GUARANTEED MINIMUM ANALYSIS",
+    "nutrients": [
       {
-        "value": 2,
-        "unit": "kg"
+        "nutrient": "Total nitrogen (N)",
+        "value": 2.0,
+        "unit": "%"
       },
       {
-        "value": null,
-        "unit": "lb"
-      }
-    ],
-    "density": {
-      "value": null,
-      "unit": null
-    },
-    "volume": {
-      "value": null,
-      "unit": null
-    },
-    "npk": "2-14-0",
-    "guaranteed_analysis_en": {
-      "title": "GUARANTEED MINIMUM ANALYSIS",
-      "nutrients": [
-        {
-          "nutrient": "Total nitrogen (N)",
-          "value": 2,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Water insoluble nitrogen",
-          "value": 2,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Available phosphoric acid (P2O5)",
-          "value": 14,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Calcium (Ca)",
-          "value": 25,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Organic matter",
-          "value": 25,
-          "unit": "%"
-        }
-      ]
-    },
-    "guaranteed_analysis_fr": {
-      "title": "ANALYSE MINIMALE GARANTIE",
-      "nutrients": [
-        {
-          "nutrient": "Azote total (N)",
-          "value": 2,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Azote insoluble dans l'eau",
-          "value": 2,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Acide phosphorique assimilable (P2O5)",
-          "value": 14,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Calcium (Ca)",
-          "value": 25,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Matière organique",
-          "value": 25,
-          "unit": "%"
-        }
-      ]
-    },
-    "ingredients_en": [
+        "nutrient": "Water insoluble nitrogen",
+        "value": 2.0,
+        "unit": "%"
+      },
       {
-        "ingredient": "BONE MEAL",
-        "value": null,
-        "unit": null
-      }
-    ],
-    "ingredients_fr": [
+        "nutrient": "Available phosphoric acid (P2O5)",
+        "value": 14.0,
+        "unit": "%"
+      },
       {
-        "ingredient": "POUDRE D'OS",
-        "value": null,
-        "unit": null
+        "nutrient": "Calcium (Ca)",
+        "value": 25.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Organic matter",
+        "value": 25.0,
+        "unit": "%"
       }
     ],
-    "cautions_en": null,
-    "cautions_fr": null,
-    "instructions_en": [
-      "Spread fertilizer evenly at the base of plants and lightly hoe around to make it penetrate. It is best to apply fertilizer before a rainfall, or to water after each application. This fertilizer must be used as part of a complete fertilization program. We recommend following up maintenance with Unijardin fertilizers designed to meet the plant's specific needs."
+    "is_minimal": true
+  },
+  "guaranteed_analysis_fr": {
+    "title": "ANALYSE MINIMALE GARANTIE",
+    "nutrients": [
+      {
+        "nutrient": "Azote total (N)",
+        "value": 2.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Azote insoluble dans l'eau",
+        "value": 2.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Acide phosphorique assimilable (P2O5)",
+        "value": 14.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Calcium (Ca)",
+        "value": 25.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Matière organique",
+        "value": 25.0,
+        "unit": "%"
+      }
     ],
-    "instructions_fr": [
-      "Épandre l'engrais uniformément au pied des plantes et biner légèrement autour pour faire pénétrer. Il est préférable d'appliquer l'engrais avant une pluie ou de procéder à un arrosage après chaque application. Cet engrais doit être utilisé comme élément d'un programme de fertilisation complet. Il est recommandé de poursuivre la fertilisation d'entretien des plants avec des engrais Unijardin conçus pour répondre à leurs besoins spécifiques."
-    ]
-  }
+    "is_minimal": true
+  },
+  "cautions_en": [],
+  "cautions_fr": [],
+  "instructions_en": [
+    "Spread fertilizer evenly at the base of plants and lightly hoe around to make it penetrate. It is best to apply fertilizer before a rainfall, or to water after each application. This fertilizer must be used as part of a complete fertilization program. We recommend following up maintenance with Unijardin fertilizers designed to meet the plant's specific needs."
+  ],
+  "instructions_fr": [
+    "Épandre l'engrais uniformément au pied des plantes et biner légèrement autour pour faire pénétrer. Il est préférable d'appliquer l'engrais avant une pluie ou de procéder à un arrosage après chaque application. Cet engrais doit être utilisé comme élément d'un programme de fertilisation complet. Il est recommandé de poursuivre la fertilisation d'entretien des plants avec des engrais Unijardin conçus pour répondre à leurs besoins spécifiques."
+  ],
+  "ingredients_en": [
+    {
+      "nutrient": "BONE MEAL"
+    }
+  ],
+  "ingredients_fr": [
+    {
+      "nutrient": "POUDRE D'OS"
+    }
+  ]
+}
