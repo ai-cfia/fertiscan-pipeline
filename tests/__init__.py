@@ -8,23 +8,24 @@ def levenshtein_similarity(str1, str2):
         str2 = ''
     # Calculate the Levenshtein distance
     distance = Levenshtein.distance(str1, str2)
-    
+
     # Determine the maximum possible length
     max_len = max(len(str1), len(str2))
-    
+
     if max_len == 0:
         return 100.0  # If both strings are empty, they are identical
-    
+
     # Calculate the similarity as a percentage
     similarity_percentage = (1 - (distance / max_len)) * 100
-    
+
     return similarity_percentage
 
 
-def curl_file(url:str, path: str): # pragma: no cover
+def curl_file(url: str) -> bytes | None: # pragma: no cover
     """
     Pull a file from an URL and save its content.
     """
-    data = requests.get(url).content
-    with open(path, 'wb') as handler:
-        handler.write(data)
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.content
+    return None
