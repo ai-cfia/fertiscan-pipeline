@@ -119,7 +119,6 @@ Given this constraint, we've focused on:
 
 - Building the DSPy infrastructure with optimization in mind
 - Using `ChainOfThought` reasoning to improve extraction quality
-- Setting up a caching system to make iterations faster during development
 
 ## 3. The Next Steps
 
