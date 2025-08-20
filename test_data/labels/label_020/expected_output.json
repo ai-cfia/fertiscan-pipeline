@@ -1,76 +1,66 @@
 {
-    "company_name": "Nousbo Co., Ltd.",
-    "company_address": "#6-325, 89 Seoho-ro, Gwonseon-gu, Suwon-si, Gyeonggi-do, South Korea",
-    "company_website": null,
-    "company_phone_number": null,
-    "manufacturer_name": null,
-    "manufacturer_address": null,
-    "manufacturer_website": null,
-    "manufacturer_phone_number": null,
-    "fertiliser_name": "NOUSBO COAT (Fertilizer Coating Supplement)",
-    "registration_number": null,
-    "lot_number": null,
-    "weight": [
+  "organizations": [
+    {
+      "name": "Nousbo Co., Ltd.",
+      "address": "#6-325, 89 Seoho-ro, Gwonseon-gu, Suwon-si, Gyeonggi-do, South Korea"
+    }
+  ],
+  "fertiliser_name": "NOUSBO COAT (Fertilizer Coating Supplement)",
+  "registration_number": [],
+  "weight": [
+    {
+      "unit": "kg"
+    },
+    {
+      "unit": "lb"
+    }
+  ],
+  "density": {},
+  "volume": {},
+  "guaranteed_analysis_en": {
+    "title": "MINIMUM GUARANTEED ANALYSIS",
+    "nutrients": [
       {
-        "value": null,
-        "unit": "kg"
+        "nutrient": "Polyethylene",
+        "value": 2.6,
+        "unit": "%"
       },
       {
-        "value": null,
-        "unit": "lb"
+        "nutrient": "Ethylene-vinyl acetate",
+        "value": 1.2,
+        "unit": "%"
       }
     ],
-    "density": {
-      "value": null,
-      "unit": null
-    },
-    "volume": {
-      "value": null,
-      "unit": null
-    },
-    "npk": null,
-    "guaranteed_analysis_en": {
-      "title": "MINIMUM GUARANTEED ANALYSIS",
-      "nutrients": [
-        {
-          "nutrient": "Polyethylene",
-          "value": 2.6,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Ethylene-vinyl acetate",
-          "value": 1.2,
-          "unit": "%"
-        }
-      ]
-    },
-    "guaranteed_analysis_fr": {
-      "title": "ANALYSE GARANTIE MINIMUM",
-      "nutrients": [
-        {
-          "nutrient": "Polyéthylène",
-          "value": 2.6,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Éthylène-acétate de vinyle",
-          "value": 1.2,
-          "unit": "%"
-        }
-      ]
-    },
-    "ingredients_en": null,
-    "ingredients_fr": null,
-    "cautions_en": null,
-    "cautions_fr": null,
-    "instructions_en": [
-      "This fertilizer coating supplement allows controlled release of nutrient.",
-      "This supplement is intended for use as a coating for the following fertilizer materials: urea, diammonium phosphate, mono-ammonium phosphate, potassium chloride, potassium sulfate, or ammonium nitrate, or any other compound fertilizers in the form of either homogeneous or blend.",
-      "This fertilizer coating supplement is intended for coating nutrients only and should not be applied to crops independently."
+    "is_minimal": true
+  },
+  "guaranteed_analysis_fr": {
+    "title": "ANALYSE GARANTIE MINIMUM",
+    "nutrients": [
+      {
+        "nutrient": "Polyéthylène",
+        "value": 2.6,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Éthylène-acétate de vinyle",
+        "value": 1.2,
+        "unit": "%"
+      }
     ],
-    "instructions_fr": [
-      "Ce complément de revêtement pour engrais permet une libération contrôlée des nutriments.",
-      "Ce complément est destiné à être utilisé comme revêtement pour les matières fertilisantes suivantes : urée, phosphate diammonique, phosphate monoammonique, chlorure de potassium, sulfate de potassium, nitrate d'ammonium, ou tout autre engrais composé sous forme homogène ou mélangée.",
-      "Ce complément de revêtement est destiné uniquement à l'enrobage des nutriments et ne doit pas être appliqué directement sur les cultures."
-    ]
-  }
+    "is_minimal": true
+  },
+  "cautions_en": [],
+  "cautions_fr": [],
+  "instructions_en": [
+    "This fertilizer coating supplement allows controlled release of nutrient.",
+    "This supplement is intended for use as a coating for the following fertilizer materials: urea, diammonium phosphate, mono-ammonium phosphate, potassium chloride, potassium sulfate, or ammonium nitrate, or any other compound fertilizers in the form of either homogeneous or blend.",
+    "This fertilizer coating supplement is intended for coating nutrients only and should not be applied to crops independently."
+  ],
+  "instructions_fr": [
+    "Ce complément de revêtement pour engrais permet une libération contrôlée des nutriments.",
+    "Ce complément est destiné à être utilisé comme revêtement pour les matières fertilisantes suivantes : urée, phosphate diammonique, phosphate monoammonique, chlorure de potassium, sulfate de potassium, nitrate d'ammonium, ou tout autre engrais composé sous forme homogène ou mélangée.",
+    "Ce complément de revêtement est destiné uniquement à l'enrobage des nutriments et ne doit pas être appliqué directement sur les cultures."
+  ],
+  "ingredients_en": [],
+  "ingredients_fr": []
+}

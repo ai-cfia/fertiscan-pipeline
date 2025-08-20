@@ -1,40 +1,28 @@
 {
-  "company_name": null,
-  "company_address": null,
-  "company_website": null,
-  "company_phone_number": null,
-  "manufacturer_name": "Stoller Enterprises, Inc.",
-  "manufacturer_address": "9090 Katy Freeway, Suite 400 Houston, TX 77024 USA",
-  "manufacturer_website": null,
-  "manufacturer_phone_number": "1-800-539-5283 or 713-461-1493",
+  "organizations": [
+    {
+      "name": "Stoller Enterprises, Inc.",
+      "address": "9090 Katy Freeway, Suite 400 Houston, TX 77024 USA"
+    }
+  ],
   "fertiliser_name": "Balancer",
-  "registration_number": null,
-  "lot_number": null,
+  "registration_number": [],
   "weight": [
     {
-      "value": null,
       "unit": "kg"
     },
     {
-      "value": null,
       "unit": "lb"
     }
   ],
-  "density": {
-    "value": null,
-    "unit": null
-  },
-  "volume": {
-    "value": null,
-    "unit": null
-  },
-  "npk": null,
+  "density": {},
+  "volume": {},
   "guaranteed_analysis_en": {
     "title": "Guaranteed Analysis",
     "nutrients": [
       {
         "nutrient": "Boron (B)",
-        "value": 9,
+        "value": 9.0,
         "unit": "%"
       },
       {
@@ -42,14 +30,15 @@
         "value": 0.005,
         "unit": "%"
       }
-    ]
+    ],
+    "is_minimal": false
   },
   "guaranteed_analysis_fr": {
     "title": "Analyse garantie",
     "nutrients": [
       {
         "nutrient": "Bore",
-        "value": 9,
+        "value": 9.0,
         "unit": "%"
       },
       {
@@ -57,10 +46,9 @@
         "value": 0.005,
         "unit": "%"
       }
-    ]
+    ],
+    "is_minimal": false
   },
-  "ingredients_en": null,
-  "ingredients_fr": null,
   "cautions_en": [
     "This fertilizer contains Boron and Molybdenum and should be used only as recommended. It may prove harmful when misused. Information about the components of this fertilizer may be obtained by writing to the manufacturer stated below."
   ],
@@ -74,5 +62,7 @@
   "instructions_fr": [
     "Ce produit doit être utilisé sur la base d'une analyse du sol et/ou des tissus et conformément aux recommandations d'une personne ou d'une institution qualifiée, comme un conseiller en culture certifié, un agronome ou une publication universitaire de vulgarisation agricole, ou appliqué selon les recommandations de votre plan de gestion des éléments nutritifs approuvé.",
     "Ne pas mélanger avec d'autres engrais/produits chimiques sans test de compatibilité. Un test adéquat pour la compatibilité consiste à mélanger dans un petit récipient les bonnes proportions du produit avec de l'eau et les autres ingrédients. Agiter et laisser reposer une heure. En cas de formation d'un précipité, appliquer les produits séparément."
-  ]
+  ],
+  "ingredients_en": [],
+  "ingredients_fr": []
 }

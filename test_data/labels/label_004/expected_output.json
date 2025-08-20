@@ -1,76 +1,70 @@
 {
-    "company_name": "Evergreen liquid plant food ltd",
-    "company_address": "790 st charles street x. rr1, Breslau, Ontario N0B 1M0",
-    "company_website": null,
-    "company_phone_number": null,
-    "manufacturer_name": null,
-    "manufacturer_address": null,
-    "manufacturer_website": null,
-    "manufacturer_phone_number": null,
-    "fertiliser_name": "Monty's 8-16-8",
-    "registration_number": null,
-    "lot_number": "3",
-    "weight": [
+  "organizations": [
+    {
+      "name": "Evergreen liquid plant food ltd",
+      "address": "790 st charles street x. rr1, Breslau, Ontario N0B 1M0"
+    }
+  ],
+  "fertiliser_name": "Monty's 8-16-8",
+  "registration_number": [],
+  "lot_number": "3",
+  "weight": [
+    {
+      "value": 13.4,
+      "unit": "kg"
+    }
+  ],
+  "density": {},
+  "volume": {},
+  "npk": "8-16-8",
+  "guaranteed_analysis_en": {
+    "title": "Guaranteed Analysis",
+    "nutrients": [
       {
-        "value": 13.4,
-        "unit": "kg"
+        "nutrient": "Total Nitrogen (N)",
+        "value": 8.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Available Phosphate (P2O5)",
+        "value": 16.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Soluble Potash (K2O)",
+        "value": 8.0,
+        "unit": "%"
       }
     ],
-    "density": {
-      "value": null,
-      "unit": null
-    },
-    "volume": {
-      "value": null,
-      "unit": null
-    },
-    "npk": "8-16-8",
-    "guaranteed_analysis_en": {
-      "title": "Guaranteed Analysis",
-      "nutrients": [
-        {
-          "nutrient": "Total Nitrogen (N)",
-          "value": 8,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Available Phosphate (P2O5)",
-          "value": 16,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Soluble Potash (K2O)",
-          "value": 8,
-          "unit": "%"
-        }
-      ]
-    },
-    "guaranteed_analysis_fr": {
-      "title": "Analyse Garantie Minimale",
-      "nutrients": [
-        {
-          "nutrient": "Azote Totale (N)",
-          "value": 8,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Acide Phosphorique Assimilable (P2O5)",
-          "value": 16,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Potasse Soluble (K2O)",
-          "value": 8,
-          "unit": "%"
-        }
-      ]
-    },
-    "ingredients_en": null,
-    "ingredients_fr": null,
-    "cautions_en": null,
-    "cautions_fr": null,
-    "instructions_en": [
-      "For use on all field, fruit and vegetal crops."
+    "is_minimal": false
+  },
+  "guaranteed_analysis_fr": {
+    "title": "Analyse Garantie Minimale",
+    "nutrients": [
+      {
+        "nutrient": "Azote Totale (N)",
+        "value": 8.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Acide Phosphorique Assimilable (P2O5)",
+        "value": 16.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Potasse Soluble (K2O)",
+        "value": 8.0,
+        "unit": "%"
+      }
     ],
-    "instructions_fr": null
-  }
+    "is_minimal": true
+  },
+  "cautions_en": [],
+  "cautions_fr": [],
+  "instructions_en": [
+    "For use on all field, fruit and vegetal crops."
+  ],
+  "instructions_fr": [],
+  "ingredients_en": [],
+  "ingredients_fr": []
+}

@@ -1,76 +1,70 @@
 {
-    "company_name": "Contrecoeur - Synagri",
-    "company_address": "4075, rue Industrielle, Contrecoeur, Qc JOL IOC",
-    "company_website": null,
-    "company_phone_number": null,
-    "manufacturer_name": null,
-    "manufacturer_address": null,
-    "manufacturer_website": null,
-    "manufacturer_phone_number": null,
-    "fertiliser_name": "BORAX 10%",
-    "registration_number": null,
-    "lot_number": null,
-    "weight": [
+  "organizations": [
+    {
+      "name": "Contrecoeur - Synagri",
+      "address": "4075, rue Industrielle, Contrecoeur, Qc JOL IOC"
+    }
+  ],
+  "fertiliser_name": "BORAX 10%",
+  "registration_number": [],
+  "weight": [
+    {
+      "value": 25.0,
+      "unit": "kg"
+    },
+    {
+      "unit": "lb"
+    }
+  ],
+  "density": {
+    "value": 724.0,
+    "unit": "kg/m3"
+  },
+  "volume": {},
+  "guaranteed_analysis_en": {
+    "title": "MINIMUM GUARANTEED ANALYSIS",
+    "nutrients": [
       {
-        "value": 25,
-        "unit": "kg"
+        "nutrient": "Sulfur (S)",
+        "value": 4.0,
+        "unit": "%"
       },
       {
-        "value": null,
-        "unit": "lb"
+        "nutrient": "Boron (B)",
+        "value": 10.0,
+        "unit": "%"
       }
     ],
-    "density": {
-      "value": 724,
-      "unit": "kg/m3"
-    },
-    "volume": {
-      "value": null,
-      "unit": null
-    },
-    "npk": null,
-    "guaranteed_analysis_en": {
-      "title": "MINIMUM GUARANTEED ANALYSIS",
-      "nutrients": [
-        {
-          "nutrient": "Sulfur (S)",
-          "value": 4,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Boron (B)",
-          "value": 10,
-          "unit": "%"
-        }
-      ]
-    },
-    "guaranteed_analysis_fr": {
-      "title": "ANALYSE MINIMALE GARANTIE",
-      "nutrients": [
-        {
-          "nutrient": "Soufre (S)",
-          "value": 4,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Bore (B)",
-          "value": 10,
-          "unit": "%"
-        }
-      ]
-    },
-    "ingredients_en": null,
-    "ingredients_fr": null,
-    "cautions_en": [
-      "This fertilizer contains 668 Bore (B) Boron (B) and should be used only as recommended. It can be harmful if misused."
+    "is_minimal": true
+  },
+  "guaranteed_analysis_fr": {
+    "title": "ANALYSE MINIMALE GARANTIE",
+    "nutrients": [
+      {
+        "nutrient": "Soufre (S)",
+        "value": 4.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Bore (B)",
+        "value": 10.0,
+        "unit": "%"
+      }
     ],
-    "cautions_fr": [
-      "Cet engrais conferme du 668 Bore (B) Boron (B) et ne doit être employé que de la manière recommandée, Il peut être nocif s'il est employé mal à propos."
-    ],
-    "instructions_en": [
-      "See your fertilization program."
-    ],
-    "instructions_fr": [
-      "Voir votre programme de fertilisation."
-    ]
-  }
+    "is_minimal": true
+  },
+  "cautions_en": [
+    "This fertilizer contains 668 Bore (B) Boron (B) and should be used only as recommended. It can be harmful if misused."
+  ],
+  "cautions_fr": [
+    "Cet engrais conferme du 668 Bore (B) Boron (B) et ne doit être employé que de la manière recommandée, Il peut être nocif s'il est employé mal à propos."
+  ],
+  "instructions_en": [
+    "See your fertilization program."
+  ],
+  "instructions_fr": [
+    "Voir votre programme de fertilisation."
+  ],
+  "ingredients_en": [],
+  "ingredients_fr": []
+}

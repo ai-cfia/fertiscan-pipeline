@@ -1,80 +1,74 @@
 {
-    "company_name": "K.T Sunny, inc",
-    "company_address": "2400 Dallas Street Houston tx 77003 USA",
-    "company_website": null,
-    "company_phone_number": "7132368836",
-    "manufacturer_name": null,
-    "manufacturer_address": null,
-    "manufacturer_website": null,
-    "manufacturer_phone_number": null,
-    "fertiliser_name": "Bean Promoter",
-    "registration_number": null,
-    "lot_number": null,
-    "weight": [
+  "organizations": [
+    {
+      "name": "K.T Sunny, inc",
+      "address": "2400 Dallas Street Houston tx 77003 USA",
+      "phone_number": "+17132368836"
+    }
+  ],
+  "fertiliser_name": "Bean Promoter",
+  "registration_number": [],
+  "weight": [
+    {
+      "value": 4.08,
+      "unit": "kg"
+    },
+    {
+      "value": 9.0,
+      "unit": "lb"
+    }
+  ],
+  "density": {},
+  "volume": {},
+  "npk": "0-3-3",
+  "guaranteed_analysis_en": {
+    "title": "Guaranteed Analysis",
+    "nutrients": [
       {
-        "value": 4.08,
-        "unit": "kg"
+        "nutrient": "Soluble potash",
+        "value": 3.0,
+        "unit": "%"
       },
       {
-        "value": 9,
-        "unit": "lb"
+        "nutrient": "Calcium",
+        "value": 6.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Available phosphate",
+        "value": 3.0,
+        "unit": "%"
       }
     ],
-    "density": {
-      "value": null,
-      "unit": null
-    },
-    "volume": {
-      "value": null,
-      "unit": null
-    },
-    "npk": "0.3-3",
-    "guaranteed_analysis_en": {
-      "title": "Guaranteed Analysis",
-      "nutrients": [
-        {
-          "nutrient": "Soluble potash",
-          "value": 3,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Calcium",
-          "value": 6,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Available phosphate",
-          "value": 3,
-          "unit": "%"
-        }
-      ]
-    },
-    "guaranteed_analysis_fr": {
-      "title": "Guaranteed Analysis",
-      "nutrients": [
-        {
-          "nutrient": "Soluble potash",
-          "value": 3,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Calcium",
-          "value": 6,
-          "unit": "%"
-        },
-        {
-          "nutrient": "Available phosphate",
-          "value": 3,
-          "unit": "%"
-        }
-      ]
-    },
-    "ingredients_en": null,
-    "ingredients_fr": null,
-    "cautions_en": null,
-    "cautions_fr": null,
-    "instructions_en": [
-      "Dissolve 5 cc of Bean Promoter in 5 gallon of water. Stir until completely dissolved. Soak bean seed in the solution for 6 to 8 hours. Remove seed from solution and place into germination trays/beds. Continue to treat seed with the bean Promoter solution by spraying the seedlings uniformly once each day. Discontinue use 24 hours prior to harvest."
+    "is_minimal": false
+  },
+  "guaranteed_analysis_fr": {
+    "title": "Guaranteed Analysis",
+    "nutrients": [
+      {
+        "nutrient": "Soluble potash",
+        "value": 3.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Calcium",
+        "value": 6.0,
+        "unit": "%"
+      },
+      {
+        "nutrient": "Available phosphate",
+        "value": 3.0,
+        "unit": "%"
+      }
     ],
-    "instructions_fr": null
-  }
+    "is_minimal": false
+  },
+  "cautions_en": [],
+  "cautions_fr": [],
+  "instructions_en": [
+    "Dissolve 5 cc of Bean Promoter in 5 gallon of water. Stir until completely dissolved. Soak bean seed in the solution for 6 to 8 hours. Remove seed from solution and place into germination trays/beds. Continue to treat seed with the bean Promoter solution by spraying the seedlings uniformly once each day. Discontinue use 24 hours prior to harvest."
+  ],
+  "instructions_fr": [],
+  "ingredients_en": [],
+  "ingredients_fr": []
+}

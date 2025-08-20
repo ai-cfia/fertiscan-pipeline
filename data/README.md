@@ -1,0 +1,3 @@
+# DATA FOLDER CONVENTIONS
+
+To be defined.
